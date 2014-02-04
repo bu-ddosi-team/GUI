@@ -71,24 +71,39 @@ namespace SeniorDesign_1 {
 	private: System::Windows::Forms::Label^  label3;
 	private: System::Windows::Forms::Label^  label2;
 	private: System::Windows::Forms::Label^  label1;
+	private: System::Windows::Forms::ComboBox^  profileNameCB;
 
 
 
 
 
 
-	private: System::Windows::Forms::ComboBox^  comboBox1;
+
+
+
+
 	private: System::Windows::Forms::Label^  label7;
-	private: System::Windows::Forms::Button^  button2;
-	private: System::Windows::Forms::Button^  button1;
-	private: System::Windows::Forms::Button^  button3;
-	private: System::Windows::Forms::NumericUpDown^  numericUpDown6;
-	private: System::Windows::Forms::NumericUpDown^  numericUpDown5;
-	private: System::Windows::Forms::NumericUpDown^  numericUpDown4;
-	private: System::Windows::Forms::NumericUpDown^  numericUpDown3;
-	private: System::Windows::Forms::NumericUpDown^  numericUpDown2;
-	private: System::Windows::Forms::NumericUpDown^  numericUpDown1;
-	private: System::Windows::Forms::Button^  button5;
+	private: System::Windows::Forms::Button^  stopButton;
+
+	private: System::Windows::Forms::Button^  startButton;
+	private: System::Windows::Forms::Button^  saveButton;
+
+
+
+	private: System::Windows::Forms::NumericUpDown^  samplesPerStepUpDown;
+
+	private: System::Windows::Forms::NumericUpDown^  stepsPerSweepUpDown;
+
+	private: System::Windows::Forms::NumericUpDown^  sweepDelayUpDown;
+
+	private: System::Windows::Forms::NumericUpDown^  numberOfSweepsUpDown;
+
+	private: System::Windows::Forms::NumericUpDown^  minFrequencyUpDown;
+
+	private: System::Windows::Forms::NumericUpDown^  maxFrequencyUpDown;
+	private: System::Windows::Forms::Button^  okButton;
+
+
 
 
 
@@ -136,18 +151,18 @@ namespace SeniorDesign_1 {
 			this->textBox1 = (gcnew System::Windows::Forms::TextBox());
 			this->label9 = (gcnew System::Windows::Forms::Label());
 			this->label8 = (gcnew System::Windows::Forms::Label());
-			this->button2 = (gcnew System::Windows::Forms::Button());
-			this->button1 = (gcnew System::Windows::Forms::Button());
+			this->stopButton = (gcnew System::Windows::Forms::Button());
+			this->startButton = (gcnew System::Windows::Forms::Button());
 			this->splitContainer2 = (gcnew System::Windows::Forms::SplitContainer());
-			this->button5 = (gcnew System::Windows::Forms::Button());
-			this->numericUpDown6 = (gcnew System::Windows::Forms::NumericUpDown());
-			this->numericUpDown5 = (gcnew System::Windows::Forms::NumericUpDown());
-			this->numericUpDown4 = (gcnew System::Windows::Forms::NumericUpDown());
-			this->numericUpDown3 = (gcnew System::Windows::Forms::NumericUpDown());
-			this->numericUpDown2 = (gcnew System::Windows::Forms::NumericUpDown());
-			this->numericUpDown1 = (gcnew System::Windows::Forms::NumericUpDown());
-			this->button3 = (gcnew System::Windows::Forms::Button());
-			this->comboBox1 = (gcnew System::Windows::Forms::ComboBox());
+			this->okButton = (gcnew System::Windows::Forms::Button());
+			this->samplesPerStepUpDown = (gcnew System::Windows::Forms::NumericUpDown());
+			this->stepsPerSweepUpDown = (gcnew System::Windows::Forms::NumericUpDown());
+			this->sweepDelayUpDown = (gcnew System::Windows::Forms::NumericUpDown());
+			this->numberOfSweepsUpDown = (gcnew System::Windows::Forms::NumericUpDown());
+			this->minFrequencyUpDown = (gcnew System::Windows::Forms::NumericUpDown());
+			this->maxFrequencyUpDown = (gcnew System::Windows::Forms::NumericUpDown());
+			this->saveButton = (gcnew System::Windows::Forms::Button());
+			this->profileNameCB = (gcnew System::Windows::Forms::ComboBox());
 			this->label7 = (gcnew System::Windows::Forms::Label());
 			this->label6 = (gcnew System::Windows::Forms::Label());
 			this->label5 = (gcnew System::Windows::Forms::Label());
@@ -171,12 +186,12 @@ namespace SeniorDesign_1 {
 			this->splitContainer2->Panel1->SuspendLayout();
 			this->splitContainer2->Panel2->SuspendLayout();
 			this->splitContainer2->SuspendLayout();
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->numericUpDown6))->BeginInit();
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->numericUpDown5))->BeginInit();
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->numericUpDown4))->BeginInit();
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->numericUpDown3))->BeginInit();
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->numericUpDown2))->BeginInit();
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->numericUpDown1))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->samplesPerStepUpDown))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->stepsPerSweepUpDown))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->sweepDelayUpDown))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->numberOfSweepsUpDown))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->minFrequencyUpDown))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->maxFrequencyUpDown))->BeginInit();
 			this->SuspendLayout();
 			// 
 			// tabControl1
@@ -216,8 +231,8 @@ namespace SeniorDesign_1 {
 			this->splitContainer1->Panel1->Controls->Add(this->textBox1);
 			this->splitContainer1->Panel1->Controls->Add(this->label9);
 			this->splitContainer1->Panel1->Controls->Add(this->label8);
-			this->splitContainer1->Panel1->Controls->Add(this->button2);
-			this->splitContainer1->Panel1->Controls->Add(this->button1);
+			this->splitContainer1->Panel1->Controls->Add(this->stopButton);
+			this->splitContainer1->Panel1->Controls->Add(this->startButton);
 			this->splitContainer1->Panel1->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &Form1::splitContainer1_Panel1_Paint);
 			// 
 			// splitContainer1.Panel2
@@ -270,26 +285,26 @@ namespace SeniorDesign_1 {
 			this->label8->TabIndex = 2;
 			this->label8->Text = L"Output will be saved in:";
 			// 
-			// button2
+			// stopButton
 			// 
-			this->button2->Dock = System::Windows::Forms::DockStyle::Left;
-			this->button2->Location = System::Drawing::Point(75, 0);
-			this->button2->Name = L"button2";
-			this->button2->Size = System::Drawing::Size(75, 56);
-			this->button2->TabIndex = 1;
-			this->button2->Text = L"Stop";
-			this->button2->UseVisualStyleBackColor = true;
+			this->stopButton->Dock = System::Windows::Forms::DockStyle::Left;
+			this->stopButton->Location = System::Drawing::Point(75, 0);
+			this->stopButton->Name = L"stopButton";
+			this->stopButton->Size = System::Drawing::Size(75, 56);
+			this->stopButton->TabIndex = 1;
+			this->stopButton->Text = L"Stop";
+			this->stopButton->UseVisualStyleBackColor = true;
 			// 
-			// button1
+			// startButton
 			// 
-			this->button1->Dock = System::Windows::Forms::DockStyle::Left;
-			this->button1->Location = System::Drawing::Point(0, 0);
-			this->button1->Name = L"button1";
-			this->button1->Size = System::Drawing::Size(75, 56);
-			this->button1->TabIndex = 0;
-			this->button1->Text = L"Start";
-			this->button1->UseVisualStyleBackColor = true;
-			this->button1->Click += gcnew System::EventHandler(this, &Form1::button1_Click);
+			this->startButton->Dock = System::Windows::Forms::DockStyle::Left;
+			this->startButton->Location = System::Drawing::Point(0, 0);
+			this->startButton->Name = L"startButton";
+			this->startButton->Size = System::Drawing::Size(75, 56);
+			this->startButton->TabIndex = 0;
+			this->startButton->Text = L"Start";
+			this->startButton->UseVisualStyleBackColor = true;
+			this->startButton->Click += gcnew System::EventHandler(this, &Form1::button1_Click);
 			// 
 			// splitContainer2
 			// 
@@ -301,15 +316,15 @@ namespace SeniorDesign_1 {
 			// splitContainer2.Panel1
 			// 
 			this->splitContainer2->Panel1->BackColor = System::Drawing::Color::White;
-			this->splitContainer2->Panel1->Controls->Add(this->button5);
-			this->splitContainer2->Panel1->Controls->Add(this->numericUpDown6);
-			this->splitContainer2->Panel1->Controls->Add(this->numericUpDown5);
-			this->splitContainer2->Panel1->Controls->Add(this->numericUpDown4);
-			this->splitContainer2->Panel1->Controls->Add(this->numericUpDown3);
-			this->splitContainer2->Panel1->Controls->Add(this->numericUpDown2);
-			this->splitContainer2->Panel1->Controls->Add(this->numericUpDown1);
-			this->splitContainer2->Panel1->Controls->Add(this->button3);
-			this->splitContainer2->Panel1->Controls->Add(this->comboBox1);
+			this->splitContainer2->Panel1->Controls->Add(this->okButton);
+			this->splitContainer2->Panel1->Controls->Add(this->samplesPerStepUpDown);
+			this->splitContainer2->Panel1->Controls->Add(this->stepsPerSweepUpDown);
+			this->splitContainer2->Panel1->Controls->Add(this->sweepDelayUpDown);
+			this->splitContainer2->Panel1->Controls->Add(this->numberOfSweepsUpDown);
+			this->splitContainer2->Panel1->Controls->Add(this->minFrequencyUpDown);
+			this->splitContainer2->Panel1->Controls->Add(this->maxFrequencyUpDown);
+			this->splitContainer2->Panel1->Controls->Add(this->saveButton);
+			this->splitContainer2->Panel1->Controls->Add(this->profileNameCB);
 			this->splitContainer2->Panel1->Controls->Add(this->label7);
 			this->splitContainer2->Panel1->Controls->Add(this->label6);
 			this->splitContainer2->Panel1->Controls->Add(this->label5);
@@ -329,94 +344,94 @@ namespace SeniorDesign_1 {
 			this->splitContainer2->SplitterDistance = 222;
 			this->splitContainer2->TabIndex = 0;
 			// 
-			// button5
+			// okButton
 			// 
-			this->button5->Location = System::Drawing::Point(123, 195);
-			this->button5->Name = L"button5";
-			this->button5->Size = System::Drawing::Size(90, 23);
-			this->button5->TabIndex = 23;
-			this->button5->Text = L"OK";
-			this->button5->UseVisualStyleBackColor = true;
+			this->okButton->Location = System::Drawing::Point(123, 195);
+			this->okButton->Name = L"okButton";
+			this->okButton->Size = System::Drawing::Size(90, 23);
+			this->okButton->TabIndex = 23;
+			this->okButton->Text = L"OK";
+			this->okButton->UseVisualStyleBackColor = true;
 			// 
-			// numericUpDown6
+			// samplesPerStepUpDown
 			// 
-			this->numericUpDown6->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom) 
+			this->samplesPerStepUpDown->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom) 
 				| System::Windows::Forms::AnchorStyles::Left) 
 				| System::Windows::Forms::AnchorStyles::Right));
-			this->numericUpDown6->Location = System::Drawing::Point(101, 169);
-			this->numericUpDown6->Name = L"numericUpDown6";
-			this->numericUpDown6->Size = System::Drawing::Size(82, 20);
-			this->numericUpDown6->TabIndex = 22;
+			this->samplesPerStepUpDown->Location = System::Drawing::Point(101, 169);
+			this->samplesPerStepUpDown->Name = L"samplesPerStepUpDown";
+			this->samplesPerStepUpDown->Size = System::Drawing::Size(82, 20);
+			this->samplesPerStepUpDown->TabIndex = 22;
 			// 
-			// numericUpDown5
+			// stepsPerSweepUpDown
 			// 
-			this->numericUpDown5->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom) 
+			this->stepsPerSweepUpDown->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom) 
 				| System::Windows::Forms::AnchorStyles::Left) 
 				| System::Windows::Forms::AnchorStyles::Right));
-			this->numericUpDown5->Location = System::Drawing::Point(101, 144);
-			this->numericUpDown5->Name = L"numericUpDown5";
-			this->numericUpDown5->Size = System::Drawing::Size(82, 20);
-			this->numericUpDown5->TabIndex = 21;
+			this->stepsPerSweepUpDown->Location = System::Drawing::Point(101, 144);
+			this->stepsPerSweepUpDown->Name = L"stepsPerSweepUpDown";
+			this->stepsPerSweepUpDown->Size = System::Drawing::Size(82, 20);
+			this->stepsPerSweepUpDown->TabIndex = 21;
 			// 
-			// numericUpDown4
+			// sweepDelayUpDown
 			// 
-			this->numericUpDown4->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom) 
+			this->sweepDelayUpDown->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom) 
 				| System::Windows::Forms::AnchorStyles::Left) 
 				| System::Windows::Forms::AnchorStyles::Right));
-			this->numericUpDown4->Location = System::Drawing::Point(131, 116);
-			this->numericUpDown4->Name = L"numericUpDown4";
-			this->numericUpDown4->Size = System::Drawing::Size(82, 20);
-			this->numericUpDown4->TabIndex = 20;
+			this->sweepDelayUpDown->Location = System::Drawing::Point(131, 116);
+			this->sweepDelayUpDown->Name = L"sweepDelayUpDown";
+			this->sweepDelayUpDown->Size = System::Drawing::Size(82, 20);
+			this->sweepDelayUpDown->TabIndex = 20;
 			// 
-			// numericUpDown3
+			// numberOfSweepsUpDown
 			// 
-			this->numericUpDown3->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom) 
+			this->numberOfSweepsUpDown->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom) 
 				| System::Windows::Forms::AnchorStyles::Left) 
 				| System::Windows::Forms::AnchorStyles::Right));
-			this->numericUpDown3->Location = System::Drawing::Point(101, 90);
-			this->numericUpDown3->Name = L"numericUpDown3";
-			this->numericUpDown3->Size = System::Drawing::Size(82, 20);
-			this->numericUpDown3->TabIndex = 19;
+			this->numberOfSweepsUpDown->Location = System::Drawing::Point(101, 90);
+			this->numberOfSweepsUpDown->Name = L"numberOfSweepsUpDown";
+			this->numberOfSweepsUpDown->Size = System::Drawing::Size(82, 20);
+			this->numberOfSweepsUpDown->TabIndex = 19;
 			// 
-			// numericUpDown2
+			// minFrequencyUpDown
 			// 
-			this->numericUpDown2->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom) 
+			this->minFrequencyUpDown->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom) 
 				| System::Windows::Forms::AnchorStyles::Left) 
 				| System::Windows::Forms::AnchorStyles::Right));
-			this->numericUpDown2->Location = System::Drawing::Point(101, 64);
-			this->numericUpDown2->Name = L"numericUpDown2";
-			this->numericUpDown2->Size = System::Drawing::Size(82, 20);
-			this->numericUpDown2->TabIndex = 18;
+			this->minFrequencyUpDown->Location = System::Drawing::Point(101, 64);
+			this->minFrequencyUpDown->Name = L"minFrequencyUpDown";
+			this->minFrequencyUpDown->Size = System::Drawing::Size(82, 20);
+			this->minFrequencyUpDown->TabIndex = 18;
 			// 
-			// numericUpDown1
+			// maxFrequencyUpDown
 			// 
-			this->numericUpDown1->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom) 
+			this->maxFrequencyUpDown->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom) 
 				| System::Windows::Forms::AnchorStyles::Left) 
 				| System::Windows::Forms::AnchorStyles::Right));
-			this->numericUpDown1->Location = System::Drawing::Point(101, 38);
-			this->numericUpDown1->Name = L"numericUpDown1";
-			this->numericUpDown1->Size = System::Drawing::Size(82, 20);
-			this->numericUpDown1->TabIndex = 15;
+			this->maxFrequencyUpDown->Location = System::Drawing::Point(101, 38);
+			this->maxFrequencyUpDown->Name = L"maxFrequencyUpDown";
+			this->maxFrequencyUpDown->Size = System::Drawing::Size(82, 20);
+			this->maxFrequencyUpDown->TabIndex = 15;
 			// 
-			// button3
+			// saveButton
 			// 
-			this->button3->Location = System::Drawing::Point(11, 197);
-			this->button3->Name = L"button3";
-			this->button3->Size = System::Drawing::Size(91, 23);
-			this->button3->TabIndex = 14;
-			this->button3->Text = L"Save Settings";
-			this->button3->UseVisualStyleBackColor = true;
+			this->saveButton->Location = System::Drawing::Point(11, 197);
+			this->saveButton->Name = L"saveButton";
+			this->saveButton->Size = System::Drawing::Size(91, 23);
+			this->saveButton->TabIndex = 14;
+			this->saveButton->Text = L"Save Settings";
+			this->saveButton->UseVisualStyleBackColor = true;
 			// 
-			// comboBox1
+			// profileNameCB
 			// 
-			this->comboBox1->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom) 
+			this->profileNameCB->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom) 
 				| System::Windows::Forms::AnchorStyles::Left) 
 				| System::Windows::Forms::AnchorStyles::Right));
-			this->comboBox1->FormattingEnabled = true;
-			this->comboBox1->Location = System::Drawing::Point(76, 10);
-			this->comboBox1->Name = L"comboBox1";
-			this->comboBox1->Size = System::Drawing::Size(107, 21);
-			this->comboBox1->TabIndex = 7;
+			this->profileNameCB->FormattingEnabled = true;
+			this->profileNameCB->Location = System::Drawing::Point(76, 10);
+			this->profileNameCB->Name = L"profileNameCB";
+			this->profileNameCB->Size = System::Drawing::Size(107, 21);
+			this->profileNameCB->TabIndex = 7;
 			// 
 			// label7
 			// 
@@ -569,21 +584,23 @@ namespace SeniorDesign_1 {
 			this->splitContainer2->Panel2->ResumeLayout(false);
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->splitContainer2))->EndInit();
 			this->splitContainer2->ResumeLayout(false);
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->numericUpDown6))->EndInit();
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->numericUpDown5))->EndInit();
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->numericUpDown4))->EndInit();
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->numericUpDown3))->EndInit();
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->numericUpDown2))->EndInit();
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->numericUpDown1))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->samplesPerStepUpDown))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->stepsPerSweepUpDown))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->sweepDelayUpDown))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->numberOfSweepsUpDown))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->minFrequencyUpDown))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->maxFrequencyUpDown))->EndInit();
 			this->ResumeLayout(false);
 
 		}
 #pragma endregion
+		//button3 named saveButton
 	private: System::Void button3_Click(System::Object^  sender, System::EventArgs^  e) {			 }
 private: System::Void splitContainer2_Panel1_Paint(System::Object^  sender, System::Windows::Forms::PaintEventArgs^  e) {
 		 }
 private: System::Void chart1_Click(System::Object^  sender, System::EventArgs^  e) {
 		 }
+		 
 private: System::Void button4_Click(System::Object^  sender, System::EventArgs^  e) {
 			 if (button4->Text == ">>")
 			 {
@@ -651,6 +668,7 @@ private: void CreateGraph( ZedGraphControl ^zgc )
 				// outFile << data << endl;
 			  }//while(!inFile.eof());
 		 }
+		 //button1 name change to startButton
 private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e) {
 			 CreateGraph(zedGraphControl1);
 		 }

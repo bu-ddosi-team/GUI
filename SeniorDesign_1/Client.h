@@ -1,4 +1,4 @@
-/*
+
 
 #include "stdafx.h"
 //#ifndef CLIENT
@@ -175,4 +175,4 @@ double ClientRun()
 
 }
 
-#endif */
+#endif 
