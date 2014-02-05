@@ -37,7 +37,7 @@ using namespace std;
     int recvbuflen = DEFAULT_BUFLEN;
  //   memset(recvbuf, 0, 512);
 
-int mkConnection()
+int mkConnection(string caddr)
 {
 
 
@@ -55,7 +55,7 @@ int mkConnection()
     hints.ai_flags = AI_PASSIVE;
 	
     // Resolve the server address and port
-    iResult = getaddrinfo("155.41.124.103", DEFAULT_PORT, &hints, &result);
+    iResult = getaddrinfo(caddr, DEFAULT_PORT, &hints, &result);
     if ( iResult != 0 ) {
         printf("getaddrinfo failed with error: %d\n", iResult);
         WSACleanup();
@@ -114,7 +114,7 @@ int sendThis(string msgstring)
 	// Receive until the peer shuts down the connection
 	do {
 		//send the command/instruction to server
-		iSendResult = send( ClientSocket, cinstr, iResult, 0 );
+		iSendResult = send( ClientSocket, cinstr, msgstring.size()+1, 0 );
 		if (iSendResult == SOCKET_ERROR) {
 			printf("send failed with error: %d\n", WSAGetLastError());
 			closesocket(ClientSocket);

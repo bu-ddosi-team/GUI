@@ -690,8 +690,9 @@ private: System::Void button1_Click(System::Object^  sender, System::EventArgs^ 
 			 char *a=new char[str1.size()+1];
 			 a[str1.size()]=0;
 			 memcpy(a,str1.c_str(),str1.size());
-			 fifoQ.push(str1);
-			 mkConnection();
+			 fifoQ.push(str1);//temp
+			 string caddr = "192.168.0.1";
+			 mkConnection(caddr);//later relocate mk and rm
 			 sendThis(str1);
 			 recvThis();
 			 rmConnection();
