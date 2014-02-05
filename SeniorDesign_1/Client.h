@@ -37,9 +37,9 @@ double ClientRun(string msgstring)
     SOCKET ListenSocket = INVALID_SOCKET;
     SOCKET ClientSocket = INVALID_SOCKET;
 
-    struct addrinfo *result = NULL;
-    struct addrinfo hints;
-
+    struct addrinfo *result = NULL,
+                    *ptr = NULL,
+                    hints;
     int iSendResult;
     char recvbuf[DEFAULT_BUFLEN];
     int recvbuflen = DEFAULT_BUFLEN;
@@ -57,7 +57,39 @@ double ClientRun(string msgstring)
     hints.ai_socktype = SOCK_STREAM;
     hints.ai_protocol = IPPROTO_TCP;
     hints.ai_flags = AI_PASSIVE;
+	
+    // Resolve the server address and port
+    iResult = getaddrinfo("192.168.0.1", DEFAULT_PORT, &hints, &result);
+    if ( iResult != 0 ) {
+        printf("getaddrinfo failed with error: %d\n", iResult);
+        WSACleanup();
+        return 1;
+    }
 
+    // Attempt to connect to an address until one succeeds
+    for(ptr=result; ptr != NULL ;ptr=ptr->ai_next) {
+
+        // Create a SOCKET for connecting to server
+        ClientSocket = socket(ptr->ai_family, ptr->ai_socktype,
+            ptr->ai_protocol);
+        if (ClientSocket == INVALID_SOCKET) {
+            printf("socket failed with error: %ld\n", WSAGetLastError());
+            WSACleanup();
+            return 1;
+        }
+
+        // Connect to server.
+        iResult = connect( ClientSocket, ptr->ai_addr, (int)ptr->ai_addrlen);
+        if (iResult == SOCKET_ERROR) {
+            closesocket(ClientSocket);
+            ClientSocket = INVALID_SOCKET;
+            continue;
+        }
+        break;
+    }
+
+
+	/*
     // Resolve the server address and port
     iResult = getaddrinfo(NULL, DEFAULT_PORT, &hints, &result);
     if ( iResult != 0 ) {
@@ -106,8 +138,8 @@ double ClientRun(string msgstring)
 
     // No longer need server socket
     closesocket(ListenSocket);
-
-
+	*/
+	//convert string to char
 	char *cinstr=new char[msgstring.size()+1];
 	cinstr[msgstring.size()]=0;
 	memcpy(cinstr,msgstring.c_str(),msgstring.size());	
