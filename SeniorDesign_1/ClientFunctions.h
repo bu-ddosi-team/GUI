@@ -1,5 +1,4 @@
 
-
 #include "stdafx.h"
 //#ifndef CLIENT
 //#define CLIENT
@@ -22,14 +21,7 @@
 #pragma comment (lib, "Mswsock.lib")
 #pragma comment (lib, "AdvApi32.lib")
 
-
-#define DEFAULT_BUFLEN 512
-#define DEFAULT_PORT "27015"
-
 using namespace std;
-
-double ClientRun(string msgstring)
-{
 
 	WSADATA wsaData;
     int iResult;
@@ -43,7 +35,11 @@ double ClientRun(string msgstring)
     int iSendResult;
     char recvbuf[DEFAULT_BUFLEN];
     int recvbuflen = DEFAULT_BUFLEN;
-    	memset(recvbuf, 0, 512);
+ //   memset(recvbuf, 0, 512);
+
+int mkConnection()
+{
+
 
     // Initialize Winsock
     iResult = WSAStartup(MAKEWORD(2,2), &wsaData);
@@ -89,119 +85,10 @@ double ClientRun(string msgstring)
     }
 	freeaddrinfo(result);
 
-	/*
-    // Resolve the server address and port
-    iResult = getaddrinfo(NULL, DEFAULT_PORT, &hints, &result);
-    if ( iResult != 0 ) {
-        printf("getaddrinfo failed with error: %d\n", iResult);
-        WSACleanup();
-        return 1;
-    }
+}
 
-    // Create a SOCKET for connecting to server
-    ListenSocket = socket(result->ai_family, result->ai_socktype, result->ai_protocol);
-    if (ListenSocket == INVALID_SOCKET) {
-        printf("socket failed with error: %ld\n", WSAGetLastError());
-        freeaddrinfo(result);
-        WSACleanup();
-        return 1;
-    }
-
-    // Setup the TCP listening socket
-    iResult = bind( ListenSocket, result->ai_addr, (int)result->ai_addrlen);
-    if (iResult == SOCKET_ERROR) {
-        printf("bind failed with error: %d\n", WSAGetLastError());
-        freeaddrinfo(result);
-        closesocket(ListenSocket);
-        WSACleanup();
-        return 1;
-    }
-
-    freeaddrinfo(result);
-
-    iResult = listen(ListenSocket, SOMAXCONN);
-    if (iResult == SOCKET_ERROR) {
-        printf("listen failed with error: %d\n", WSAGetLastError());
-        closesocket(ListenSocket);
-        WSACleanup();
-        return 1;
-    }
-
-    // Accept a client socket
-    ClientSocket = accept(ListenSocket, NULL, NULL);
-    if (ClientSocket == INVALID_SOCKET) {
-        printf("accept failed with error: %d\n", WSAGetLastError());
-        closesocket(ListenSocket);
-        WSACleanup();
-        return 1;
-    }
-
-    // No longer need server socket
-    closesocket(ListenSocket);
-	*/
-
-	//convert string to char
-	char *cinstr=new char[msgstring.size()+1];
-	cinstr[msgstring.size()]=0;
-	memcpy(cinstr,msgstring.c_str(),msgstring.size());	
-
-	//send the command/instruction to server
-	iSendResult = send( ClientSocket, cinstr, iResult, 0 );
-	if (iSendResult == SOCKET_ERROR) {
-		printf("send failed with error: %d\n", WSAGetLastError());
-		closesocket(ClientSocket);
-		WSACleanup();
-		return 1;
-	}
-
-	clock_t start;
-    double duration;
-    start = std::clock();
-
-	//Open File for data storage
-	FILE * pFile;
-	pFile = fopen ("fwrite_test.txt", "wb");
-    
-    // Receive until the peer shuts down the connection
-	do {
-
-		iResult = recv(ClientSocket, recvbuf, recvbuflen, 0);
-		if (iResult > 0) {
-	//		printf("Bytes received: %d\n", iResult);
-	//		printf("Bytes received: %s\n", recvbuf);
-			if(recvbuf[0] == 'e')
-			{
-			//resend logic. wait for asynch if you want better efficiency.
-			}
-			else if(recvbuf[0] =='b')
-			{
-			fwrite (recvbuf , sizeof(char), sizeof(recvbuf), pFile);
-			memset(recvbuf, 0, 512);
-			}
-			else if(recvbuf[0] !='f')
-			{       printf("Recv complete. Connection closing...\n");			}
-			else{}
-
-
-        }
-        else if (iResult == 0)
-            printf("Connection closing...\n");
-        else  {
-            printf("recv failed with error: %d\n", WSAGetLastError());
-            closesocket(ClientSocket);
-            WSACleanup();
-            return 1;
-        }
-
-
-
-    } while (iResult > 0 && recvbuf[0] !='f');
-	  fclose (pFile);
-	duration = ( std::clock() - start ) / (double) CLOCKS_PER_SEC;
-
-	 cout<<"Time:"<< duration <<endl;
-	 cout << "Throughput: " << endl;
-//	output.close();
+int rmConnection()
+{
     // shutdown the connection since we're done
     iResult = shutdown(ClientSocket, SD_SEND);
     if (iResult == SOCKET_ERROR) {
@@ -215,9 +102,83 @@ double ClientRun(string msgstring)
     closesocket(ClientSocket);
     WSACleanup();
 
-    return 0;
+}
 
+int sendThis(string msgstring)
+{
+	//convert string to char
+	char *cinstr=new char[msgstring.size()+1];
+	cinstr[msgstring.size()]=0;
+	memcpy(cinstr,msgstring.c_str(),msgstring.size());	
+ 
+	// Receive until the peer shuts down the connection
+	do {
+		//send the command/instruction to server
+		iSendResult = send( ClientSocket, cinstr, iResult, 0 );
+		if (iSendResult == SOCKET_ERROR) {
+			printf("send failed with error: %d\n", WSAGetLastError());
+			closesocket(ClientSocket);
+			WSACleanup();
+			return 1;
+		}
+
+		iResult = recv(ClientSocket, recvbuf, recvbuflen, 0);
+		if (iResult > 0) {
+	//		printf("Bytes received: %s\n", recvbuf);
+			if(recvbuf[0] == 'e')
+			{
+				//Msg is wrong, exit with error code
+				printf("Invalid intruction input");
+			}
+			else if(recvbuf[0] =='f')
+			{       printf("Recv complete. Connection closing...\n");			}
+			else{}
+
+        }
+        else if (iResult == 0)
+            printf("Connection closing...\n");
+        else  {
+            printf("recv failed with error: %d\n", WSAGetLastError());
+            return 1;
+        }
+
+    } while (iResult > 0 && (recvbuf[0] !='e' || recvbuf[0] !='f') );
 
 }
 
-//#endif 
+int recvThis()
+{
+
+	//Open File for data storage
+	FILE * pFile;
+	pFile = fopen ("fwrite_test.txt", "wb");
+    
+    // Receive until the peer shuts down the connection
+	do {
+
+		iResult = recv(ClientSocket, recvbuf, recvbuflen, 0);
+		if (iResult > 0) {
+	//		printf("Bytes received: %s\n", recvbuf);
+			if(recvbuf[0] =='b')
+			{
+			fwrite (recvbuf , sizeof(char), sizeof(recvbuf), pFile);
+			memset(recvbuf, 0, 512);
+			}
+			else if(recvbuf[0] !='f')
+			{       printf("Recv complete. Connection closing...\n");			}
+			else{}
+        }
+        else if (iResult == 0)
+            printf("Connection closing...\n");
+        else  {
+            printf("recv failed with error: %d\n", WSAGetLastError());
+            closesocket(ClientSocket);
+            WSACleanup();
+            return 1;
+        }
+
+
+
+    } while (iResult > 0 && recvbuf[0] !='f');
+
+}

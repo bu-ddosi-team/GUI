@@ -8,6 +8,11 @@
 #include "msclr\marshal_cppstd.h"
 //using namespace std;
 #include <string>
+#include "ClientFunctions.h"
+#include <queue>
+
+//CircularBuffer fifoD;
+queue<string> fifoQ;
 
 namespace SeniorDesign_1 {
 
@@ -678,14 +683,21 @@ private: System::Void button1_Click(System::Object^  sender, System::EventArgs^ 
 			 string str1;
  			 string msgtype="s";
 			 string addrloc="1";
-			 string dat;
+			 string dat="ith30tha309ut0";
 			 str1.assign(msgtype);
 			 str1.append(addrloc);
 			 str1.append(dat);
 			 char *a=new char[str1.size()+1];
 			 a[str1.size()]=0;
 			 memcpy(a,str1.c_str(),str1.size());
-			 ClientRun(str1);//correct utilization of client send should use the fifo.
+			 fifoQ.push(str1);
+			 mkConnection();
+			 sendThis(str1);
+			 recvThis();
+			 rmConnection();
+//			 ClientRun(str1);//correct utilization of client send should use the fifo.
+
+
 		 }
 /*
 private: System::Void button6_Click(System::Object^  sender, System::EventArgs^  e) {
