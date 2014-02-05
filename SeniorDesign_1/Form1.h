@@ -1,12 +1,13 @@
 #pragma once
 
 #include <stdlib.h>
-//#include "Client.h"
+#include "Client.h"
 #include <fstream>
 #include <string>
 #include <iostream>
 #include "msclr\marshal_cppstd.h"
 //using namespace std;
+#include <string>
 
 namespace SeniorDesign_1 {
 
@@ -31,7 +32,9 @@ namespace SeniorDesign_1 {
 			InitializeComponent();
 			//
 			//TODO: Add the constructor code here
-			//
+
+
+
 		}
 
 	protected:
@@ -617,6 +620,7 @@ private: System::Void button4_Click(System::Object^  sender, System::EventArgs^ 
 private: System::Void splitContainer1_Panel1_Paint(System::Object^  sender, System::Windows::Forms::PaintEventArgs^  e) {
 		 }
 private: System::Void Form1_Load(System::Object^  sender, System::EventArgs^  e) {
+//Initialize form stuff	
 		 }
 private: void CreateGraph( ZedGraphControl ^zgc )
 	{
@@ -671,6 +675,17 @@ private: void CreateGraph( ZedGraphControl ^zgc )
 		 //button1 name change to startButton
 private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e) {
 			 CreateGraph(zedGraphControl1);
+			 string str1;
+ 			 string msgtype="s";
+			 string addrloc="1";
+			 string dat;
+			 str1.assign(msgtype);
+			 str1.append(addrloc);
+			 str1.append(dat);
+			 char *a=new char[str1.size()+1];
+			 a[str1.size()]=0;
+			 memcpy(a,str1.c_str(),str1.size());
+			 ClientRun(str1);//correct utilization of client send should use the fifo.
 		 }
 /*
 private: System::Void button6_Click(System::Object^  sender, System::EventArgs^  e) {

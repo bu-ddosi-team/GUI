@@ -28,7 +28,7 @@
 
 using namespace std;
 
-double ClientRun()
+double ClientRun(string msgstring)
 {
 
 	WSADATA wsaData;
@@ -108,6 +108,19 @@ double ClientRun()
     closesocket(ListenSocket);
 
 
+	char *cinstr=new char[msgstring.size()+1];
+	cinstr[msgstring.size()]=0;
+	memcpy(cinstr,msgstring.c_str(),msgstring.size());	
+
+	//send the command/instruction to server
+	iSendResult = send( ClientSocket, cinstr, iResult, 0 );
+	if (iSendResult == SOCKET_ERROR) {
+		printf("send failed with error: %d\n", WSAGetLastError());
+		closesocket(ClientSocket);
+		WSACleanup();
+		return 1;
+	}
+
 	clock_t start;
     double duration;
     start = std::clock();
@@ -123,21 +136,18 @@ double ClientRun()
 		if (iResult > 0) {
 	//		printf("Bytes received: %d\n", iResult);
 	//		printf("Bytes received: %s\n", recvbuf);
-
+			if(recvbuf[0] == 'e')
+			{
+			//resend logic. wait for asynch if you want better efficiency.
+			}
+			else if(recvbuf[0] =='b')
+			{
 			fwrite (recvbuf , sizeof(char), sizeof(recvbuf), pFile);
 			memset(recvbuf, 0, 512);
+			}
+			else{}
 
-		
-			// Echo the buffer back to the sender
-			iSendResult = send( ClientSocket, recvbuf, iResult, 0 );
-			if (iSendResult == SOCKET_ERROR) {
-				printf("send failed with error: %d\n", WSAGetLastError());
-				closesocket(ClientSocket);
-                WSACleanup();
-                return 1;
-            }
-     //       printf("Bytes sent: %d\n", iSendResult);
-	 
+
         }
         else if (iResult == 0)
             printf("Connection closing...\n");
@@ -175,4 +185,4 @@ double ClientRun()
 
 }
 
-#endif 
+//#endif 
