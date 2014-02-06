@@ -694,7 +694,7 @@ private: System::Void button1_Click(System::Object^  sender, System::EventArgs^ 
 			 string caddr = "192.168.0.1";
 			 mkConnection(caddr);//later relocate mk and rm
 			 sendThis(str1);
-			 recvThis();
+//			 recvThis();
 			 rmConnection();
 //			 ClientRun(str1);//correct utilization of client send should use the fifo.
 
