@@ -666,15 +666,24 @@ private: void CreateGraph( ZedGraphControl ^zgc )
 			 std::string outFilePath = marshal_as<std::string>(textBox1->Text);
 			 std::string outFileComplete = outFilePath + "\\" + outFileName;
 			  int data;//, dataY;
-			  LineItem ^myCurve = myPane->AddCurve("Channel A", ChannelA, Color::Blue, SymbolType::Diamond);
-			  LineItem ^myCurve = myPane->AddCurve("Channel B", ChannelB, Color::Red, SymbolType::Diamond);
+			  LineItem ^myCurve1 = myPane->AddCurve("Channel A", ChannelA, Color::Blue, SymbolType::Diamond);
+			  LineItem ^myCurve2 = myPane->AddCurve("Channel B", ChannelB, Color::Red, SymbolType::Diamond);
 			  outFile.open(outFileComplete);
 			//do
+			  int count = 0;
 			  while(inFile>>data)
 			  {
+				  count++;
 				 double time = (Environment::TickCount - tickStart) / 1000.0;
 				 //inFile >> data;
-				 ChannelA->Add(time,data);
+				 if (count%2 == 0)
+				 {
+					 ChannelB->Add(time,data);
+				 }
+				 else
+				 {
+					ChannelA->Add(time,data);
+				 }
 				 outFile << data << endl;
 
 				 //LineItem ^myCurve = myPane->AddCurve(dataList, Color::Red, SymbolType::Diamond);
@@ -684,6 +693,7 @@ private: void CreateGraph( ZedGraphControl ^zgc )
 				// this->chart1->Series["Data"]->Points->AddY(data);
 				// outFile << data << endl;
 			  }//while(!inFile.eof());
+			  count = 0;
 		 }
 		 //button1 name change to startButton
 private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e) {
