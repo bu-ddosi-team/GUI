@@ -370,6 +370,7 @@ namespace SeniorDesign_1 {
 			this->samplesPerStepUpDown->Name = L"samplesPerStepUpDown";
 			this->samplesPerStepUpDown->Size = System::Drawing::Size(82, 20);
 			this->samplesPerStepUpDown->TabIndex = 22;
+			this->samplesPerStepUpDown->ValueChanged += gcnew System::EventHandler(this, &Form1::samplesPerStepChanged);
 			// 
 			// stepsPerSweepUpDown
 			// 
@@ -380,6 +381,7 @@ namespace SeniorDesign_1 {
 			this->stepsPerSweepUpDown->Name = L"stepsPerSweepUpDown";
 			this->stepsPerSweepUpDown->Size = System::Drawing::Size(82, 20);
 			this->stepsPerSweepUpDown->TabIndex = 21;
+			this->stepsPerSweepUpDown->ValueChanged += gcnew System::EventHandler(this, &Form1::stepsPerSweepChanged);
 			// 
 			// sweepDelayUpDown
 			// 
@@ -390,6 +392,7 @@ namespace SeniorDesign_1 {
 			this->sweepDelayUpDown->Name = L"sweepDelayUpDown";
 			this->sweepDelayUpDown->Size = System::Drawing::Size(82, 20);
 			this->sweepDelayUpDown->TabIndex = 20;
+			this->sweepDelayUpDown->ValueChanged += gcnew System::EventHandler(this, &Form1::sweepDelayChanged);
 			// 
 			// numberOfSweepsUpDown
 			// 
@@ -400,6 +403,7 @@ namespace SeniorDesign_1 {
 			this->numberOfSweepsUpDown->Name = L"numberOfSweepsUpDown";
 			this->numberOfSweepsUpDown->Size = System::Drawing::Size(82, 20);
 			this->numberOfSweepsUpDown->TabIndex = 19;
+			this->numberOfSweepsUpDown->ValueChanged += gcnew System::EventHandler(this, &Form1::numSweepsChanged);
 			// 
 			// minFrequencyUpDown
 			// 
@@ -410,6 +414,7 @@ namespace SeniorDesign_1 {
 			this->minFrequencyUpDown->Name = L"minFrequencyUpDown";
 			this->minFrequencyUpDown->Size = System::Drawing::Size(82, 20);
 			this->minFrequencyUpDown->TabIndex = 18;
+			this->minFrequencyUpDown->ValueChanged += gcnew System::EventHandler(this, &Form1::minFChange);
 			// 
 			// maxFrequencyUpDown
 			// 
@@ -420,6 +425,7 @@ namespace SeniorDesign_1 {
 			this->maxFrequencyUpDown->Name = L"maxFrequencyUpDown";
 			this->maxFrequencyUpDown->Size = System::Drawing::Size(82, 20);
 			this->maxFrequencyUpDown->TabIndex = 15;
+			this->maxFrequencyUpDown->ValueChanged += gcnew System::EventHandler(this, &Form1::maxFchange);
 			// 
 			// saveButton
 			// 
@@ -608,7 +614,7 @@ private: System::Void splitContainer2_Panel1_Paint(System::Object^  sender, Syst
 		 }
 private: System::Void chart1_Click(System::Object^  sender, System::EventArgs^  e) {
 		 }
-		 
+
 private: System::Void button4_Click(System::Object^  sender, System::EventArgs^  e) {
 			 if (button4->Text == ">>")
 			 {
@@ -638,7 +644,7 @@ private: void CreateGraph( ZedGraphControl ^zgc )
 		//myPane->XAxis->Type= AxisType::Date;
 		//myPane->XAxis->Scale->MajorUnit = DateUnit::Second;
         //myPane->XAxis->Scale->MinorUnit = DateUnit::Second;
-		
+
 		//myPane->XAxis->Scale->Min = DateTime::Now::Subtract(new TimeSpan(0, 0, 10, 0, 0)::ToOADate();
         //myPane->XAxis->Scale->Max = DateTime::Now::ToOADate();
 
@@ -654,7 +660,7 @@ private: void CreateGraph( ZedGraphControl ^zgc )
 			 PointPairList ^dataList = gcnew PointPairList();
 			 ifstream inFile;
 			 ofstream outFile;
-			 inFile.open("C:\\Users\\CME\\Desktop\\PracticeFile1.txt");
+			 inFile.open("fwrite_test.txt");
 			 std::string outFileName = marshal_as<std::string>(textBox2->Text);
 			 std::string outFilePath = marshal_as<std::string>(textBox1->Text);
 			 std::string outFileComplete = outFilePath + "\\" + outFileName;
@@ -681,22 +687,22 @@ private: void CreateGraph( ZedGraphControl ^zgc )
 private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e) {
 			 CreateGraph(zedGraphControl1);
 			 string str1;
- 			 string msgtype="s";
+ 			 string msgtype="w";
 			 string addrloc="1";
 			 string dat="ith30tha309ut0";
 			 str1.assign(msgtype);
 			 str1.append(addrloc);
 			 str1.append(dat);
-			 char *a=new char[str1.size()+1];
-			 a[str1.size()]=0;
-			 memcpy(a,str1.c_str(),str1.size());
-			 fifoQ.push(str1);//temp
-			 string caddr = "192.168.0.1";
-			 mkConnection(caddr);//later relocate mk and rm
+			 //char *a=new char[str1.size()+1];
+			 //a[str1.size()]=0;
+			 //memcpy(a,str1.c_str(),str1.size());
+			 fifoQ.push(str1);
+			 string caddr= "192.168.0.2";
+			 mkConnection(caddr);
 			 sendThis(str1);
 //			 recvThis();
 			 rmConnection();
-//			 ClientRun(str1);//correct utilization of client send should use the fifo.
+			 ClientRun(str1);//correct utilization of client send should use the fifo.
 
 
 		 }
@@ -725,7 +731,34 @@ private: System::Void button6_Click_1(System::Object^  sender, System::EventArgs
 			 textBox1->Text= folderBrowserDialog1->SelectedPath;
 
 		 }
+private: System::Void maxFchange(System::Object^  sender, System::EventArgs^  e) {
+			 string addrloc="2";
+			 //int maxFrequency;
+				std::string dat = marshal_as<std::string>(maxFrequencyUpDown->Text);
+		 }
+
+private: System::Void minFChange(System::Object^  sender, System::EventArgs^  e) {
+			string addrloc = "3";
+			std::string dat = marshal_as<std::string>(minFrequencyUpDown->Text);
+		 }
+private: System::Void numSweepsChanged(System::Object^  sender, System::EventArgs^  e) {
+			string addrloc = "4";
+			std::string dat = marshal_as<std::string>(numberOfSweepsUpDown->Text);
+
+		 }
+private: System::Void sweepDelayChanged(System::Object^  sender, System::EventArgs^  e) {
+			string addrloc = "5";
+			std::string dat = marshal_as<std::string>(sweepDelayUpDown->Text);
+		 }
+
+private: System::Void stepsPerSweepChanged(System::Object^  sender, System::EventArgs^  e) {
+			 string addrloc = "6";
+			std::string dat = marshal_as<std::string>(stepsPerSweepUpDown->Text);
+		 }
+private: System::Void samplesPerStepChanged(System::Object^  sender, System::EventArgs^  e) {
+			 string addrloc = "7";
+			std::string dat = marshal_as<std::string>(samplesPerStepUpDown->Text);
+		 }
 };
 
 }
-
