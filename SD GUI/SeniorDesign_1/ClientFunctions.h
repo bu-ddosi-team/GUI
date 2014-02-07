@@ -33,11 +33,11 @@ using namespace std;
                     *ptr = NULL,
                     hints;
     int iSendResult;
-    char recvbuf[DEFAULT_BUFLEN];
-    int recvbuflen = DEFAULT_BUFLEN;
+//    char recvbuf[DEFAULT_BUFLEN];
+ //   int recvbuflen = DEFAULT_BUFLEN;
  //   memset(recvbuf, 0, 512);
 
-int mkConnection()
+int mkConnection(string caddr)
 {
 
 
@@ -53,9 +53,9 @@ int mkConnection()
     hints.ai_socktype = SOCK_STREAM;
     hints.ai_protocol = IPPROTO_TCP;
     hints.ai_flags = AI_PASSIVE;
-	
+	//caddr;
     // Resolve the server address and port
-    iResult = getaddrinfo("155.41.124.103", DEFAULT_PORT, &hints, &result);
+    iResult = getaddrinfo("155.41.86.186", DEFAULT_PORT, &hints, &result);
     if ( iResult != 0 ) {
         printf("getaddrinfo failed with error: %d\n", iResult);
         WSACleanup();
@@ -110,11 +110,12 @@ int sendThis(string msgstring)
 	char *cinstr=new char[msgstring.size()+1];
 	cinstr[msgstring.size()]=0;
 	memcpy(cinstr,msgstring.c_str(),msgstring.size());	
- 
+    char *recvbuf = new char[DEFAULT_BUFLEN];
+    int recvbuflen = DEFAULT_BUFLEN; 
 	// Receive until the peer shuts down the connection
 	do {
 		//send the command/instruction to server
-		iSendResult = send( ClientSocket, cinstr, iResult, 0 );
+		iSendResult = send( ClientSocket, cinstr, msgstring.size()+1, 0 );
 		if (iSendResult == SOCKET_ERROR) {
 			printf("send failed with error: %d\n", WSAGetLastError());
 			closesocket(ClientSocket);
@@ -124,6 +125,7 @@ int sendThis(string msgstring)
 
 		iResult = recv(ClientSocket, recvbuf, recvbuflen, 0);
 		if (iResult > 0) {
+
 	//		printf("Bytes received: %s\n", recvbuf);
 			if(recvbuf[0] == 'e')
 			{
@@ -142,10 +144,10 @@ int sendThis(string msgstring)
             return 1;
         }
 
-    } while (iResult > 0 && (recvbuf[0] !='e' || recvbuf[0] !='f') );
+    } while (iResult > 0 && (recvbuf[0] !='e' && recvbuf[0] !='f') );
 
 }
-
+/*
 int recvThis()
 {
 
@@ -182,3 +184,4 @@ int recvThis()
     } while (iResult > 0 && recvbuf[0] !='f');
 
 }
+*/
