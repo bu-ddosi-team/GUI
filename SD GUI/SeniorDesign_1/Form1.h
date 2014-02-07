@@ -657,7 +657,8 @@ private: void CreateGraph( ZedGraphControl ^zgc )
 		 double tickStart = Environment::TickCount;
 
 
-			 PointPairList ^dataList = gcnew PointPairList();
+			 PointPairList ^ChannelA = gcnew PointPairList();
+			 PointPairList ^ChannelB = gcnew PointPairList();
 			 ifstream inFile;
 			 ofstream outFile;
 			 inFile.open("fwrite_test.txt");
@@ -665,14 +666,15 @@ private: void CreateGraph( ZedGraphControl ^zgc )
 			 std::string outFilePath = marshal_as<std::string>(textBox1->Text);
 			 std::string outFileComplete = outFilePath + "\\" + outFileName;
 			  int data;//, dataY;
-			  LineItem ^myCurve = myPane->AddCurve("DataList", dataList, Color::Red, SymbolType::Diamond);
+			  LineItem ^myCurve = myPane->AddCurve("Channel A", ChannelA, Color::Blue, SymbolType::Diamond);
+			  LineItem ^myCurve = myPane->AddCurve("Channel B", ChannelB, Color::Red, SymbolType::Diamond);
 			  outFile.open(outFileComplete);
 			//do
 			  while(inFile>>data)
 			  {
 				 double time = (Environment::TickCount - tickStart) / 1000.0;
 				 //inFile >> data;
-				 dataList->Add(time,data);
+				 ChannelA->Add(time,data);
 				 outFile << data << endl;
 
 				 //LineItem ^myCurve = myPane->AddCurve(dataList, Color::Red, SymbolType::Diamond);
@@ -685,7 +687,6 @@ private: void CreateGraph( ZedGraphControl ^zgc )
 		 }
 		 //button1 name change to startButton
 private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e) {
-			 CreateGraph(zedGraphControl1);
 			 string str1;
  			 string msgtype="w";
 			 string addrloc="1";
@@ -700,9 +701,10 @@ private: System::Void button1_Click(System::Object^  sender, System::EventArgs^ 
 			 string caddr= "192.168.0.2";
 			 mkConnection(caddr);
 			 sendThis(str1);
-//			 recvThis();
+			 recvThis();
 			 rmConnection();
-			 ClientRun(str1);//correct utilization of client send should use the fifo.
+			 CreateGraph(zedGraphControl1);
+			// ClientRun(str1);//correct utilization of client send should use the fifo.
 
 
 		 }

@@ -55,7 +55,7 @@ int mkConnection(string caddr)
     hints.ai_flags = AI_PASSIVE;
 	//caddr;
     // Resolve the server address and port
-    iResult = getaddrinfo("155.41.86.186", DEFAULT_PORT, &hints, &result);
+    iResult = getaddrinfo(caddr.c_str(), DEFAULT_PORT, &hints, &result);
     if ( iResult != 0 ) {
         printf("getaddrinfo failed with error: %d\n", iResult);
         WSACleanup();
@@ -147,17 +147,21 @@ int sendThis(string msgstring)
     } while (iResult > 0 && (recvbuf[0] !='e' && recvbuf[0] !='f') );
 
 }
-/*
+
 int recvThis()
 {
-
+    char *recvbuf = new char[DEFAULT_BUFLEN];
+    int recvbuflen = DEFAULT_BUFLEN; 
 	//Open File for data storage
-	FILE * pFile;
-	pFile = fopen ("fwrite_test.txt", "wb");
+	FILE *pFile;
+	int index;
+	pFile = fopen("fwrite_test.txt", "a");
+	//ofstream outFile;
+	//outFile.open("fwrite_test.txt");//, "wb");
     
     // Receive until the peer shuts down the connection
 	do {
-
+		memset(recvbuf, 0, 512);
 		iResult = recv(ClientSocket, recvbuf, recvbuflen, 0);
 		if (iResult > 0) {
 	//		printf("Bytes received: %s\n", recvbuf);
@@ -166,9 +170,15 @@ int recvThis()
 			fwrite (recvbuf , sizeof(char), sizeof(recvbuf), pFile);
 			memset(recvbuf, 0, 512);
 			}
-			else if(recvbuf[0] !='f')
-			{       printf("Recv complete. Connection closing...\n");			}
-			else{}
+			else if(recvbuf[0] =='f')
+			{       
+				printf("Recv complete. Connection closing...\n");			
+			}
+			else{
+			fwrite (recvbuf , sizeof(char), 512, pFile);
+			//outFile.write(recvbuf, sizeof(recvbuf));// << recvbuf << endl;
+	
+			}
         }
         else if (iResult == 0)
             printf("Connection closing...\n");
@@ -178,10 +188,16 @@ int recvThis()
             WSACleanup();
             return 1;
         }
-
-
+			for (int i = 0; i < 512; i++)
+		{
+			if(recvbuf[i] == 'f')
+			{
+				iResult = 0;
+				i = 512;
+				//break;
+			}
+		}
 
     } while (iResult > 0 && recvbuf[0] !='f');
-
+fclose(pFile);
 }
-*/
