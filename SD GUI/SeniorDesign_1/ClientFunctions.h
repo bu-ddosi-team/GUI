@@ -1,4 +1,3 @@
-
 #include "stdafx.h"
 //#ifndef CLIENT
 //#define CLIENT
@@ -158,7 +157,7 @@ int recvThis()
 	pFile = fopen("fwrite_test.txt", "a");
 	//ofstream outFile;
 	//outFile.open("fwrite_test.txt");//, "wb");
-    
+
     // Receive until the peer shuts down the connection
 	do {
 		memset(recvbuf, 0, 512);
@@ -177,7 +176,7 @@ int recvThis()
 			else{
 			fwrite (recvbuf , sizeof(char), 512, pFile);
 			//outFile.write(recvbuf, sizeof(recvbuf));// << recvbuf << endl;
-	
+
 			}
         }
         else if (iResult == 0)
@@ -201,3 +200,55 @@ int recvThis()
     } while (iResult > 0 && recvbuf[0] !='f');
 fclose(pFile);
 }
+
+/*
+int receive_int()
+{
+ int *my_net_id;
+ int client_id;
+ //recv(client_sock, &my_net_id, 4, 0);
+// client_id = ntohl(my_net_id);
+ 
+char buffer[100];
+//recv(client_sock, buffer, 100, 0);
+//memcpy(&my_id, &buffer, sizeof(my_id));
+
+    char *recvbuf = new char[DEFAULT_BUFLEN];
+    int recvbuflen = DEFAULT_BUFLEN; 
+	//Open File for data storage
+	FILE *pFile;
+	int index;
+	pFile = fopen("fwrite_test.txt", "a");
+	//ofstream outFile;
+	//outFile.open("fwrite_test.txt");//, "wb");
+    // Receive until the peer shuts down the connection
+	do {
+		//memset(recvbuf, 0, 512);
+		iResult = recv(ClientSocket, (char*)my_net_id, 4, 0);
+		if (iResult > 0) {
+// 			client_id = ntohl(my_net_id);
+			fwrite (my_net_id, sizeof(int), 1, pFile);
+
+			}
+        else if (iResult == 0)
+            printf("Connection closing...\n");
+        else  {
+            printf("recv failed with error: %d\n", WSAGetLastError());
+            closesocket(ClientSocket);
+            WSACleanup();
+            return 1;
+        }
+		for (int i = 0; i < 512; i++)
+		{
+			if(recvbuf[i] == 'f')
+			{
+				iResult = 0;
+				i = 512;
+				//break;
+			}
+		}
+
+    }while (iResult > 0 && recvbuf[0] !='f'); 
+fclose(pFile);
+}
+*/

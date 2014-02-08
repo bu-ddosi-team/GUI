@@ -360,6 +360,7 @@ namespace SeniorDesign_1 {
 			this->okButton->TabIndex = 23;
 			this->okButton->Text = L"OK";
 			this->okButton->UseVisualStyleBackColor = true;
+			this->okButton->Click += gcnew System::EventHandler(this, &Form1::okButton_Click);
 			// 
 			// samplesPerStepUpDown
 			// 
@@ -370,7 +371,6 @@ namespace SeniorDesign_1 {
 			this->samplesPerStepUpDown->Name = L"samplesPerStepUpDown";
 			this->samplesPerStepUpDown->Size = System::Drawing::Size(82, 20);
 			this->samplesPerStepUpDown->TabIndex = 22;
-			this->samplesPerStepUpDown->ValueChanged += gcnew System::EventHandler(this, &Form1::samplesPerStepChanged);
 			// 
 			// stepsPerSweepUpDown
 			// 
@@ -381,7 +381,6 @@ namespace SeniorDesign_1 {
 			this->stepsPerSweepUpDown->Name = L"stepsPerSweepUpDown";
 			this->stepsPerSweepUpDown->Size = System::Drawing::Size(82, 20);
 			this->stepsPerSweepUpDown->TabIndex = 21;
-			this->stepsPerSweepUpDown->ValueChanged += gcnew System::EventHandler(this, &Form1::stepsPerSweepChanged);
 			// 
 			// sweepDelayUpDown
 			// 
@@ -392,7 +391,6 @@ namespace SeniorDesign_1 {
 			this->sweepDelayUpDown->Name = L"sweepDelayUpDown";
 			this->sweepDelayUpDown->Size = System::Drawing::Size(82, 20);
 			this->sweepDelayUpDown->TabIndex = 20;
-			this->sweepDelayUpDown->ValueChanged += gcnew System::EventHandler(this, &Form1::sweepDelayChanged);
 			// 
 			// numberOfSweepsUpDown
 			// 
@@ -403,7 +401,6 @@ namespace SeniorDesign_1 {
 			this->numberOfSweepsUpDown->Name = L"numberOfSweepsUpDown";
 			this->numberOfSweepsUpDown->Size = System::Drawing::Size(82, 20);
 			this->numberOfSweepsUpDown->TabIndex = 19;
-			this->numberOfSweepsUpDown->ValueChanged += gcnew System::EventHandler(this, &Form1::numSweepsChanged);
 			// 
 			// minFrequencyUpDown
 			// 
@@ -414,7 +411,6 @@ namespace SeniorDesign_1 {
 			this->minFrequencyUpDown->Name = L"minFrequencyUpDown";
 			this->minFrequencyUpDown->Size = System::Drawing::Size(82, 20);
 			this->minFrequencyUpDown->TabIndex = 18;
-			this->minFrequencyUpDown->ValueChanged += gcnew System::EventHandler(this, &Form1::minFChange);
 			// 
 			// maxFrequencyUpDown
 			// 
@@ -422,10 +418,10 @@ namespace SeniorDesign_1 {
 				| System::Windows::Forms::AnchorStyles::Left) 
 				| System::Windows::Forms::AnchorStyles::Right));
 			this->maxFrequencyUpDown->Location = System::Drawing::Point(101, 38);
+			this->maxFrequencyUpDown->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) {255, 0, 0, 0});
 			this->maxFrequencyUpDown->Name = L"maxFrequencyUpDown";
 			this->maxFrequencyUpDown->Size = System::Drawing::Size(82, 20);
 			this->maxFrequencyUpDown->TabIndex = 15;
-			this->maxFrequencyUpDown->ValueChanged += gcnew System::EventHandler(this, &Form1::maxFchange);
 			// 
 			// saveButton
 			// 
@@ -515,9 +511,9 @@ namespace SeniorDesign_1 {
 			this->label2->AutoSize = true;
 			this->label2->Location = System::Drawing::Point(8, 39);
 			this->label2->Name = L"label2";
-			this->label2->Size = System::Drawing::Size(86, 13);
+			this->label2->Size = System::Drawing::Size(55, 13);
 			this->label2->TabIndex = 1;
-			this->label2->Text = L"Max. Frequency:";
+			this->label2->Text = L"Set LEDs:";
 			// 
 			// label1
 			// 
@@ -671,19 +667,23 @@ private: void CreateGraph( ZedGraphControl ^zgc )
 			  outFile.open(outFileComplete);
 			//do
 			  int count = 0;
-			  while(inFile>>data)
+			  int count2 = 0;
+//			  while(inFile>>data)
+			  while(inFile.read((char *)&data, sizeof(int)))
 			  {
 				  count++;
-				 double time = (Environment::TickCount - tickStart) / 1000.0;
+				 //double time = (Environment::TickCount - tickStart) / 1000.0;
 				 //inFile >> data;
 				 if (count%2 == 0)
 				 {
-					 ChannelB->Add(time,data);
+					 ChannelB->Add((count2/250000000.0),data);
+					 count2++;
 				 }
 				 else
 				 {
-					ChannelA->Add(time,data);
+					ChannelA->Add((count2/250000000.0),data);
 				 }
+				 
 				 outFile << data << endl;
 
 				 //LineItem ^myCurve = myPane->AddCurve(dataList, Color::Red, SymbolType::Diamond);
@@ -698,8 +698,8 @@ private: void CreateGraph( ZedGraphControl ^zgc )
 		 //button1 name change to startButton
 private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e) {
 			 string str1;
- 			 string msgtype="w";
-			 string addrloc="1";
+ 			 string msgtype="s";
+			 string addrloc="0"; 
 			 string dat="ith30tha309ut0";
 			 str1.assign(msgtype);
 			 str1.append(addrloc);
@@ -707,11 +707,12 @@ private: System::Void button1_Click(System::Object^  sender, System::EventArgs^ 
 			 //char *a=new char[str1.size()+1];
 			 //a[str1.size()]=0;
 			 //memcpy(a,str1.c_str(),str1.size());
-			 fifoQ.push(str1);
-			 string caddr= "192.168.0.2";
+			// fifoQ.push(str1);
+			 string caddr= "192.168.1.10";
 			 mkConnection(caddr);
 			 sendThis(str1);
 			 recvThis();
+			//receive_int();
 			 rmConnection();
 			 CreateGraph(zedGraphControl1);
 			// ClientRun(str1);//correct utilization of client send should use the fifo.
@@ -743,6 +744,8 @@ private: System::Void button6_Click_1(System::Object^  sender, System::EventArgs
 			 textBox1->Text= folderBrowserDialog1->SelectedPath;
 
 		 }
+
+/*
 private: System::Void maxFchange(System::Object^  sender, System::EventArgs^  e) {
 			 string addrloc="2";
 			 //int maxFrequency;
@@ -770,6 +773,28 @@ private: System::Void stepsPerSweepChanged(System::Object^  sender, System::Even
 private: System::Void samplesPerStepChanged(System::Object^  sender, System::EventArgs^  e) {
 			 string addrloc = "7";
 			std::string dat = marshal_as<std::string>(samplesPerStepUpDown->Text);
+		 }
+		 */
+private: System::Void okButton_Click(System::Object^  sender, System::EventArgs^  e) {
+			 string str1;
+			 string msgtype="w";
+			 string addrloc="1"; 
+			 std::string dat = marshal_as<std::string>(maxFrequencyUpDown->Text);
+			 printf("%s\n",dat.c_str());
+			 int dataInt = atoi(dat.c_str());
+			 char *temp;
+			 temp=(char*)dataInt;
+			// temp[4]='\0';
+			 char *temp2;
+//			 strcpy(temp2,temp);
+			 str1.assign(msgtype);
+			 str1.append(addrloc);
+			 str1.append((char*)&dataInt);
+			 printf("temp: %s\n",(char*)&dataInt);
+			 string caddr= "192.168.1.10";
+			 mkConnection(caddr);
+			 sendThis(str1);
+			 rmConnection();
 		 }
 };
 
