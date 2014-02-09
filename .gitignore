@@ -43,8 +43,7 @@ local.properties
 
 # Build results
 
-[Dd]ebug/
-[Rr]elease/
+
 x64/
 build/
 [Bb]in/
@@ -77,7 +76,8 @@ build/
 *.pidb
 *.log
 *.scc
-
+*.tlog
+*.lastbuildstate
 # Visual C++ cache files
 ipch/
 *.aps
@@ -213,3 +213,6 @@ pip-log.txt
 
 #Mr Developer
 .mr.developer.cfg
+SD GUI/SeniorDesign_1/Debug/app.res
+SD GUI/SeniorDesign_1/Debug/SeniorDesign_1.exe.intermediate.manifest
+SD GUI/SeniorDesign_1/Debug/SeniorDesign_1.Form1.resources
