@@ -1,5 +1,6 @@
   SeniorDesign_1.Form1.resources - Embedded, ContainedInManifestFile, 
   SeniorDesign_1.ProfileNameWindow.resources - Embedded, ContainedInManifestFile, 
+  SeniorDesign_1.Warning_DateandPatientName.resources - Embedded, ContainedInManifestFile, 
 ImageRuntimeVersion: v4.0.30319
 Assembly SeniorDesign_1, Version=1.0.*, Culture=Invariant Language (Invariant Country): 
 	hash=SHA1, flags=PublicKey
@@ -34,9 +35,14 @@ Class SeniorDesign_1.ProfileNameWindow: AutoLayout, AnsiClass, Class, Public, Be
     Int32 flagSave : Public
   Methods:
     getProfileName(): PrivateScope, Public, HideBySig
+    SaveProfile(): PrivateScope, Public, HideBySig
+Class SeniorDesign_1.Warning_DateandPatientName: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+  :System.Windows.Forms.Form
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
 Class SeniorDesign_1.Form1: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
   :System.Windows.Forms.Form
     Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
   Fields:
     SeniorDesign_1.ProfileNameWindow pnw : Public
+    ZedGraph.GraphPane myPane : Public
     Int32 numElements : Public

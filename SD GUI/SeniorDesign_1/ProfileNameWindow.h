@@ -108,5 +108,9 @@ namespace SeniorDesign_1 {
 				this->textBox1->Clear();
 				return ProfileName;
 			}
+	public: System::Void SaveProfile(){
+
+	}
+
 	};
 }

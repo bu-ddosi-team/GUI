@@ -7,13 +7,22 @@
 #include <iostream>
 #include "msclr\marshal_cppstd.h"
 #include <string>
-//#include "Client_Functions.h"
 #include <queue>
 #include "tinyxml2.h"
 #include "ProfileNameWindow.h"
+#include "Warning_DateandPatientName.h"
+#include "OouraFft.h"
+#include "Fft.h"
+#include "FlattopWindow.h"
+#include "AquilaFft.h"
+#include "Dct.h"
+#include "Dft.h"
+#include "FftFactory.h"
+#include <stdint.h>
 
-//CircularBuffer fifoD;
-//queue<string> fifoQ;
+
+
+
 
 namespace SeniorDesign_1 {
 
@@ -28,6 +37,7 @@ namespace SeniorDesign_1 {
 	using namespace std;
 	using namespace tinyxml2;
 	using namespace ClientDll;
+	using namespace Aquila;
 
 	/// <summary>
 	/// Summary for Form1
@@ -37,16 +47,34 @@ namespace SeniorDesign_1 {
 	public:
 		//make PopUp window public variable
 		ProfileNameWindow^ pnw;
-	//private: System::Windows::Forms::TextBox^  textBox4;
+		//Make public variable so graph can be cleared later
+		GraphPane ^myPane;// = zedGraphControl1->GraphPane;
+		//Make controls public variables
+		/*
+		const char* ProfileName;
+		const char* maxFrequency;
+		const char* minFrequency;
+		const char* numOfSweeps;
+		const char* delayBetweenSweeps;
+		const char* stepsPerSweep;
+		const char* samplesPerStep;
+		const char* gain;
+		const char* laserDiodePattern;
+		*/
+	private: System::Windows::Forms::SplitContainer^  splitContainer4;
 	public: 
-	//private: System::Windows::Forms::Label^  label23;
-	//private: System::Windows::Forms::TextBox^  textBox2;
-	//private: System::Windows::Forms::Label^  label9;
-			 int numElements; //number of elements in the file
+	private: System::Windows::Forms::Button^  button11;
+	private: ZedGraph::ZedGraphControl^  zedGraphControl2;
+	private: ZedGraph::ZedGraphControl^  zedGraphControl3;
+	private: System::Windows::Forms::Button^  button12;
+			 //GraphPane ^myPane; = zgc->GraphPane;
+	public: 
+		int numElements; //number of elements in the file
 		Form1(void)
 		{
 			InitializeComponent();
 			pnw = gcnew ProfileNameWindow();
+			myPane = zedGraphControl1->GraphPane;
 			//Count the number of elements in the file when it opens
 			tinyxml2::XMLDocument xmlDoc;
 			xmlDoc.LoadFile("C:\\Users\\CME\\Desktop\\ProfileName.xml");
@@ -245,14 +273,23 @@ private: System::Windows::Forms::Label^  label9;
 			this->saveFileDialog1 = (gcnew System::Windows::Forms::SaveFileDialog());
 			this->folderBrowserDialog1 = (gcnew System::Windows::Forms::FolderBrowserDialog());
 			this->tabPage3 = (gcnew System::Windows::Forms::TabPage());
+			this->splitContainer4 = (gcnew System::Windows::Forms::SplitContainer());
+			this->button11 = (gcnew System::Windows::Forms::Button());
+			this->zedGraphControl2 = (gcnew ZedGraph::ZedGraphControl());
+			this->zedGraphControl3 = (gcnew ZedGraph::ZedGraphControl());
 			this->tabPage1 = (gcnew System::Windows::Forms::TabPage());
 			this->splitContainer1 = (gcnew System::Windows::Forms::SplitContainer());
+			this->textBox4 = (gcnew System::Windows::Forms::TextBox());
+			this->label23 = (gcnew System::Windows::Forms::Label());
+			this->textBox2 = (gcnew System::Windows::Forms::TextBox());
+			this->label9 = (gcnew System::Windows::Forms::Label());
 			this->button6 = (gcnew System::Windows::Forms::Button());
 			this->textBox1 = (gcnew System::Windows::Forms::TextBox());
 			this->label8 = (gcnew System::Windows::Forms::Label());
 			this->stopButton = (gcnew System::Windows::Forms::Button());
 			this->startButton = (gcnew System::Windows::Forms::Button());
 			this->splitContainer2 = (gcnew System::Windows::Forms::SplitContainer());
+			this->button12 = (gcnew System::Windows::Forms::Button());
 			this->numericUpDown8 = (gcnew System::Windows::Forms::NumericUpDown());
 			this->comboBox2 = (gcnew System::Windows::Forms::ComboBox());
 			this->label22 = (gcnew System::Windows::Forms::Label());
@@ -307,10 +344,11 @@ private: System::Windows::Forms::Label^  label9;
 			this->button5 = (gcnew System::Windows::Forms::Button());
 			this->button3 = (gcnew System::Windows::Forms::Button());
 			this->button2 = (gcnew System::Windows::Forms::Button());
-			this->label9 = (gcnew System::Windows::Forms::Label());
-			this->textBox2 = (gcnew System::Windows::Forms::TextBox());
-			this->label23 = (gcnew System::Windows::Forms::Label());
-			this->textBox4 = (gcnew System::Windows::Forms::TextBox());
+			this->tabPage3->SuspendLayout();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->splitContainer4))->BeginInit();
+			this->splitContainer4->Panel1->SuspendLayout();
+			this->splitContainer4->Panel2->SuspendLayout();
+			this->splitContainer4->SuspendLayout();
 			this->tabPage1->SuspendLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->splitContainer1))->BeginInit();
 			this->splitContainer1->Panel1->SuspendLayout();
@@ -344,6 +382,7 @@ private: System::Windows::Forms::Label^  label9;
 			// 
 			// tabPage3
 			// 
+			this->tabPage3->Controls->Add(this->splitContainer4);
 			this->tabPage3->Location = System::Drawing::Point(4, 22);
 			this->tabPage3->Name = L"tabPage3";
 			this->tabPage3->Padding = System::Windows::Forms::Padding(3);
@@ -351,6 +390,65 @@ private: System::Windows::Forms::Label^  label9;
 			this->tabPage3->TabIndex = 2;
 			this->tabPage3->Text = L"Graphs/Post Processing";
 			this->tabPage3->UseVisualStyleBackColor = true;
+			// 
+			// splitContainer4
+			// 
+			this->splitContainer4->Dock = System::Windows::Forms::DockStyle::Fill;
+			this->splitContainer4->Location = System::Drawing::Point(3, 3);
+			this->splitContainer4->Name = L"splitContainer4";
+			this->splitContainer4->Orientation = System::Windows::Forms::Orientation::Horizontal;
+			// 
+			// splitContainer4.Panel1
+			// 
+			this->splitContainer4->Panel1->Controls->Add(this->button11);
+			this->splitContainer4->Panel1->Controls->Add(this->zedGraphControl2);
+			// 
+			// splitContainer4.Panel2
+			// 
+			this->splitContainer4->Panel2->Controls->Add(this->zedGraphControl3);
+			this->splitContainer4->Size = System::Drawing::Size(691, 380);
+			this->splitContainer4->SplitterDistance = 185;
+			this->splitContainer4->TabIndex = 0;
+			// 
+			// button11
+			// 
+			this->button11->Location = System::Drawing::Point(5, 43);
+			this->button11->Name = L"button11";
+			this->button11->Size = System::Drawing::Size(75, 23);
+			this->button11->TabIndex = 1;
+			this->button11->Text = L"Test";
+			this->button11->UseVisualStyleBackColor = true;
+			this->button11->Click += gcnew System::EventHandler(this, &Form1::button11_Click);
+			// 
+			// zedGraphControl2
+			// 
+			this->zedGraphControl2->Dock = System::Windows::Forms::DockStyle::Right;
+			this->zedGraphControl2->Location = System::Drawing::Point(97, 0);
+			this->zedGraphControl2->Name = L"zedGraphControl2";
+			this->zedGraphControl2->ScrollGrace = 0;
+			this->zedGraphControl2->ScrollMaxX = 0;
+			this->zedGraphControl2->ScrollMaxY = 0;
+			this->zedGraphControl2->ScrollMaxY2 = 0;
+			this->zedGraphControl2->ScrollMinX = 0;
+			this->zedGraphControl2->ScrollMinY = 0;
+			this->zedGraphControl2->ScrollMinY2 = 0;
+			this->zedGraphControl2->Size = System::Drawing::Size(594, 185);
+			this->zedGraphControl2->TabIndex = 0;
+			// 
+			// zedGraphControl3
+			// 
+			this->zedGraphControl3->Dock = System::Windows::Forms::DockStyle::Fill;
+			this->zedGraphControl3->Location = System::Drawing::Point(0, 0);
+			this->zedGraphControl3->Name = L"zedGraphControl3";
+			this->zedGraphControl3->ScrollGrace = 0;
+			this->zedGraphControl3->ScrollMaxX = 0;
+			this->zedGraphControl3->ScrollMaxY = 0;
+			this->zedGraphControl3->ScrollMaxY2 = 0;
+			this->zedGraphControl3->ScrollMinX = 0;
+			this->zedGraphControl3->ScrollMinY = 0;
+			this->zedGraphControl3->ScrollMinY2 = 0;
+			this->zedGraphControl3->Size = System::Drawing::Size(691, 191);
+			this->zedGraphControl3->TabIndex = 0;
 			// 
 			// tabPage1
 			// 
@@ -388,6 +486,38 @@ private: System::Windows::Forms::Label^  label9;
 			this->splitContainer1->Size = System::Drawing::Size(691, 380);
 			this->splitContainer1->SplitterDistance = 64;
 			this->splitContainer1->TabIndex = 1;
+			// 
+			// textBox4
+			// 
+			this->textBox4->Location = System::Drawing::Point(502, 10);
+			this->textBox4->Name = L"textBox4";
+			this->textBox4->Size = System::Drawing::Size(176, 20);
+			this->textBox4->TabIndex = 12;
+			// 
+			// label23
+			// 
+			this->label23->AutoSize = true;
+			this->label23->Location = System::Drawing::Point(463, 13);
+			this->label23->Name = L"label23";
+			this->label23->Size = System::Drawing::Size(33, 13);
+			this->label23->TabIndex = 11;
+			this->label23->Text = L"Date:";
+			// 
+			// textBox2
+			// 
+			this->textBox2->Location = System::Drawing::Point(259, 10);
+			this->textBox2->Name = L"textBox2";
+			this->textBox2->Size = System::Drawing::Size(198, 20);
+			this->textBox2->TabIndex = 10;
+			// 
+			// label9
+			// 
+			this->label9->AutoSize = true;
+			this->label9->Location = System::Drawing::Point(179, 13);
+			this->label9->Name = L"label9";
+			this->label9->Size = System::Drawing::Size(74, 13);
+			this->label9->TabIndex = 9;
+			this->label9->Text = L"Patient Name:";
 			// 
 			// button6
 			// 
@@ -447,6 +577,7 @@ private: System::Windows::Forms::Label^  label9;
 			// splitContainer2.Panel1
 			// 
 			this->splitContainer2->Panel1->BackColor = System::Drawing::Color::White;
+			this->splitContainer2->Panel1->Controls->Add(this->button12);
 			this->splitContainer2->Panel1->Controls->Add(this->numericUpDown8);
 			this->splitContainer2->Panel1->Controls->Add(this->comboBox2);
 			this->splitContainer2->Panel1->Controls->Add(this->label22);
@@ -479,12 +610,21 @@ private: System::Windows::Forms::Label^  label9;
 			this->splitContainer2->SplitterDistance = 256;
 			this->splitContainer2->TabIndex = 0;
 			// 
+			// button12
+			// 
+			this->button12->BackColor = System::Drawing::Color::Red;
+			this->button12->Location = System::Drawing::Point(221, 268);
+			this->button12->Name = L"button12";
+			this->button12->Size = System::Drawing::Size(26, 23);
+			this->button12->TabIndex = 28;
+			this->button12->UseVisualStyleBackColor = false;
+			// 
 			// numericUpDown8
 			// 
 			this->numericUpDown8->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom) 
 				| System::Windows::Forms::AnchorStyles::Left) 
 				| System::Windows::Forms::AnchorStyles::Right));
-			this->numericUpDown8->Location = System::Drawing::Point(49, 199);
+			this->numericUpDown8->Location = System::Drawing::Point(58, 199);
 			this->numericUpDown8->Name = L"numericUpDown8";
 			this->numericUpDown8->Size = System::Drawing::Size(116, 20);
 			this->numericUpDown8->TabIndex = 27;
@@ -527,7 +667,7 @@ private: System::Windows::Forms::Label^  label9;
 			// 
 			// okButton
 			// 
-			this->okButton->Location = System::Drawing::Point(127, 268);
+			this->okButton->Location = System::Drawing::Point(119, 268);
 			this->okButton->Name = L"okButton";
 			this->okButton->Size = System::Drawing::Size(90, 23);
 			this->okButton->TabIndex = 23;
@@ -1094,38 +1234,6 @@ private: System::Windows::Forms::Label^  label9;
 			this->button2->Text = L"1";
 			this->button2->UseVisualStyleBackColor = true;
 			// 
-			// label9
-			// 
-			this->label9->AutoSize = true;
-			this->label9->Location = System::Drawing::Point(179, 13);
-			this->label9->Name = L"label9";
-			this->label9->Size = System::Drawing::Size(74, 13);
-			this->label9->TabIndex = 9;
-			this->label9->Text = L"Patient Name:";
-			// 
-			// textBox2
-			// 
-			this->textBox2->Location = System::Drawing::Point(259, 10);
-			this->textBox2->Name = L"textBox2";
-			this->textBox2->Size = System::Drawing::Size(198, 20);
-			this->textBox2->TabIndex = 10;
-			// 
-			// label23
-			// 
-			this->label23->AutoSize = true;
-			this->label23->Location = System::Drawing::Point(463, 13);
-			this->label23->Name = L"label23";
-			this->label23->Size = System::Drawing::Size(33, 13);
-			this->label23->TabIndex = 11;
-			this->label23->Text = L"Date:";
-			// 
-			// textBox4
-			// 
-			this->textBox4->Location = System::Drawing::Point(502, 10);
-			this->textBox4->Name = L"textBox4";
-			this->textBox4->Size = System::Drawing::Size(176, 20);
-			this->textBox4->TabIndex = 12;
-			// 
 			// Form1
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
@@ -1134,6 +1242,12 @@ private: System::Windows::Forms::Label^  label9;
 			this->Controls->Add(this->tabControl1);
 			this->Name = L"Form1";
 			this->Text = L"Form1";
+			this->Load += gcnew System::EventHandler(this, &Form1::Form1_Load);
+			this->tabPage3->ResumeLayout(false);
+			this->splitContainer4->Panel1->ResumeLayout(false);
+			this->splitContainer4->Panel2->ResumeLayout(false);
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->splitContainer4))->EndInit();
+			this->splitContainer4->ResumeLayout(false);
 			this->tabPage1->ResumeLayout(false);
 			this->splitContainer1->Panel1->ResumeLayout(false);
 			this->splitContainer1->Panel1->PerformLayout();
@@ -1186,8 +1300,8 @@ private: System::Void button4_Click(System::Object^  sender, System::EventArgs^ 
 			 }
 		 }
 
-private: void CreateGraph( ZedGraphControl ^zgc ){
-		GraphPane ^myPane = zgc->GraphPane;
+private: void CreateGraph( ZedGraphControl ^zgc, int recvBytes ){
+		//UNCOMMENT THIS IF PROBLEM//GraphPane ^myPane = zgc->GraphPane;
 
 		// Set the titles and axis labels
 		myPane->Title->Text = "Data vs Time";
@@ -1201,13 +1315,12 @@ private: void CreateGraph( ZedGraphControl ^zgc ){
 			 PointPairList ^ChannelB = gcnew PointPairList();
 			 ifstream inFile;
 			 ofstream outFile;
-			 inFile.open("fwrite_test.txt");
-			 //inFile* fopen("fwrite_test.txt", "r"); //Open file for reading operations
+			 inFile.open("fwrite_test.txt", ios::in | ios::binary);
 			 std::string outFilePath = marshal_as<std::string>(textBox1->Text);
 			 std::string PatientName = marshal_as<std::string>(textBox2->Text);
 			 std::string Date = marshal_as<std::string>(textBox4->Text);
 			 std::string outFileComplete = outFilePath + "\\" + PatientName + Date + ".csv";
-			  int data;
+			  int16_t data;
 			  LineItem ^myCurve1 = myPane->AddCurve("Channel A", ChannelA, Color::Blue, SymbolType::Diamond);
 			  LineItem ^myCurve2 = myPane->AddCurve("Channel B", ChannelB, Color::Red, SymbolType::Diamond);
 
@@ -1216,23 +1329,27 @@ private: void CreateGraph( ZedGraphControl ^zgc ){
 
 			  outFile.open(outFileComplete);
 			  
-			  while(inFile.read((char *)&data, sizeof(int)))
+			  while(inFile.read((char *)&data, sizeof(int16_t)) && count < recvBytes/2)
 			  {
 				  count++;
 				 if (count%2 == 0)
 				 {
-					 ChannelB->Add((count2/250000000.0),data);
+					  //UNCOMMENT
+					// ChannelB->Add((count2/250000000.0),data);
 					 outFile << data << endl;
 					 count2++;
 				 }
 				 else
 				 {
-					ChannelA->Add((count2/250000000.0),data);
+					 //UNCOMMENT
+					//ChannelA->Add((count2/250000000.0),data);
 					outFile << data << ",";
 				 }
 				 
-				 zgc->AxisChange();
-				 zgc->Refresh();
+				 //UNCOMMENT
+				// zgc->AxisChange();
+				 //zgc->Refresh();
+
 			  } //WHILE LOOP ENDS HERE
 			outFile.close();
 			inFile.close();
@@ -1240,37 +1357,32 @@ private: void CreateGraph( ZedGraphControl ^zgc ){
 		 }
 		 //button1 name change to startButton
 private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e) {
+			 myPane->CurveList->Clear();
  			 string msgtype="s";
 			 string caddr= "192.168.1.10";
 			 DsauClient::mkConnection(caddr);
 			 DsauClient::sendThis(msgtype);
-			 DsauClient::recvThis();
-			 CreateGraph(zedGraphControl1);
+			 int recvBytes = DsauClient::recvThis();
+			 CreateGraph(zedGraphControl1, recvBytes);
 			 DsauClient::rmConnection();
-
-			 /*
-			 string str1;
- 			 string msgtype="s";
-			 string addrloc="0"; 
-			 string dat="ith30tha309ut0";
-			 str1.assign(msgtype);
-			 str1.append(addrloc);
-			 str1.append(dat);
-			 string caddr= "192.168.1.10";
-			 mkConnection(caddr);
-			 sendThis(str1);
-			 recvThis();
-			//receive_int();
-			 rmConnection();
-			 CreateGraph(zedGraphControl1);
-			// ClientRun(str1);//correct utilization of client send should use the fifo.
-			*/
 
 		 }
 
 private: System::Void button6_Click_1(System::Object^  sender, System::EventArgs^  e) {
-			 folderBrowserDialog1->ShowDialog();
-			 textBox1->Text= folderBrowserDialog1->SelectedPath;
+			 //Check to make sure Date and Patient name contain appropriate characters
+			 std::string PatientName_Check = marshal_as<std::string>(textBox2->Text);
+			 std::string Date_Check = marshal_as<std::string>(textBox4->Text);
+			 //If there are no backslashes or forward slashes proceed
+			 if (Date_Check.find("\\") == std::string::npos && Date_Check.find("/") == std::string::npos && PatientName_Check.find("\\") == string::npos && PatientName_Check.find("/") == string::npos)
+			 {
+				folderBrowserDialog1->ShowDialog();
+				textBox1->Text= folderBrowserDialog1->SelectedPath;
+			 }
+			 else //otherwise generate error window
+			 {
+				 Warning_DateandPatientName^ ErrorW = gcnew Warning_DateandPatientName();
+				 ErrorW->Show();
+			 }
 
 		 }
 
@@ -1278,6 +1390,7 @@ private: System::Void okButton_Click(System::Object^  sender, System::EventArgs^
 			 marshal_context ^ context = gcnew marshal_context();
 			 if (pnw->flagSave == 1)
 			 {
+			  this->button12->BackColor = System::Drawing::Color::Green;
 			  FILE *outFile;
 			  outFile = fopen("C:\\Users\\CME\\Desktop\\ProfileName.xml", "a");
 			  XMLPrinter printer(outFile);
@@ -1289,7 +1402,7 @@ private: System::Void okButton_Click(System::Object^  sender, System::EventArgs^
 			 //get Profile Name
 			 const char* ProfileName = context->marshal_as<const char*>(ProfName);
 			 //get Max. Frequency
-			 const char* maxFrequency = context->marshal_as<const char*>(maxFrequencyUpDown->Text);
+			 const char*  maxFrequency = context->marshal_as<const char*>(maxFrequencyUpDown->Text);
 			 //get Min. Frequency
 			 const char* minFrequency = context->marshal_as<const char*>(minFrequencyUpDown->Text);
 			 //get # of sweeps
@@ -1316,7 +1429,6 @@ private: System::Void okButton_Click(System::Object^  sender, System::EventArgs^
 			 printer.PushAttribute("LaserDiodePattern", laserDiodePattern);
 			 printer.CloseElement(false);
 
-			// const char* value = ProfileName->ToElement()->Attribute( "maxFrequency" );
 			// delete context;
 
 			 //close file
@@ -1328,40 +1440,42 @@ private: System::Void okButton_Click(System::Object^  sender, System::EventArgs^
 			//Make connection to server
 			 DsauClient::mkConnection("192.168.1.10");
 			//send data
-			 string maxF = "wa"; //string a ="a";
+			 string maxF = "wf"; 
 			 //get Max. Frequency
 			 const char* maxFrequency = context->marshal_as<const char*>(maxFrequencyUpDown->Text);
-			 DsauClient::sendThis(maxF.append(maxFrequency));
+			 DsauClient::sendThis(maxF.append(maxFrequency).append("fffff"));
 			 //get Min. Frequency
 			 const char* minFrequency = context->marshal_as<const char*>(minFrequencyUpDown->Text);
-			 string minF = "wb";
-			 DsauClient::sendThis(minF.append(minFrequency));
+			 string minF = "we";
+			 DsauClient::sendThis(minF.append(minFrequency).append("fffff"));
 			 //get # of sweeps
 			 const char* numOfSweeps = context->marshal_as<const char*>(numberOfSweepsUpDown->Text);
 			 //string NOS(numOfSweeps);
-			 string NOS = "wc";		
-			 DsauClient::sendThis(NOS.append(numOfSweeps));
+			 string NOS = "wa";		
+			 DsauClient::sendThis(NOS.append(numOfSweeps).append("fffff"));
 			 //get delay between sweeps
 			 const char* delayBetweenSweeps = context->marshal_as<const char*>(sweepDelayUpDown->Text);
 			 string DBS = "wd";
-			 DsauClient::sendThis(DBS.append(delayBetweenSweeps));
+			 DsauClient::sendThis(DBS.append(delayBetweenSweeps).append("fffff"));
 			 //get Steps/Sweep
 			 const char* stepsPerSweep = context->marshal_as<const char*>(stepsPerSweepUpDown->Text);
 			 //string StepsPS(stepsPerSweep);
-			 string StepsPS = "we";
-			 DsauClient::sendThis(StepsPS.append(stepsPerSweep));
+			 string StepsPS = "wb";
+			 DsauClient::sendThis(StepsPS.append(stepsPerSweep).append("fffff"));
 			 //get Samples/Step
 			 const char* samplesPerStep = context->marshal_as<const char*>(samplesPerStepUpDown->Text);
 			// string SamPS(samplesPerStep);
-			 string SamPS = "wf";		
-			 DsauClient::sendThis(SamPS.append(samplesPerStep));
+			 string SamPS = "wc";		
+			 DsauClient::sendThis(SamPS.append(samplesPerStep).append("fffff"));
 			 //get gain
-			 /*
+			 string gainS = "wg";	
 			 const char* gain = context->marshal_as<const char*>(numericUpDown7->Text);
-			 DsauClient::sendThis(gain);
+			 DsauClient::sendThis(gainS.append(gain).append("fffff"));
+			 /*
 			 //get Laser Diode Pattern
+			 string LDP = "wh";
 			 const char* laserDiodePattern= context->marshal_as<const char*>(comboBox2->Text);
-			 DsauClient::sendThis(laserDiodePattern);
+			 DsauClient::sendThis(LDP);
 			 */
 			 DsauClient::rmConnection();
 
@@ -1378,7 +1492,6 @@ private: System::Void profileNameCB_SelectedIndexChanged(System::Object^  sender
 			const char* choice = context->marshal_as<const char*>(profileNameCB->Text); 
 			tinyxml2::XMLDocument xmlDoc;
 			xmlDoc.LoadFile("C:\\Users\\CME\\Desktop\\ProfileName.xml");
-
 			tinyxml2::XMLNode *currentNode = xmlDoc.FirstChild();
 			tinyxml2::XMLElement *rootElement= currentNode ->ToElement();
 			string rootName = rootElement ->Name();
@@ -1425,6 +1538,60 @@ private: System::Void profileNameCB_SelectedIndexChanged(System::Object^  sender
 			//delete context
 			delete context;
 		 }
+private: System::Void button11_Click(System::Object^  sender, System::EventArgs^  e) {
+/*
+	double PI = 3.14159;
+	GraphPane ^myPane1 = zedGraphControl2->GraphPane;
+
+	// Set the titles and axis labels
+	myPane1->Title->Text = "Sine";
+	myPane1->XAxis->Title->Text = "X";
+	myPane1->YAxis->Title->Text = "Y";
+	PointPairList ^SineWave = gcnew PointPairList();
+	LineItem ^myCurve3 = myPane1->AddCurve("Sine Wave", SineWave, Color::Blue, SymbolType::Diamond);
+	
+	double result;
+	double resultArr[2001];
+	for (int t = 0; t <= 2000; t++)
+	{
+		result = sin(2.0*PI*1000*t);
+		//cout << result << endl;
+		resultArr[t] = result;
+		SineWave->Add(t, resultArr[t]);
+	}
+
+	zedGraphControl2->AxisChange();
+	zedGraphControl2->Refresh();
+	//system ("pause");
+	//auto fft = FftFactory::getFft(64);
+    SpectrumType spectrum = FftFactory::getFft(64)->fft(resultArr);
+	
+	myPane1->Title->Text = "Magnitude";
+	myPane1->XAxis->Title->Text = "X";
+	myPane1->YAxis->Title->Text = "Magnitude";
+	PointPairList ^FFT = gcnew PointPairList();
+
+	GraphPane ^myPane2 = zedGraphControl3->GraphPane;
+	LineItem ^myCurve4 = myPane2->AddCurve("Magnitude", FFT, Color::Red, SymbolType::Diamond);
+
+	double mag[63];
+	for (int i = 0; i < 64; i++)
+	{
+		mag[i] = abs(spectrum[i]);
+		FFT->Add(i, mag[i]);
+	}
+
+	zedGraphControl3->AxisChange();
+	zedGraphControl3->Refresh();
+	
+
+//	cout << "stop" << endl;
+*/	
+}
+
+private: System::Void Form1_Load(System::Object^  sender, System::EventArgs^  e) {
+		 }
 };
 
 }
+

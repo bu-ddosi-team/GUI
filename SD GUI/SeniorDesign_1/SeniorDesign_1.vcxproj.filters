@@ -36,6 +36,9 @@
     <ClCompile Include="ProfileNameWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Warning_DateandPatientName.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Form1.h">
@@ -59,6 +62,36 @@
     <ClInclude Include="Client_Functions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Warning_DateandPatientName.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Fft.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FlattopWindow.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AquilaFft.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="global.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SignalSource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OouraFft.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Dct.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Dft.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FftFactory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="app.rc">
@@ -67,6 +100,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Form1.resX">
+      <Filter>Resource Files</Filter>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProfileNameWindow.resx">
+      <Filter>Resource Files</Filter>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Warning_DateandPatientName.resx">
       <Filter>Resource Files</Filter>
     </EmbeddedResource>
   </ItemGroup>

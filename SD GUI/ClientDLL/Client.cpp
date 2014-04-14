@@ -1,4 +1,4 @@
-#include "stdafx.h"
+	#include "stdafx.h"
 #include "Client.h"
 #include <stdexcept>
 
@@ -149,7 +149,81 @@ namespace ClientDll
 		} while (iResult > 0 && (recvbuf[0] !='e' && recvbuf[0] !='f') );
 
 	}
+int DsauClient::recvThis()
+{
+	int ret = 0; int num = 0;
+			char *recvbuf = new char[DEFAULT_BUFLEN];
+			int recvbuflen = DEFAULT_BUFLEN; 
+			//Open File for data storage
+			ofstream ofile("fwrite_test.txt", ios::out | ios::binary );
+//			FILE *pFile;
+			int index;
+//			pFile = fopen("ofwrite_test.txt", "wb");
+			//ofstream outFile;
+			//outFile.open("fwrite_test.txt");//, "wb");
+			int rcount = 0;
+			// Receive until the peer shuts down the connection
+			do {
+				rcount++;
+				 memset(recvbuf, 0, DEFAULT_BUFLEN);
+				iResult = recv(ClientSocket, recvbuf, recvbuflen, 0);
+				if (iResult > 0) {
+/*					for (int i=0; i<DEFAULT_BUFLEN; i++)
+					{
+						printf("%x,",recvbuf[i]);
+						if (i == 198)
+						{
+							int j = 1;
+						}
+					}
+*/						//OutputDebugString("kjhlk");
+						//System.Diagnostics("%x,",recvbuf[i]);
+printf("\n");
+//						fwrite (recvbuf , sizeof(uint16_t),DEFAULT_BUFLEN , pFile);
+						ofile.write(recvbuf, DEFAULT_BUFLEN);
+						//outFile.write(recvbuf, sizeof(recvbuf));// << recvbuf << endl;
+//					}
+				}
+				else if (iResult == 0)
+					printf("Connection closing...\n");
+				else  {
+					printf("recv failed with error: %d\n", WSAGetLastError());
+					closesocket(ClientSocket);
+					WSACleanup();
+					return 1;
+				}
+				for (int i=0; i<DEFAULT_BUFLEN; i++)
+				{
+					if((recvbuf[i] == 102)  )
+					{	
+						if(recvbuf[i+1] == 102)
+						{
+							if(recvbuf[i+2] == 102)
+							{
+								if(recvbuf[i+3] == 102)
+								{
+									if(recvbuf[i+4] == 102)
+									{		
+										if(ret == 0)
+										{
+											int temp = 512*rcount;
+											ret = temp - 512 + i;//this is wrong
+										}
+										iResult = 0;
+									}
+								}
+							}
+						}
 
+					}
+				}
+
+		} while (iResult > 0);
+		//		fclose(pFile);
+		ofile.close();
+		return ret;
+	}
+/*
 	int DsauClient::recvThis()
 	{
 		char *recvbuf = new char[DEFAULT_BUFLEN];
@@ -211,7 +285,7 @@ namespace ClientDll
 		} while (iResult > 0 && recvbuf[iResult-3] !='f');
 		fclose(pFile);
 	}
-
+	*/
 	int DsauClient::saveThis(char* fileSaveName)
 	{
 		char *recvbuf = new char[DEFAULT_BUFLEN];
