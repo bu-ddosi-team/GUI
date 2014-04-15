@@ -618,6 +618,7 @@ private: System::Windows::Forms::Label^  label9;
 			this->button12->Size = System::Drawing::Size(26, 23);
 			this->button12->TabIndex = 28;
 			this->button12->UseVisualStyleBackColor = false;
+			this->button12->Click += gcnew System::EventHandler(this, &Form1::button12_Click);
 			// 
 			// numericUpDown8
 			// 
@@ -1300,7 +1301,7 @@ private: System::Void button4_Click(System::Object^  sender, System::EventArgs^ 
 			 }
 		 }
 
-private: void CreateGraph( ZedGraphControl ^zgc, int recvBytes ){
+private: void CreateGraph( ZedGraphControl ^zgc ){
 		//UNCOMMENT THIS IF PROBLEM//GraphPane ^myPane = zgc->GraphPane;
 
 		// Set the titles and axis labels
@@ -1329,7 +1330,7 @@ private: void CreateGraph( ZedGraphControl ^zgc, int recvBytes ){
 
 			  outFile.open(outFileComplete);
 			  
-			  while(inFile.read((char *)&data, sizeof(int16_t)) && count < recvBytes/2)
+			  while(inFile.read((char *)&data, sizeof(int16_t)) )
 			  {
 				  count++;
 				 if (count%2 == 0)
@@ -1362,8 +1363,8 @@ private: System::Void button1_Click(System::Object^  sender, System::EventArgs^ 
 			 string caddr= "192.168.1.10";
 			 DsauClient::mkConnection(caddr);
 			 DsauClient::sendThis(msgtype);
-			 int recvBytes = DsauClient::recvThis();
-			 CreateGraph(zedGraphControl1, recvBytes);
+			 DsauClient::recvThis();
+			 CreateGraph(zedGraphControl1);
 			 DsauClient::rmConnection();
 
 		 }
@@ -1590,6 +1591,8 @@ private: System::Void button11_Click(System::Object^  sender, System::EventArgs^
 }
 
 private: System::Void Form1_Load(System::Object^  sender, System::EventArgs^  e) {
+		 }
+private: System::Void button12_Click(System::Object^  sender, System::EventArgs^  e) {
 		 }
 };
 

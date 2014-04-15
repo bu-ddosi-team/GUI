@@ -133,9 +133,13 @@ namespace ClientDll
 				{
 					//Msg is wrong, exit with error code
 					printf("Invalid intruction input");
+					return -1;
 				}
 				else if(recvbuf[0] =='f')
-				{       printf("Recv complete. Connection closing...\n");			}
+				{      
+					printf("Recv complete. Connection closing...\n");	
+					return iResult;
+				}
 				else{}
 
 			}
@@ -149,40 +153,26 @@ namespace ClientDll
 		} while (iResult > 0 && (recvbuf[0] !='e' && recvbuf[0] !='f') );
 
 	}
-int DsauClient::recvThis()
-{
-	int ret = 0; int num = 0;
-			char *recvbuf = new char[DEFAULT_BUFLEN];
-			int recvbuflen = DEFAULT_BUFLEN; 
-			//Open File for data storage
-			ofstream ofile("fwrite_test.txt", ios::out | ios::binary );
-//			FILE *pFile;
-			int index;
-//			pFile = fopen("ofwrite_test.txt", "wb");
-			//ofstream outFile;
-			//outFile.open("fwrite_test.txt");//, "wb");
-			int rcount = 0;
-			// Receive until the peer shuts down the connection
-			do {
-				rcount++;
-				 memset(recvbuf, 0, DEFAULT_BUFLEN);
-				iResult = recv(ClientSocket, recvbuf, recvbuflen, 0);
-				if (iResult > 0) {
-/*					for (int i=0; i<DEFAULT_BUFLEN; i++)
-					{
-						printf("%x,",recvbuf[i]);
-						if (i == 198)
-						{
-							int j = 1;
-						}
-					}
-*/						//OutputDebugString("kjhlk");
-						//System.Diagnostics("%x,",recvbuf[i]);
-printf("\n");
-//						fwrite (recvbuf , sizeof(uint16_t),DEFAULT_BUFLEN , pFile);
-						ofile.write(recvbuf, DEFAULT_BUFLEN);
-						//outFile.write(recvbuf, sizeof(recvbuf));// << recvbuf << endl;
-//					}
+	int DsauClient::recvThis()
+	{
+		int ret = 0; int num = 0;
+		char *recvbuf = new char[DEFAULT_BUFLEN];
+		int recvbuflen = DEFAULT_BUFLEN; 
+		//Open File for data storage
+		ofstream ofile("fwrite_test.txt", ios::out | ios::binary );
+		//			FILE *pFile;
+		int index;
+		//			pFile = fopen("ofwrite_test.txt", "wb");
+		//int rcount = 0;
+		//char pb1 = NULL;		char pb2 = NULL;		char pb3 = NULL;		char pb4 = NULL;
+		// Receive until the peer shuts down the connection
+		do {
+			// memset(recvbuf, 0, DEFAULT_BUFLEN);
+			iResult = recv(ClientSocket, recvbuf, recvbuflen, 0);
+			if (iResult > 0) {
+				//fwrite (recvbuf , sizeof(uint16_t),DEFAULT_BUFLEN , pFile);
+				ret += iResult;
+				ofile.write(recvbuf, iResult);
 				}
 				else if (iResult == 0)
 					printf("Connection closing...\n");
@@ -192,23 +182,33 @@ printf("\n");
 					WSACleanup();
 					return 1;
 				}
-				for (int i=0; i<DEFAULT_BUFLEN; i++)
+
+
+		} while (iResult > 0);
+		//		fclose(pFile);
+		ofile.close();
+		return ret;
+	}
+	/*
+				for (int i=0; i<recvbuflen; i++)
 				{
-					if((recvbuf[i] == 102)  )
+					if((recvbuf[i] == 'f')  )
 					{	
-						if(recvbuf[i+1] == 102)
-						{
-							if(recvbuf[i+2] == 102)
-							{
-								if(recvbuf[i+3] == 102)
-								{
-									if(recvbuf[i+4] == 102)
+						if((recvbuf[i+1] == 'f') || (pb4 == 'f') )
+						{ 
+							if((recvbuf[i+2] == 'f') || (pb3 == 'f') )
+							{ 
+								if((recvbuf[i+3] == 'f') || (pb2 == 'f') )
+								{ 
+									if((recvbuf[i+4] == 'f') || (pb1 == 'f') )
 									{		
 										if(ret == 0)
 										{
-											int temp = 512*rcount;
-											ret = temp - 512 + i;//this is wrong
+											int temp = 512 * rcount;
+											//ret = temp - 512 + i;
+											ret = num - 5;
 										}
+										i = DEFAULT_BUFLEN + 1;
 										iResult = 0;
 									}
 								}
@@ -216,76 +216,15 @@ printf("\n");
 						}
 
 					}
-				}
 
-		} while (iResult > 0);
-		//		fclose(pFile);
-		ofile.close();
-		return ret;
-	}
-/*
-	int DsauClient::recvThis()
-	{
-		char *recvbuf = new char[DEFAULT_BUFLEN];
-//		int irecvbuf = new int[DEFAULT_BUFLEN];
-		int recvbuflen = DEFAULT_BUFLEN; 
-		//Open File for data storage
-		FILE *pFile;
-		int index;
-		pFile = fopen("fwrite_test.txt", "w");
-		//ofstream outFile;
-		//outFile.open("fwrite_test.txt");//, "wb");
-		int ntest;
-		// Receive until the peer shuts down the connection
-		do {
-			memset(recvbuf, 0, DEFAULT_BUFLEN);
-			iResult = recv(ClientSocket, recvbuf, recvbuflen, 0);
-//			ntest= ntohl(recvbuf);
-			if (iResult > 0) {
-				//		printf("Bytes received: %s\n", recvbuf);
-				if(recvbuf[0] =='b')
-				{
-					fwrite (recvbuf , sizeof(char), sizeof(recvbuf), pFile);
-					memset(recvbuf, 0, 512);
-				}
-				else if(recvbuf[0] =='f')
-				{       
-					printf("Recv complete. Connection closing...\n");			
-				}
-				else{
-					
-					fwrite (recvbuf , sizeof(char), DEFAULT_BUFLEN, pFile);
-					//outFile.write(recvbuf, sizeof(recvbuf));// << recvbuf << endl;
 
-				}
-			}
-			else if (iResult == 0)
-				printf("Connection closing...\n");
-			else  {
-				printf("recv failed with error: %d\n", WSAGetLastError());
-				closesocket(ClientSocket);
-				WSACleanup();
-				return 1;
-			}
-////			for (int i = 0; i < 512; i++)
-	//		{
-				//if(recvbuf[i] == 'f')
-				//{
-				//	iResult = 0;
-				//	i = 512;
-				//	//break;
-				//}
-				if(recvbuf[iResult-3] == 'f')
-				{	
-					iResult = 0;
-				}
+				}//end of for loop
+				pb1 = recvbuf[recvbuflen-1];
+				pb2 = recvbuf[recvbuflen-2];
+				pb1 = recvbuf[recvbuflen-3];
+				pb2 = recvbuf[recvbuflen-4];
+				*/
 
-	///		}
-
-		} while (iResult > 0 && recvbuf[iResult-3] !='f');
-		fclose(pFile);
-	}
-	*/
 	int DsauClient::saveThis(char* fileSaveName)
 	{
 		char *recvbuf = new char[DEFAULT_BUFLEN];
