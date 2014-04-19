@@ -1,5 +1,13 @@
 #pragma once
 
+#include <stdlib.h>
+#include <fstream>
+#include <string>
+#include <iostream>
+#include "msclr\marshal_cppstd.h"
+#include <string>
+#include <queue>
+
 namespace SeniorDesign_1 {
 
 	using namespace System;
@@ -8,7 +16,10 @@ namespace SeniorDesign_1 {
 	using namespace System::Windows::Forms;
 	using namespace System::Data;
 	using namespace System::Drawing;
-
+	//using namespace string;
+	//using namespace std;
+	using namespace msclr::interop;
+	using namespace std;
 	/// <summary>
 	/// Summary for Warning_DateandPatientName
 	/// </summary>
@@ -93,5 +104,12 @@ namespace SeniorDesign_1 {
 	private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e) {
 				 this->Hide();
 			 }
+
+	public: System::Void setErrorMessage(string errorMessageIn)
+	{
+		marshal_context ^ context = gcnew marshal_context();
+		this->richTextBox1->Text =  marshal_as<System::String^>(errorMessageIn);
+	}
+
 	};
 }

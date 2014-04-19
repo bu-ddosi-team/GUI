@@ -98,6 +98,7 @@
     <ClCompile Include="AssemblyInfo.cpp" />
     <ClCompile Include="ProfileNameWindow.cpp" />
     <ClCompile Include="SeniorDesign_1.cpp" />
+    <ClCompile Include="SimultaneousPattern.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -105,24 +106,18 @@
     <ClCompile Include="Warning_DateandPatientName.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AquilaFft.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="Client_Functions.h" />
-    <ClInclude Include="Dct.h" />
-    <ClInclude Include="Dft.h" />
-    <ClInclude Include="Fft.h" />
-    <ClInclude Include="FftFactory.h" />
-    <ClInclude Include="FlattopWindow.h" />
     <ClInclude Include="Form1.h">
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="global.h" />
-    <ClInclude Include="OouraFft.h" />
     <ClInclude Include="ProfileNameWindow.h">
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="resource.h" />
     <ClInclude Include="SignalSource.h" />
+    <ClInclude Include="SimultaneousPattern.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="tinyxml2.h" />
     <ClInclude Include="Warning_DateandPatientName.h">
@@ -145,9 +140,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\Desktop\Aquila_mdll\Aquila_mdll.vcxproj">
-      <Project>{d000c7af-e402-435b-95dc-8a69e1a3d205}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\ClientDLL\ClientDLL.vcxproj">
       <Project>{fc24adb9-7183-4a72-a20c-b67010b71c90}</Project>
     </ProjectReference>

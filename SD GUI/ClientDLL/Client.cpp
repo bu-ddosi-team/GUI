@@ -81,7 +81,8 @@ namespace ClientDll
 			if (iResult == SOCKET_ERROR) {
 				closesocket(ClientSocket);
 				ClientSocket = INVALID_SOCKET;
-				continue;
+				//continue;
+				return 1;
 			}
 			break;
 		}
@@ -155,7 +156,7 @@ int DsauClient::recvThis()
 			char *recvbuf = new char[DEFAULT_BUFLEN];
 			int recvbuflen = DEFAULT_BUFLEN; 
 			//Open File for data storage
-			ofstream ofile("fwrite_test.txt", ios::out | ios::binary );
+			ofstream ofile("fwrite_test", ios::out | ios::binary );
 //			FILE *pFile;
 			int index;
 //			pFile = fopen("ofwrite_test.txt", "wb");
@@ -180,7 +181,7 @@ int DsauClient::recvThis()
 						//System.Diagnostics("%x,",recvbuf[i]);
 printf("\n");
 //						fwrite (recvbuf , sizeof(uint16_t),DEFAULT_BUFLEN , pFile);
-						ofile.write(recvbuf, DEFAULT_BUFLEN);
+						ofile.write(recvbuf, iResult);
 						//outFile.write(recvbuf, sizeof(recvbuf));// << recvbuf << endl;
 //					}
 				}

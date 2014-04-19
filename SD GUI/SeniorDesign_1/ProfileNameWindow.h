@@ -1,5 +1,27 @@
 #pragma once
 
+#include <stdlib.h>
+//#include "Client.h"
+#include <fstream>
+#include <string>
+#include <iostream>
+#include "msclr\marshal_cppstd.h"
+#include <string>
+#include <queue>
+#include "tinyxml2.h"
+#include "ProfileNameWindow.h"
+#include "Warning_DateandPatientName.h"
+#include "OouraFft.h"
+#include "Fft.h"
+#include "FlattopWindow.h"
+#include "AquilaFft.h"
+#include "Dct.h"
+#include "Dft.h"
+#include "FftFactory.h"
+#include <stdint.h>
+
+
+
 namespace SeniorDesign_1 {
 
 	using namespace System;
@@ -8,6 +30,12 @@ namespace SeniorDesign_1 {
 	using namespace System::Windows::Forms;
 	using namespace System::Data;
 	using namespace System::Drawing;
+	using namespace msclr::interop;
+	using namespace ZedGraph;
+	using namespace std;
+	using namespace tinyxml2;
+	//using namespace ClientDll;
+//	using namespace Form1;
 
 	/// <summary>
 	/// Summary for ProfileNameWindow
@@ -16,11 +44,33 @@ namespace SeniorDesign_1 {
 	{
 	public:
 		//declare a flag variable to indicate whether the settings should be saved to the file
-		int flagSave;
-		ProfileNameWindow(void)
+		//int flagSave;
+//		private
+		//Form1 parentForm;
+		const char* stepSize_pnw;
+		const char* minFrequency_pnw;
+		const char* numOfSweeps_pnw;
+		const char* delayBetweenSweeps_pnw;
+		const char* stepsPerSweep_pnw;
+		const char* samplesPerStep_pnw;
+		const char* gain_pnw;
+		const char* laserDiodePattern_pnw;
+		String^ ProfileName;
+		ComboBox^ ProfNameCB_pnw;
+
+		ProfileNameWindow(const char* stepSizeIn, const char* minFrequencyIn, const char* numOfSweepsIn, const char* delayBetweenSweepsIn, const char* stepsPerSweepIn, const char* samplesPerStepIn, const char* laserDiodePatternIn, ComboBox^ profileNameCBIn)
 		{
 			InitializeComponent();
-			flagSave = 0;
+			//flagSave = 0;
+			stepSize_pnw = stepSizeIn;
+			minFrequency_pnw = minFrequencyIn;
+			numOfSweeps_pnw = numOfSweepsIn;
+			delayBetweenSweeps_pnw = delayBetweenSweepsIn;
+			stepsPerSweep_pnw = stepsPerSweepIn;
+			samplesPerStep_pnw = samplesPerStepIn;
+			//gain_pnw = gainIn;
+			laserDiodePattern_pnw = laserDiodePatternIn;
+			ProfNameCB_pnw = profileNameCBIn;
 		}
 
 	protected:
@@ -100,15 +150,38 @@ namespace SeniorDesign_1 {
 #pragma endregion
 	private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e) {
 				 this->Hide();
-				 flagSave = 1;
+			     this->SaveProfile();
 			 }
+	//Not currently using this function
 	public: System::String^ getProfileName(){
-				String^ ProfileName =  this->textBox1->Text;
+				//String^ 
+				ProfileName =  this->textBox1->Text;
 				//clear text from textbox in PopUp window
 				this->textBox1->Clear();
 				return ProfileName;
 			}
 	public: System::Void SaveProfile(){
+		marshal_context ^ context = gcnew marshal_context();
+		FILE *outFile;
+		outFile = fopen("C:\\Users\\CME\\Desktop\\ProfileName.xml", "a");
+	    XMLPrinter printer(outFile);
+		ProfileName = this->textBox1->Text;
+		this->textBox1->Clear();
+		const char* ProfileName_pnw;
+		this->ProfNameCB_pnw->Items->Add(ProfileName);
+		ProfileName_pnw = context->marshal_as<const char*>(ProfileName);
+		printer.OpenElement(ProfileName_pnw, false);
+		printer.PushAttribute("stepSize", stepSize_pnw);
+	    printer.PushAttribute("MinFrequency", minFrequency_pnw);
+		printer.PushAttribute("NumOfSweeps", numOfSweeps_pnw);
+		printer.PushAttribute("DelayBetweenSweeps", delayBetweenSweeps_pnw);
+		printer.PushAttribute("StepsPerSweep", stepsPerSweep_pnw);
+		printer.PushAttribute("SamplesPerStep", samplesPerStep_pnw);
+		printer.PushAttribute("LaserDiodePattern", laserDiodePattern_pnw);
+	    printer.CloseElement(false);	  
+
+		//close file
+		fclose(outFile);
 
 	}
 

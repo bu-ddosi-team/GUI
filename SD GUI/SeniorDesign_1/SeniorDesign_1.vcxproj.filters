@@ -39,6 +39,9 @@
     <ClCompile Include="Warning_DateandPatientName.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="SimultaneousPattern.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Form1.h">
@@ -65,31 +68,13 @@
     <ClInclude Include="Warning_DateandPatientName.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Fft.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="FlattopWindow.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="AquilaFft.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="global.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SignalSource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="OouraFft.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Dct.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Dft.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="FftFactory.h">
+    <ClInclude Include="SimultaneousPattern.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

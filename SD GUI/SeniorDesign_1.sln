@@ -5,8 +5,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SeniorDesign_1", "SeniorDes
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ClientDLL", "ClientDLL\ClientDLL.vcxproj", "{FC24ADB9-7183-4A72-A20C-B67010B71C90}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Aquila_mdll", "..\..\..\..\Desktop\Aquila_mdll\Aquila_mdll.vcxproj", "{D000C7AF-E402-435B-95DC-8A69E1A3D205}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "kiss_fftr_static", "kiss_fftr_static\kiss_fftr_static\kiss_fftr_static.vcxproj", "{C1D59460-590D-4985-890E-8A65FD405C0F}"
 EndProject
 Global
@@ -23,10 +21,6 @@ Global
 		{FC24ADB9-7183-4A72-A20C-B67010B71C90}.Debug|Win32.Build.0 = Debug|Win32
 		{FC24ADB9-7183-4A72-A20C-B67010B71C90}.Release|Win32.ActiveCfg = Release|Win32
 		{FC24ADB9-7183-4A72-A20C-B67010B71C90}.Release|Win32.Build.0 = Release|Win32
-		{D000C7AF-E402-435B-95DC-8A69E1A3D205}.Debug|Win32.ActiveCfg = Debug|Win32
-		{D000C7AF-E402-435B-95DC-8A69E1A3D205}.Debug|Win32.Build.0 = Debug|Win32
-		{D000C7AF-E402-435B-95DC-8A69E1A3D205}.Release|Win32.ActiveCfg = Release|Win32
-		{D000C7AF-E402-435B-95DC-8A69E1A3D205}.Release|Win32.Build.0 = Release|Win32
 		{C1D59460-590D-4985-890E-8A65FD405C0F}.Debug|Win32.ActiveCfg = Debug|Win32
 		{C1D59460-590D-4985-890E-8A65FD405C0F}.Debug|Win32.Build.0 = Debug|Win32
 		{C1D59460-590D-4985-890E-8A65FD405C0F}.Release|Win32.ActiveCfg = Release|Win32

@@ -28,21 +28,67 @@ Assembly Microsoft.VisualC, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b0
 	hash=None, flags=None
 Assembly System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: 
 	hash=None, flags=None
-Class SeniorDesign_1.ProfileNameWindow: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
-  :System.Windows.Forms.Form
-    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
-  Fields:
-    Int32 flagSave : Public
-  Methods:
-    getProfileName(): PrivateScope, Public, HideBySig
-    SaveProfile(): PrivateScope, Public, HideBySig
 Class SeniorDesign_1.Warning_DateandPatientName: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
   :System.Windows.Forms.Form
     Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Methods:
+    setErrorMessage(basic_string<char\,std::char_traits<char>\,std::allocator<char> >*): PrivateScope, Public, HideBySig
+Class SeniorDesign_1.ProfileNameWindow: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+  :System.Windows.Forms.Form
+    Void .ctor(SByte*, SByte*, SByte*, SByte*, SByte*, SByte*, SByte*, System.Windows.Forms.ComboBox): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Fields:
+    SByte* stepSize_pnw : Public
+    SByte* minFrequency_pnw : Public
+    SByte* numOfSweeps_pnw : Public
+    SByte* delayBetweenSweeps_pnw : Public
+    SByte* stepsPerSweep_pnw : Public
+    SByte* samplesPerStep_pnw : Public
+    SByte* gain_pnw : Public
+    SByte* laserDiodePattern_pnw : Public
+    System.String ProfileName : Public
+    System.Windows.Forms.ComboBox ProfNameCB_pnw : Public
+  Methods:
+    getProfileName(): PrivateScope, Public, HideBySig
+    SaveProfile(): PrivateScope, Public, HideBySig
+Class SeniorDesign_1.SimultaneousPattern: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+  :System.Windows.Forms.Form
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Fields:
+    System.String DiodeVal1 : Public
+    System.String DiodeVal2 : Public
+    System.String DiodeVal3 : Public
+    System.String DiodeVal4 : Public
+    System.String DiodeVal5 : Public
+    System.String DiodeVal6 : Public
+  Methods:
+    getDiode1Val(): PrivateScope, Public, HideBySig
+    getDiode2Val(): PrivateScope, Public, HideBySig
+    getDiode3Val(): PrivateScope, Public, HideBySig
+    getDiode4Val(): PrivateScope, Public, HideBySig
+    getDiode5Val(): PrivateScope, Public, HideBySig
+    getDiode6Val(): PrivateScope, Public, HideBySig
 Class SeniorDesign_1.Form1: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
   :System.Windows.Forms.Form
     Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
   Fields:
     SeniorDesign_1.ProfileNameWindow pnw : Public
+    SeniorDesign_1.SimultaneousPattern SPwin : Public
+    SeniorDesign_1.Warning_DateandPatientName ConnectError : Public
+    Int32 SimFlag : Public
     ZedGraph.GraphPane myPane : Public
+    SByte* ProfileName : Public
+    SByte* stepSize : Public
+    SByte* minFrequency : Public
+    SByte* numOfSweeps : Public
+    SByte* delayBetweenSweeps : Public
+    SByte* stepsPerSweep : Public
+    SByte* samplesPerStep : Public
+    SByte* laserDiodePattern : Public
+    SByte* Sim_Diode1 : Public
+    SByte* Sim_Diode2 : Public
+    SByte* Sim_Diode3 : Public
+    SByte* Sim_Diode4 : Public
+    SByte* Sim_Diode5 : Public
+    SByte* Sim_Diode6 : Public
     Int32 numElements : Public
+    System.Windows.Forms.ComboBox profileNameCB : Public
