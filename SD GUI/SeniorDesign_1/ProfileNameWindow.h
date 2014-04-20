@@ -57,8 +57,9 @@ namespace SeniorDesign_1 {
 		const char* laserDiodePattern_pnw;
 		String^ ProfileName;
 		ComboBox^ ProfNameCB_pnw;
-
-		ProfileNameWindow(const char* stepSizeIn, const char* minFrequencyIn, const char* numOfSweepsIn, const char* delayBetweenSweepsIn, const char* stepsPerSweepIn, const char* samplesPerStepIn, const char* laserDiodePatternIn, ComboBox^ profileNameCBIn)
+		int numElements_pnw;
+	
+		ProfileNameWindow(const char* stepSizeIn, const char* minFrequencyIn, const char* numOfSweepsIn, const char* delayBetweenSweepsIn, const char* stepsPerSweepIn, const char* samplesPerStepIn, const char* laserDiodePatternIn, ComboBox^ profileNameCBIn, int numElementsIn)
 		{
 			InitializeComponent();
 			//flagSave = 0;
@@ -71,6 +72,7 @@ namespace SeniorDesign_1 {
 			//gain_pnw = gainIn;
 			laserDiodePattern_pnw = laserDiodePatternIn;
 			ProfNameCB_pnw = profileNameCBIn;
+			numElements_pnw = numElementsIn;
 		}
 
 	protected:
@@ -148,9 +150,52 @@ namespace SeniorDesign_1 {
 
 		}
 #pragma endregion
+	//When Save button is clicked
 	private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e) {
+				 //Get Profile Name
+				 int errorFlag = 0;
+				 String^ currentProfName = this->textBox1->Text;
+				 marshal_context ^ context = gcnew marshal_context();
+				 const char* currentProfNameStr = context->marshal_as<const char*>(currentProfName);
+				//Check to see if Profile Name already exists:
+				tinyxml2::XMLDocument xmlDoc;
+				xmlDoc.LoadFile("C:\\Users\\CME\\Desktop\\ProfileName.xml");
+				tinyxml2::XMLNode *currentNode = xmlDoc.FirstChild();
+				tinyxml2::XMLNode *currentNode_0 = xmlDoc.FirstChild();
+				tinyxml2::XMLElement *currentElement;
+				string elementName;
+				for (int i = 0; i<numElements_pnw; i++)
+				{
+					if (currentNode == NULL)
+					{
+						string strAttr4 = "hi"; //do nothing
+					}
+					else
+					{
+						//Convert to element
+						currentElement = currentNode ->ToElement();
+					    elementName = currentElement ->Name();
+						if (elementName == currentProfNameStr)
+						{
+						   	Warning_DateandPatientName^ ProfNameError = gcnew Warning_DateandPatientName();
+							ProfNameError->setErrorMessage("A profile with this name already exists");
+							ProfNameError->Show();
+							errorFlag = 1;
+							break;
+						}
+						else
+						{
+							currentNode = currentNode ->NextSibling();
+							errorFlag = 0;
+						}
+					}
+				
+				}
+				if (errorFlag == 0)
+				{
 				 this->Hide();
 			     this->SaveProfile();
+				}
 			 }
 	//Not currently using this function
 	public: System::String^ getProfileName(){

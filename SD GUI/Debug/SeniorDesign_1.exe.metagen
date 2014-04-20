@@ -35,7 +35,7 @@ Class SeniorDesign_1.Warning_DateandPatientName: AutoLayout, AnsiClass, Class, P
     setErrorMessage(basic_string<char\,std::char_traits<char>\,std::allocator<char> >*): PrivateScope, Public, HideBySig
 Class SeniorDesign_1.ProfileNameWindow: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
   :System.Windows.Forms.Form
-    Void .ctor(SByte*, SByte*, SByte*, SByte*, SByte*, SByte*, SByte*, System.Windows.Forms.ComboBox): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+    Void .ctor(SByte*, SByte*, SByte*, SByte*, SByte*, SByte*, SByte*, System.Windows.Forms.ComboBox, Int32): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
   Fields:
     SByte* stepSize_pnw : Public
     SByte* minFrequency_pnw : Public
@@ -47,6 +47,7 @@ Class SeniorDesign_1.ProfileNameWindow: AutoLayout, AnsiClass, Class, Public, Be
     SByte* laserDiodePattern_pnw : Public
     System.String ProfileName : Public
     System.Windows.Forms.ComboBox ProfNameCB_pnw : Public
+    Int32 numElements_pnw : Public
   Methods:
     getProfileName(): PrivateScope, Public, HideBySig
     SaveProfile(): PrivateScope, Public, HideBySig
@@ -90,5 +91,6 @@ Class SeniorDesign_1.Form1: AutoLayout, AnsiClass, Class, Public, BeforeFieldIni
     SByte* Sim_Diode4 : Public
     SByte* Sim_Diode5 : Public
     SByte* Sim_Diode6 : Public
+    Int32 checkFlag : Public
     Int32 numElements : Public
     System.Windows.Forms.ComboBox profileNameCB : Public

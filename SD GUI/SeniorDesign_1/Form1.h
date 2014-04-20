@@ -65,6 +65,7 @@ namespace SeniorDesign_1 {
 		const char* Sim_Diode4;
 		const char* Sim_Diode5;
 		const char* Sim_Diode6;
+		int checkFlag;
 
 	private: System::Windows::Forms::SplitContainer^  splitContainer4;
 	public: 
@@ -73,6 +74,7 @@ namespace SeniorDesign_1 {
 	private: ZedGraph::ZedGraphControl^  zedGraphControl3;
 	private: System::Windows::Forms::TextBox^  textBox5;
 	private: System::Windows::Forms::Label^  label21;
+	private: System::Windows::Forms::CheckBox^  checkBox2;
 
 	public: 
 		int numElements; //number of elements in the file
@@ -82,6 +84,9 @@ namespace SeniorDesign_1 {
 			myPane = zedGraphControl1->GraphPane;
 			//SPwin = gcnew SimultaneousPattern();
 			//Count the number of elements in the file when it opens
+			myPane->Title->Text = "Voltage vs Time";
+			myPane->XAxis->Title->Text = "Time (s)";
+			myPane->YAxis->Title->Text = "Voltage (V)";
 			tinyxml2::XMLDocument xmlDoc;
 			xmlDoc.LoadFile("C:\\Users\\CME\\Desktop\\ProfileName.xml");
 			tinyxml2::XMLNode *currentNode_0 = xmlDoc.FirstChild();
@@ -297,6 +302,9 @@ private: System::Windows::Forms::Label^  label9;
 			this->label8 = (gcnew System::Windows::Forms::Label());
 			this->startButton = (gcnew System::Windows::Forms::Button());
 			this->splitContainer2 = (gcnew System::Windows::Forms::SplitContainer());
+			this->checkBox2 = (gcnew System::Windows::Forms::CheckBox());
+			this->textBox5 = (gcnew System::Windows::Forms::TextBox());
+			this->label21 = (gcnew System::Windows::Forms::Label());
 			this->comboBox2 = (gcnew System::Windows::Forms::ComboBox());
 			this->label22 = (gcnew System::Windows::Forms::Label());
 			this->samplesPerStepUpDown = (gcnew System::Windows::Forms::NumericUpDown());
@@ -348,8 +356,6 @@ private: System::Windows::Forms::Label^  label9;
 			this->button5 = (gcnew System::Windows::Forms::Button());
 			this->button3 = (gcnew System::Windows::Forms::Button());
 			this->button2 = (gcnew System::Windows::Forms::Button());
-			this->label21 = (gcnew System::Windows::Forms::Label());
-			this->textBox5 = (gcnew System::Windows::Forms::TextBox());
 			this->tabPage3->SuspendLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->splitContainer4))->BeginInit();
 			this->splitContainer4->Panel1->SuspendLayout();
@@ -391,7 +397,7 @@ private: System::Windows::Forms::Label^  label9;
 			this->tabPage3->Location = System::Drawing::Point(4, 22);
 			this->tabPage3->Name = L"tabPage3";
 			this->tabPage3->Padding = System::Windows::Forms::Padding(3);
-			this->tabPage3->Size = System::Drawing::Size(800, 498);
+			this->tabPage3->Size = System::Drawing::Size(800, 526);
 			this->tabPage3->TabIndex = 2;
 			this->tabPage3->Text = L"Graphs/Post Processing";
 			this->tabPage3->UseVisualStyleBackColor = true;
@@ -411,8 +417,8 @@ private: System::Windows::Forms::Label^  label9;
 			// splitContainer4.Panel2
 			// 
 			this->splitContainer4->Panel2->Controls->Add(this->zedGraphControl3);
-			this->splitContainer4->Size = System::Drawing::Size(794, 492);
-			this->splitContainer4->SplitterDistance = 239;
+			this->splitContainer4->Size = System::Drawing::Size(794, 520);
+			this->splitContainer4->SplitterDistance = 251;
 			this->splitContainer4->TabIndex = 0;
 			// 
 			// button11
@@ -437,7 +443,7 @@ private: System::Windows::Forms::Label^  label9;
 			this->zedGraphControl2->ScrollMinX = 0;
 			this->zedGraphControl2->ScrollMinY = 0;
 			this->zedGraphControl2->ScrollMinY2 = 0;
-			this->zedGraphControl2->Size = System::Drawing::Size(594, 239);
+			this->zedGraphControl2->Size = System::Drawing::Size(594, 251);
 			this->zedGraphControl2->TabIndex = 0;
 			// 
 			// zedGraphControl3
@@ -452,7 +458,7 @@ private: System::Windows::Forms::Label^  label9;
 			this->zedGraphControl3->ScrollMinX = 0;
 			this->zedGraphControl3->ScrollMinY = 0;
 			this->zedGraphControl3->ScrollMinY2 = 0;
-			this->zedGraphControl3->Size = System::Drawing::Size(794, 249);
+			this->zedGraphControl3->Size = System::Drawing::Size(794, 265);
 			this->zedGraphControl3->TabIndex = 0;
 			// 
 			// tabPage1
@@ -461,7 +467,7 @@ private: System::Windows::Forms::Label^  label9;
 			this->tabPage1->Location = System::Drawing::Point(4, 22);
 			this->tabPage1->Name = L"tabPage1";
 			this->tabPage1->Padding = System::Windows::Forms::Padding(3);
-			this->tabPage1->Size = System::Drawing::Size(800, 498);
+			this->tabPage1->Size = System::Drawing::Size(800, 526);
 			this->tabPage1->TabIndex = 0;
 			this->tabPage1->Text = L"Settings/Controls";
 			this->tabPage1->UseVisualStyleBackColor = true;
@@ -487,9 +493,9 @@ private: System::Windows::Forms::Label^  label9;
 			// splitContainer1.Panel2
 			// 
 			this->splitContainer1->Panel2->Controls->Add(this->splitContainer2);
-			this->splitContainer1->Size = System::Drawing::Size(794, 492);
-			this->splitContainer1->SplitterDistance = 82;
-			this->splitContainer1->TabIndex = 1;
+			this->splitContainer1->Size = System::Drawing::Size(794, 520);
+			this->splitContainer1->SplitterDistance = 86;
+			this->splitContainer1->TabIndex = 0;
 			// 
 			// textBox4
 			// 
@@ -497,7 +503,7 @@ private: System::Windows::Forms::Label^  label9;
 			this->textBox4->Location = System::Drawing::Point(613, 10);
 			this->textBox4->Name = L"textBox4";
 			this->textBox4->Size = System::Drawing::Size(176, 20);
-			this->textBox4->TabIndex = 12;
+			this->textBox4->TabIndex = 1;
 			// 
 			// label23
 			// 
@@ -515,7 +521,7 @@ private: System::Windows::Forms::Label^  label9;
 			this->textBox2->Location = System::Drawing::Point(360, 7);
 			this->textBox2->Name = L"textBox2";
 			this->textBox2->Size = System::Drawing::Size(198, 20);
-			this->textBox2->TabIndex = 10;
+			this->textBox2->TabIndex = 0;
 			// 
 			// label9
 			// 
@@ -530,7 +536,7 @@ private: System::Windows::Forms::Label^  label9;
 			// button6
 			// 
 			this->button6->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((System::Windows::Forms::AnchorStyles::Bottom | System::Windows::Forms::AnchorStyles::Right));
-			this->button6->Location = System::Drawing::Point(761, 36);
+			this->button6->Location = System::Drawing::Point(761, 40);
 			this->button6->Name = L"button6";
 			this->button6->Size = System::Drawing::Size(28, 20);
 			this->button6->TabIndex = 8;
@@ -541,17 +547,17 @@ private: System::Windows::Forms::Label^  label9;
 			// textBox1
 			// 
 			this->textBox1->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((System::Windows::Forms::AnchorStyles::Bottom | System::Windows::Forms::AnchorStyles::Right));
-			this->textBox1->Location = System::Drawing::Point(495, 36);
+			this->textBox1->Location = System::Drawing::Point(495, 40);
 			this->textBox1->Name = L"textBox1";
 			this->textBox1->ReadOnly = true;
 			this->textBox1->Size = System::Drawing::Size(269, 20);
-			this->textBox1->TabIndex = 6;
+			this->textBox1->TabIndex = 2;
 			// 
 			// label8
 			// 
 			this->label8->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((System::Windows::Forms::AnchorStyles::Bottom | System::Windows::Forms::AnchorStyles::Right));
 			this->label8->AutoSize = true;
-			this->label8->Location = System::Drawing::Point(368, 38);
+			this->label8->Location = System::Drawing::Point(368, 42);
 			this->label8->Name = L"label8";
 			this->label8->Size = System::Drawing::Size(117, 13);
 			this->label8->TabIndex = 2;
@@ -562,8 +568,8 @@ private: System::Windows::Forms::Label^  label9;
 			this->startButton->Dock = System::Windows::Forms::DockStyle::Left;
 			this->startButton->Location = System::Drawing::Point(0, 0);
 			this->startButton->Name = L"startButton";
-			this->startButton->Size = System::Drawing::Size(133, 82);
-			this->startButton->TabIndex = 0;
+			this->startButton->Size = System::Drawing::Size(133, 86);
+			this->startButton->TabIndex = 3;
 			this->startButton->Text = L"Start";
 			this->startButton->UseVisualStyleBackColor = true;
 			this->startButton->Click += gcnew System::EventHandler(this, &Form1::button1_Click);
@@ -578,6 +584,7 @@ private: System::Windows::Forms::Label^  label9;
 			// splitContainer2.Panel1
 			// 
 			this->splitContainer2->Panel1->BackColor = System::Drawing::Color::White;
+			this->splitContainer2->Panel1->Controls->Add(this->checkBox2);
 			this->splitContainer2->Panel1->Controls->Add(this->textBox5);
 			this->splitContainer2->Panel1->Controls->Add(this->label21);
 			this->splitContainer2->Panel1->Controls->Add(this->comboBox2);
@@ -605,9 +612,36 @@ private: System::Windows::Forms::Label^  label9;
 			// 
 			this->splitContainer2->Panel2->Controls->Add(this->zedGraphControl1);
 			this->splitContainer2->Panel2->Controls->Add(this->button4);
-			this->splitContainer2->Size = System::Drawing::Size(794, 406);
+			this->splitContainer2->Size = System::Drawing::Size(794, 430);
 			this->splitContainer2->SplitterDistance = 351;
 			this->splitContainer2->TabIndex = 0;
+			// 
+			// checkBox2
+			// 
+			this->checkBox2->AutoSize = true;
+			this->checkBox2->Location = System::Drawing::Point(109, 398);
+			this->checkBox2->Name = L"checkBox2";
+			this->checkBox2->Size = System::Drawing::Size(103, 17);
+			this->checkBox2->TabIndex = 28;
+			this->checkBox2->Text = L"Turn Off Plotting";
+			this->checkBox2->UseVisualStyleBackColor = true;
+			// 
+			// textBox5
+			// 
+			this->textBox5->Location = System::Drawing::Point(121, 367);
+			this->textBox5->Name = L"textBox5";
+			this->textBox5->ReadOnly = true;
+			this->textBox5->Size = System::Drawing::Size(91, 20);
+			this->textBox5->TabIndex = 27;
+			// 
+			// label21
+			// 
+			this->label21->AutoSize = true;
+			this->label21->Location = System::Drawing::Point(8, 370);
+			this->label21->Name = L"label21";
+			this->label21->Size = System::Drawing::Size(93, 13);
+			this->label21->TabIndex = 3;
+			this->label21->Text = L"Time for 1 Sweep:";
 			// 
 			// comboBox2
 			// 
@@ -619,7 +653,7 @@ private: System::Windows::Forms::Label^  label9;
 			this->comboBox2->Location = System::Drawing::Point(161, 301);
 			this->comboBox2->Name = L"comboBox2";
 			this->comboBox2->Size = System::Drawing::Size(160, 21);
-			this->comboBox2->TabIndex = 26;
+			this->comboBox2->TabIndex = 7;
 			this->comboBox2->SelectedIndexChanged += gcnew System::EventHandler(this, &Form1::comboBox2_SelectedIndexChanged);
 			// 
 			// label22
@@ -640,9 +674,11 @@ private: System::Windows::Forms::Label^  label9;
 				| System::Windows::Forms::AnchorStyles::Left) 
 				| System::Windows::Forms::AnchorStyles::Right));
 			this->samplesPerStepUpDown->Location = System::Drawing::Point(161, 175);
+			this->samplesPerStepUpDown->Minimum = System::Decimal(gcnew cli::array< System::Int32 >(4) {1, 0, 0, 0});
 			this->samplesPerStepUpDown->Name = L"samplesPerStepUpDown";
 			this->samplesPerStepUpDown->Size = System::Drawing::Size(160, 20);
-			this->samplesPerStepUpDown->TabIndex = 22;
+			this->samplesPerStepUpDown->TabIndex = 4;
+			this->samplesPerStepUpDown->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) {1, 0, 0, 0});
 			// 
 			// stepsPerSweepUpDown
 			// 
@@ -650,9 +686,11 @@ private: System::Windows::Forms::Label^  label9;
 				| System::Windows::Forms::AnchorStyles::Left) 
 				| System::Windows::Forms::AnchorStyles::Right));
 			this->stepsPerSweepUpDown->Location = System::Drawing::Point(161, 131);
+			this->stepsPerSweepUpDown->Minimum = System::Decimal(gcnew cli::array< System::Int32 >(4) {1, 0, 0, 0});
 			this->stepsPerSweepUpDown->Name = L"stepsPerSweepUpDown";
 			this->stepsPerSweepUpDown->Size = System::Drawing::Size(160, 20);
-			this->stepsPerSweepUpDown->TabIndex = 21;
+			this->stepsPerSweepUpDown->TabIndex = 3;
+			this->stepsPerSweepUpDown->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) {1, 0, 0, 0});
 			// 
 			// sweepDelayUpDown
 			// 
@@ -662,7 +700,7 @@ private: System::Windows::Forms::Label^  label9;
 			this->sweepDelayUpDown->Location = System::Drawing::Point(161, 262);
 			this->sweepDelayUpDown->Name = L"sweepDelayUpDown";
 			this->sweepDelayUpDown->Size = System::Drawing::Size(160, 20);
-			this->sweepDelayUpDown->TabIndex = 20;
+			this->sweepDelayUpDown->TabIndex = 6;
 			// 
 			// numberOfSweepsUpDown
 			// 
@@ -670,9 +708,11 @@ private: System::Windows::Forms::Label^  label9;
 				| System::Windows::Forms::AnchorStyles::Left) 
 				| System::Windows::Forms::AnchorStyles::Right));
 			this->numberOfSweepsUpDown->Location = System::Drawing::Point(161, 218);
+			this->numberOfSweepsUpDown->Minimum = System::Decimal(gcnew cli::array< System::Int32 >(4) {1, 0, 0, 0});
 			this->numberOfSweepsUpDown->Name = L"numberOfSweepsUpDown";
 			this->numberOfSweepsUpDown->Size = System::Drawing::Size(160, 20);
-			this->numberOfSweepsUpDown->TabIndex = 19;
+			this->numberOfSweepsUpDown->TabIndex = 5;
+			this->numberOfSweepsUpDown->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) {1, 0, 0, 0});
 			// 
 			// minFrequencyUpDown
 			// 
@@ -681,9 +721,11 @@ private: System::Windows::Forms::Label^  label9;
 				| System::Windows::Forms::AnchorStyles::Right));
 			this->minFrequencyUpDown->Location = System::Drawing::Point(161, 50);
 			this->minFrequencyUpDown->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) {500, 0, 0, 0});
+			this->minFrequencyUpDown->Minimum = System::Decimal(gcnew cli::array< System::Int32 >(4) {1, 0, 0, 0});
 			this->minFrequencyUpDown->Name = L"minFrequencyUpDown";
 			this->minFrequencyUpDown->Size = System::Drawing::Size(160, 20);
-			this->minFrequencyUpDown->TabIndex = 18;
+			this->minFrequencyUpDown->TabIndex = 1;
+			this->minFrequencyUpDown->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) {1, 0, 0, 0});
 			// 
 			// stepSizeUpDown
 			// 
@@ -692,16 +734,18 @@ private: System::Windows::Forms::Label^  label9;
 				| System::Windows::Forms::AnchorStyles::Right));
 			this->stepSizeUpDown->Location = System::Drawing::Point(161, 88);
 			this->stepSizeUpDown->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) {255, 0, 0, 0});
+			this->stepSizeUpDown->Minimum = System::Decimal(gcnew cli::array< System::Int32 >(4) {1, 0, 0, 0});
 			this->stepSizeUpDown->Name = L"stepSizeUpDown";
 			this->stepSizeUpDown->Size = System::Drawing::Size(160, 20);
-			this->stepSizeUpDown->TabIndex = 15;
+			this->stepSizeUpDown->TabIndex = 2;
+			this->stepSizeUpDown->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) {1, 0, 0, 0});
 			// 
 			// saveButton
 			// 
 			this->saveButton->Location = System::Drawing::Point(121, 328);
 			this->saveButton->Name = L"saveButton";
 			this->saveButton->Size = System::Drawing::Size(91, 27);
-			this->saveButton->TabIndex = 14;
+			this->saveButton->TabIndex = 8;
 			this->saveButton->Text = L"Save Settings";
 			this->saveButton->UseVisualStyleBackColor = true;
 			this->saveButton->Click += gcnew System::EventHandler(this, &Form1::saveButton_Click);
@@ -715,7 +759,7 @@ private: System::Windows::Forms::Label^  label9;
 			this->profileNameCB->Location = System::Drawing::Point(159, 16);
 			this->profileNameCB->Name = L"profileNameCB";
 			this->profileNameCB->Size = System::Drawing::Size(160, 21);
-			this->profileNameCB->TabIndex = 7;
+			this->profileNameCB->TabIndex = 0;
 			this->profileNameCB->SelectedIndexChanged += gcnew System::EventHandler(this, &Form1::profileNameCB_SelectedIndexChanged);
 			// 
 			// label7
@@ -786,9 +830,9 @@ private: System::Windows::Forms::Label^  label9;
 			this->label2->AutoSize = true;
 			this->label2->Location = System::Drawing::Point(5, 90);
 			this->label2->Name = L"label2";
-			this->label2->Size = System::Drawing::Size(55, 13);
+			this->label2->Size = System::Drawing::Size(86, 13);
 			this->label2->TabIndex = 1;
-			this->label2->Text = L"Step Size:";
+			this->label2->Text = L"Step Size (MHz):";
 			// 
 			// label1
 			// 
@@ -814,7 +858,7 @@ private: System::Windows::Forms::Label^  label9;
 			this->zedGraphControl1->ScrollMinX = 0;
 			this->zedGraphControl1->ScrollMinY = 0;
 			this->zedGraphControl1->ScrollMinY2 = 0;
-			this->zedGraphControl1->Size = System::Drawing::Size(406, 402);
+			this->zedGraphControl1->Size = System::Drawing::Size(406, 426);
 			this->zedGraphControl1->TabIndex = 2;
 			// 
 			// button4
@@ -822,8 +866,8 @@ private: System::Windows::Forms::Label^  label9;
 			this->button4->Dock = System::Windows::Forms::DockStyle::Left;
 			this->button4->Location = System::Drawing::Point(0, 0);
 			this->button4->Name = L"button4";
-			this->button4->Size = System::Drawing::Size(29, 402);
-			this->button4->TabIndex = 1;
+			this->button4->Size = System::Drawing::Size(29, 426);
+			this->button4->TabIndex = 0;
 			this->button4->Text = L"<<";
 			this->button4->UseVisualStyleBackColor = true;
 			this->button4->Click += gcnew System::EventHandler(this, &Form1::button4_Click);
@@ -837,7 +881,7 @@ private: System::Windows::Forms::Label^  label9;
 			this->tabControl1->Location = System::Drawing::Point(0, 0);
 			this->tabControl1->Name = L"tabControl1";
 			this->tabControl1->SelectedIndex = 0;
-			this->tabControl1->Size = System::Drawing::Size(808, 524);
+			this->tabControl1->Size = System::Drawing::Size(808, 552);
 			this->tabControl1->TabIndex = 0;
 			// 
 			// tabPage2
@@ -846,7 +890,7 @@ private: System::Windows::Forms::Label^  label9;
 			this->tabPage2->Location = System::Drawing::Point(4, 22);
 			this->tabPage2->Name = L"tabPage2";
 			this->tabPage2->Padding = System::Windows::Forms::Padding(3);
-			this->tabPage2->Size = System::Drawing::Size(800, 498);
+			this->tabPage2->Size = System::Drawing::Size(800, 526);
 			this->tabPage2->TabIndex = 3;
 			this->tabPage2->Text = L"Debug";
 			this->tabPage2->UseVisualStyleBackColor = true;
@@ -891,7 +935,7 @@ private: System::Windows::Forms::Label^  label9;
 			this->splitContainer3->Panel2->Controls->Add(this->button5);
 			this->splitContainer3->Panel2->Controls->Add(this->button3);
 			this->splitContainer3->Panel2->Controls->Add(this->button2);
-			this->splitContainer3->Size = System::Drawing::Size(794, 492);
+			this->splitContainer3->Size = System::Drawing::Size(794, 520);
 			this->splitContainer3->SplitterDistance = 336;
 			this->splitContainer3->TabIndex = 0;
 			// 
@@ -1194,27 +1238,11 @@ private: System::Windows::Forms::Label^  label9;
 			this->button2->Text = L"1";
 			this->button2->UseVisualStyleBackColor = true;
 			// 
-			// label21
-			// 
-			this->label21->AutoSize = true;
-			this->label21->Location = System::Drawing::Point(8, 375);
-			this->label21->Name = L"label21";
-			this->label21->Size = System::Drawing::Size(93, 13);
-			this->label21->TabIndex = 3;
-			this->label21->Text = L"Time for 1 Sweep:";
-			// 
-			// textBox5
-			// 
-			this->textBox5->Location = System::Drawing::Point(121, 372);
-			this->textBox5->Name = L"textBox5";
-			this->textBox5->Size = System::Drawing::Size(91, 20);
-			this->textBox5->TabIndex = 27;
-			// 
 			// Form1
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(808, 524);
+			this->ClientSize = System::Drawing::Size(808, 552);
 			this->Controls->Add(this->tabControl1);
 			this->Name = L"Form1";
 			this->Text = L"Form1";
@@ -1279,9 +1307,11 @@ private: void CreateGraph( ZedGraphControl ^zgc, int recvBytes ){
 		//UNCOMMENT THIS IF PROBLEM//GraphPane ^myPane = zgc->GraphPane;
 
 		// Set the titles and axis labels
-		myPane->Title->Text = "Data vs Time";
+			 /*
+		myPane->Title->Text = "Voltage vs Time";
 		myPane->XAxis->Title->Text = "Time (s)";
-		myPane->YAxis->Title->Text = "Data";
+		myPane->YAxis->Title->Text = "Voltage (V)";
+		*/
 
 	   double tickStart = Environment::TickCount;
 
@@ -1310,24 +1340,30 @@ private: void CreateGraph( ZedGraphControl ^zgc, int recvBytes ){
 			
 			  outFile.open(outFileComplete);
 
-			  while(inFile.read((char *)&data, sizeof(int16_t))) //&& count < recvBytes/2)
+			  while(inFile.read((char *)&data, sizeof(int16_t))) 
 			 {
 				  
-				 // SE_data1 = data << 2;
-				  //SE_data2 = SE_data1 >> 2;
+				  SE_data1 = data << 2;
+				  SE_data2 = SE_data1 >> 2;
 				  count++;
 				 if (count%2 == 0)
 				 {
 					  //UNCOMMENT
-					 ChannelB->Add((count2/250000000.0), data);
-					 outFile << data << endl;
+					 if (checkFlag == 0)
+					 {
+						ChannelB->Add((count2/250000000.0), (float)SE_data2/4096);
+					 }
+					 outFile << SE_data2 << endl;
 					 count2++;
 				 }
 				 else
 				 {
 					 //UNCOMMENT
-					ChannelA->Add((count2/250000000.0), data);  
-					outFile << data << ",";
+					if (checkFlag == 0)
+					{
+						ChannelA->Add((count2/250000000.0), (float)SE_data2/4096); 
+					}
+					outFile << SE_data2 << ",";
 				 }
 				 
 				 if(count %100 == 0)
@@ -1401,7 +1437,15 @@ private: System::Void button1_Click(System::Object^  sender, System::EventArgs^ 
 			 std::clock_t start;
 			 double duration;
 			 start = std::clock();
-
+			 //Is the plotting functionality turned off?
+			 if (this-> checkBox2-> Checked)
+			 {
+				 checkFlag = 1;
+			 }
+			 else
+			 {
+				 checkFlag = 0;
+			 }
 			 if (connectFail == 1)
 			 {
 				 ConnectError = gcnew Warning_DateandPatientName();
@@ -1475,6 +1519,7 @@ private: System::Void button1_Click(System::Object^  sender, System::EventArgs^ 
 			 //string caddr= "192.168.1.10";
 			 //DsauClient::mkConnection(caddr);
 			 DsauClient::sendThis(msgtype);
+
 			 int recvBytes = DsauClient::recvThis();
 			 CreateGraph(zedGraphControl1, recvBytes);
 			 DsauClient::rmConnection();
@@ -1528,7 +1573,7 @@ private: System::Void saveButton_Click(System::Object^  sender, System::EventArg
 			  laserDiodePattern = context->marshal_as<const char*>(comboBox2->Text);
 
 			 //create Pop-Up Window
-			 pnw = gcnew ProfileNameWindow(stepSize, minFrequency, numOfSweeps, delayBetweenSweeps, stepsPerSweep, samplesPerStep, laserDiodePattern, profileNameCB);
+			 pnw = gcnew ProfileNameWindow(stepSize, minFrequency, numOfSweeps, delayBetweenSweeps, stepsPerSweep, samplesPerStep, laserDiodePattern, profileNameCB, numElements);
 			 //have PopUp window show up
 			 pnw->Show();
 
