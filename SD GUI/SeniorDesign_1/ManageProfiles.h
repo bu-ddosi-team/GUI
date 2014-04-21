@@ -47,7 +47,7 @@ namespace SeniorDesign_1 {
 				marshal_context ^ context = gcnew marshal_context();
 		//	const char* choice = context->marshal_as<const char*>(listBox1->SelectedValue);
 			tinyxml2::XMLDocument xmlDoc;
-			xmlDoc.LoadFile("C:\\Users\\Yan Zhang\\Desktop\\ProfileName.xml");
+			xmlDoc.LoadFile("C:\\Users\\CME\\Desktop\\ProfileName.xml");
 			tinyxml2::XMLNode *currentNode = xmlDoc.FirstChild();
 			tinyxml2::XMLElement *rootElement= currentNode ->ToElement();
 			string rootName = rootElement ->Name();
@@ -227,7 +227,7 @@ namespace SeniorDesign_1 {
 		//	const char* choice = context->marshal_as<const char*>(listBox1->SelectedValue);
 			string choice = context->marshal_as<string>(listBox1->SelectedItem->ToString());
 			tinyxml2::XMLDocument xmlDoc;
-			xmlDoc.LoadFile("C:\\Users\\Yan Zhang\\Desktop\\ProfileName.xml");
+			xmlDoc.LoadFile("C:\\Users\\CME\\Desktop\\ProfileName.xml");
 			tinyxml2::XMLNode *currentNode = xmlDoc.FirstChild();
 			tinyxml2::XMLElement *rootElement= currentNode ->ToElement();
 			string rootName = rootElement ->Name();
@@ -283,7 +283,7 @@ private: System::Void removeButton_Click(System::Object^  sender, System::EventA
 	marshal_context ^ context = gcnew marshal_context();
 		string choice = context->marshal_as<string>(listBox1->SelectedItem->ToString());
 			tinyxml2::XMLDocument xmlDoc;
-			xmlDoc.LoadFile("C:\\Users\\Yan Zhang\\Desktop\\ProfileName.xml");
+			xmlDoc.LoadFile("C:\\Users\\CME\\Desktop\\ProfileName.xml");
 			tinyxml2::XMLNode *currentNode = xmlDoc.FirstChild();
 			tinyxml2::XMLElement *rootElement= currentNode ->ToElement();
 			string rootName = rootElement ->Name();
@@ -321,7 +321,7 @@ private: System::Void removeButton_Click(System::Object^  sender, System::EventA
 
 			//delete context
 			delete context;			
-			xmlDoc.SaveFile("C:\\Users\\Yan Zhang\\Desktop\\ProfileName.xml");
+			xmlDoc.SaveFile("C:\\Users\\CME\\Desktop\\ProfileName.xml");
 		 }
 };
 }

@@ -162,7 +162,7 @@ namespace SeniorDesign_1 {
 				 const char* currentProfNameStr = context->marshal_as<const char*>(currentProfName);
 				//Check to see if Profile Name already exists:
 				tinyxml2::XMLDocument xmlDoc;
-				xmlDoc.LoadFile("C:\\Users\\Yan Zhang\\Desktop\\ProfileName.xml");
+				xmlDoc.LoadFile("C:\\Users\\CME\\Desktop\\ProfileName.xml");
 				tinyxml2::XMLNode *currentNode = xmlDoc.FirstChild();
 				tinyxml2::XMLNode *currentNode_0 = xmlDoc.FirstChild();
 				tinyxml2::XMLElement *currentElement;
@@ -211,7 +211,7 @@ namespace SeniorDesign_1 {
 	public: System::Void SaveProfile(){
 		marshal_context ^ context = gcnew marshal_context();
 		FILE *outFile;
-		outFile = fopen("C:\\Users\\Yan Zhang\\Desktop\\ProfileName.xml", "a");
+		outFile = fopen("C:\\Users\\CME\\Desktop\\ProfileName.xml", "a");
 	    XMLPrinter printer(outFile);
 		ProfileName = this->textBox1->Text;
 		this->textBox1->Clear();

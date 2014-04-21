@@ -93,7 +93,7 @@ namespace SeniorDesign_1 {
 			myPane->XAxis->Title->Text = "Time (s)";
 			myPane->YAxis->Title->Text = "Voltage (V)";
 			tinyxml2::XMLDocument xmlDoc;
-			xmlDoc.LoadFile("C:\\Users\\Yan Zhang\\Desktop\\ProfileName.xml");
+			xmlDoc.LoadFile("C:\\Users\\CME\\Desktop\\ProfileName.xml");
 			tinyxml2::XMLNode *currentNode_0 = xmlDoc.FirstChild();
 			tinyxml2::XMLElement *currentElement_0;
 			SimFlag = 0; //initialize to 0
@@ -545,6 +545,7 @@ private: System::Windows::Forms::Label^  label9;
 			this->textBox2->Name = L"textBox2";
 			this->textBox2->Size = System::Drawing::Size(198, 20);
 			this->textBox2->TabIndex = 0;
+			this->textBox2->Text = L"test";
 			this->textBox2->TextChanged += gcnew System::EventHandler(this, &Form1::textBox2_TextChanged);
 			// 
 			// label9
@@ -575,7 +576,7 @@ private: System::Windows::Forms::Label^  label9;
 			this->textBox1->Name = L"textBox1";
 			this->textBox1->Size = System::Drawing::Size(269, 20);
 			this->textBox1->TabIndex = 2;
-			this->textBox1->Text = L"C:\\Users\\Yan Zhang\\Desktop";
+			this->textBox1->Text = L"C:\\Users\\CME\\Desktop";
 			// 
 			// label8
 			// 
@@ -1476,7 +1477,7 @@ private: System::Void button1_Click(System::Object^  sender, System::EventArgs^ 
 			 //start clock
 			 std::clock_t start;
 			 double duration;
-			 start = std::clock();
+			 
 			 //Is the plotting functionality turned off?
 			 if (this-> checkBox2-> Checked)
 			 {
@@ -1492,7 +1493,7 @@ private: System::Void button1_Click(System::Object^  sender, System::EventArgs^ 
 				 ConnectError->setErrorMessage("Unable to Connect to Server");
 				 ConnectError->Show();
 			 }
-
+			 start = std::clock();
 			 string SS = "wf"; 
 			 //get Max. Frequency
 			 stepSize = context->marshal_as<const char*>(stepSizeUpDown->Text);
@@ -1578,9 +1579,7 @@ private: System::Void button1_Click(System::Object^  sender, System::EventArgs^ 
 			 std::string outFilePath = marshal_as<std::string>(textBox1->Text);
 			 std::string outFileComplete = outFilePath + "\\" + "Times.csv";
 			 TimeFile.open(outFileComplete, ios::out | ios::app);
-			 int ss  = (int)stepSizeUpDown->Value;
-			 int sps = (int)(samplesPerStepUpDown->Value);
-			 TimeFile << duration << ","<< ss << "," << sps << endl;
+			 TimeFile << duration << ","<< (int)stepSizeUpDown->Value << "," << (int)(samplesPerStepUpDown->Value) << endl;
 			 TimeFile.close();
 
 			//incnum++;
@@ -1637,7 +1636,7 @@ private: System::Void profileNameCB_SelectedIndexChanged(System::Object^  sender
 			marshal_context ^ context = gcnew marshal_context();
 			const char* choice = context->marshal_as<const char*>(profileNameCB->Text); 
 			tinyxml2::XMLDocument xmlDoc;
-			xmlDoc.LoadFile("C:\\Users\\Yan Zhang\\Desktop\\ProfileName.xml");
+			xmlDoc.LoadFile("C:\\Users\\CME\\Desktop\\ProfileName.xml");
 			tinyxml2::XMLNode *currentNode = xmlDoc.FirstChild();
 			tinyxml2::XMLElement *rootElement= currentNode ->ToElement();
 			string rootName = rootElement ->Name();
@@ -1717,7 +1716,7 @@ private: System::Void profileManagerButton_Click(System::Object^  sender, System
 //			 MPwin->Show();//have PopUp window show up
 	     	const char* choice = context->marshal_as<const char*>(profileNameCB->Text); 
 			tinyxml2::XMLDocument xmlDoc;
-			xmlDoc.LoadFile("C:\\Users\\Yan Zhang\\Desktop\\ProfileName.xml");
+			xmlDoc.LoadFile("C:\\Users\\CME\\Desktop\\ProfileName.xml");
 			tinyxml2::XMLNode *currentNode = xmlDoc.FirstChild();
 			tinyxml2::XMLElement *rootElement= currentNode ->ToElement();
 			string rootName = rootElement ->Name();
@@ -1756,7 +1755,7 @@ private: System::Void profileManagerButton_Click(System::Object^  sender, System
 
 			//delete context
 			delete context;			
-			xmlDoc.SaveFile("C:\\Users\\Yan Zhang\\Desktop\\ProfileName.xml");
+			xmlDoc.SaveFile("C:\\Users\\CME\\Desktop\\ProfileName.xml");
 			
 			
 		 }
