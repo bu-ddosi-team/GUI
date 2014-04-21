@@ -124,6 +124,8 @@ namespace SeniorDesign_1 {
 			this->textBox1->Name = L"textBox1";
 			this->textBox1->Size = System::Drawing::Size(218, 20);
 			this->textBox1->TabIndex = 1;
+			this->textBox1->MultilineChanged += gcnew System::EventHandler(this, &ProfileNameWindow::textBox1_TextChanged);
+			this->textBox1->TextChanged += gcnew System::EventHandler(this, &ProfileNameWindow::textBox1_TextChanged);
 			// 
 			// button1
 			// 
@@ -137,6 +139,7 @@ namespace SeniorDesign_1 {
 			// 
 			// ProfileNameWindow
 			// 
+			this->AcceptButton = this->button1;
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(366, 94);
@@ -159,7 +162,7 @@ namespace SeniorDesign_1 {
 				 const char* currentProfNameStr = context->marshal_as<const char*>(currentProfName);
 				//Check to see if Profile Name already exists:
 				tinyxml2::XMLDocument xmlDoc;
-				xmlDoc.LoadFile("C:\\Users\\CME\\Desktop\\ProfileName.xml");
+				xmlDoc.LoadFile("C:\\Users\\Yan Zhang\\Desktop\\ProfileName.xml");
 				tinyxml2::XMLNode *currentNode = xmlDoc.FirstChild();
 				tinyxml2::XMLNode *currentNode_0 = xmlDoc.FirstChild();
 				tinyxml2::XMLElement *currentElement;
@@ -208,7 +211,7 @@ namespace SeniorDesign_1 {
 	public: System::Void SaveProfile(){
 		marshal_context ^ context = gcnew marshal_context();
 		FILE *outFile;
-		outFile = fopen("C:\\Users\\CME\\Desktop\\ProfileName.xml", "a");
+		outFile = fopen("C:\\Users\\Yan Zhang\\Desktop\\ProfileName.xml", "a");
 	    XMLPrinter printer(outFile);
 		ProfileName = this->textBox1->Text;
 		this->textBox1->Clear();
@@ -230,5 +233,7 @@ namespace SeniorDesign_1 {
 
 	}
 
-	};
+	private: System::Void textBox1_TextChanged(System::Object^  sender, System::EventArgs^  e) {
+			 }
+};
 }

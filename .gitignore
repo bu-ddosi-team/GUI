@@ -216,3 +216,9 @@ pip-log.txt
 SD GUI/SeniorDesign_1/Debug/app.res
 SD GUI/SeniorDesign_1/Debug/SeniorDesign_1.exe.intermediate.manifest
 SD GUI/SeniorDesign_1/Debug/SeniorDesign_1.Form1.resources
+SD GUI/Debug/ClientDLL.exp
+SD GUI/ClientDLL/Debug/vc100.idb
+SD GUI/Debug/ClientDLL.dll
+SD GUI/Debug/ClientDLL.lib
+SD GUI/SeniorDesign_1/fwrite_test
+SD GUI/Debug/SeniorDesign_1.exe.metagen

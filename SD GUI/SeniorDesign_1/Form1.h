@@ -14,6 +14,7 @@
 #include "SimultaneousPattern.h"
 #include <stdint.h>
 #include <sstream>
+#include "ManageProfiles.h"
 //for timer
 #include <cstdio>
 #include <ctime>
@@ -45,6 +46,7 @@ namespace SeniorDesign_1 {
 		ProfileNameWindow^ pnw;
 		SimultaneousPattern^ SPwin;
 		Warning_DateandPatientName^ ConnectError;
+		ManageProfiles^ MPwin;
 		int SimFlag; //simultaneous flag
 		//Make public variable so graph can be cleared later
 		GraphPane ^myPane;
@@ -66,7 +68,7 @@ namespace SeniorDesign_1 {
 		const char* Sim_Diode5;
 		const char* Sim_Diode6;
 		int checkFlag;
-
+		int incnum;
 	private: System::Windows::Forms::SplitContainer^  splitContainer4;
 	public: 
 	private: System::Windows::Forms::Button^  button11;
@@ -75,12 +77,15 @@ namespace SeniorDesign_1 {
 	private: System::Windows::Forms::TextBox^  textBox5;
 	private: System::Windows::Forms::Label^  label21;
 	private: System::Windows::Forms::CheckBox^  checkBox2;
+	private: System::Windows::Forms::Button^  profileManagerButton;
+	private: System::Windows::Forms::Label^  labelSaveName;
 
 	public: 
 		int numElements; //number of elements in the file
 		Form1(void)
 		{
 			InitializeComponent();
+			
 			myPane = zedGraphControl1->GraphPane;
 			//SPwin = gcnew SimultaneousPattern();
 			//Count the number of elements in the file when it opens
@@ -88,7 +93,7 @@ namespace SeniorDesign_1 {
 			myPane->XAxis->Title->Text = "Time (s)";
 			myPane->YAxis->Title->Text = "Voltage (V)";
 			tinyxml2::XMLDocument xmlDoc;
-			xmlDoc.LoadFile("C:\\Users\\CME\\Desktop\\ProfileName.xml");
+			xmlDoc.LoadFile("C:\\Users\\Yan Zhang\\Desktop\\ProfileName.xml");
 			tinyxml2::XMLNode *currentNode_0 = xmlDoc.FirstChild();
 			tinyxml2::XMLElement *currentElement_0;
 			SimFlag = 0; //initialize to 0
@@ -293,6 +298,7 @@ private: System::Windows::Forms::Label^  label9;
 			this->zedGraphControl3 = (gcnew ZedGraph::ZedGraphControl());
 			this->tabPage1 = (gcnew System::Windows::Forms::TabPage());
 			this->splitContainer1 = (gcnew System::Windows::Forms::SplitContainer());
+			this->labelSaveName = (gcnew System::Windows::Forms::Label());
 			this->textBox4 = (gcnew System::Windows::Forms::TextBox());
 			this->label23 = (gcnew System::Windows::Forms::Label());
 			this->textBox2 = (gcnew System::Windows::Forms::TextBox());
@@ -302,6 +308,7 @@ private: System::Windows::Forms::Label^  label9;
 			this->label8 = (gcnew System::Windows::Forms::Label());
 			this->startButton = (gcnew System::Windows::Forms::Button());
 			this->splitContainer2 = (gcnew System::Windows::Forms::SplitContainer());
+			this->profileManagerButton = (gcnew System::Windows::Forms::Button());
 			this->checkBox2 = (gcnew System::Windows::Forms::CheckBox());
 			this->textBox5 = (gcnew System::Windows::Forms::TextBox());
 			this->label21 = (gcnew System::Windows::Forms::Label());
@@ -390,6 +397,10 @@ private: System::Windows::Forms::Label^  label9;
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->numericUpDown5))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->numericUpDown6))->BeginInit();
 			this->SuspendLayout();
+			// 
+			// saveFileDialog1
+			// 
+			this->saveFileDialog1->FileOk += gcnew System::ComponentModel::CancelEventHandler(this, &Form1::saveFileDialog1_FileOk);
 			// 
 			// tabPage3
 			// 
@@ -481,6 +492,7 @@ private: System::Windows::Forms::Label^  label9;
 			// 
 			// splitContainer1.Panel1
 			// 
+			this->splitContainer1->Panel1->Controls->Add(this->labelSaveName);
 			this->splitContainer1->Panel1->Controls->Add(this->textBox4);
 			this->splitContainer1->Panel1->Controls->Add(this->label23);
 			this->splitContainer1->Panel1->Controls->Add(this->textBox2);
@@ -496,6 +508,16 @@ private: System::Windows::Forms::Label^  label9;
 			this->splitContainer1->Size = System::Drawing::Size(794, 520);
 			this->splitContainer1->SplitterDistance = 86;
 			this->splitContainer1->TabIndex = 0;
+			this->splitContainer1->SplitterMoved += gcnew System::Windows::Forms::SplitterEventHandler(this, &Form1::splitContainer1_SplitterMoved);
+			// 
+			// labelSaveName
+			// 
+			this->labelSaveName->AutoSize = true;
+			this->labelSaveName->Location = System::Drawing::Point(381, 61);
+			this->labelSaveName->Name = L"labelSaveName";
+			this->labelSaveName->Size = System::Drawing::Size(107, 13);
+			this->labelSaveName->TabIndex = 12;
+			this->labelSaveName->Text = L"File will be saved as: ";
 			// 
 			// textBox4
 			// 
@@ -504,6 +526,7 @@ private: System::Windows::Forms::Label^  label9;
 			this->textBox4->Name = L"textBox4";
 			this->textBox4->Size = System::Drawing::Size(176, 20);
 			this->textBox4->TabIndex = 1;
+			this->textBox4->TextChanged += gcnew System::EventHandler(this, &Form1::textBox4_TextChanged);
 			// 
 			// label23
 			// 
@@ -522,6 +545,7 @@ private: System::Windows::Forms::Label^  label9;
 			this->textBox2->Name = L"textBox2";
 			this->textBox2->Size = System::Drawing::Size(198, 20);
 			this->textBox2->TabIndex = 0;
+			this->textBox2->TextChanged += gcnew System::EventHandler(this, &Form1::textBox2_TextChanged);
 			// 
 			// label9
 			// 
@@ -549,9 +573,9 @@ private: System::Windows::Forms::Label^  label9;
 			this->textBox1->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((System::Windows::Forms::AnchorStyles::Bottom | System::Windows::Forms::AnchorStyles::Right));
 			this->textBox1->Location = System::Drawing::Point(495, 40);
 			this->textBox1->Name = L"textBox1";
-			this->textBox1->ReadOnly = true;
 			this->textBox1->Size = System::Drawing::Size(269, 20);
 			this->textBox1->TabIndex = 2;
+			this->textBox1->Text = L"C:\\Users\\Yan Zhang\\Desktop";
 			// 
 			// label8
 			// 
@@ -584,6 +608,7 @@ private: System::Windows::Forms::Label^  label9;
 			// splitContainer2.Panel1
 			// 
 			this->splitContainer2->Panel1->BackColor = System::Drawing::Color::White;
+			this->splitContainer2->Panel1->Controls->Add(this->profileManagerButton);
 			this->splitContainer2->Panel1->Controls->Add(this->checkBox2);
 			this->splitContainer2->Panel1->Controls->Add(this->textBox5);
 			this->splitContainer2->Panel1->Controls->Add(this->label21);
@@ -607,6 +632,7 @@ private: System::Windows::Forms::Label^  label9;
 			this->splitContainer2->Panel1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Regular, 
 				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0)));
 			this->splitContainer2->Panel1->ForeColor = System::Drawing::SystemColors::ControlText;
+			this->splitContainer2->Panel1->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &Form1::splitContainer2_Panel1_Paint);
 			// 
 			// splitContainer2.Panel2
 			// 
@@ -615,6 +641,16 @@ private: System::Windows::Forms::Label^  label9;
 			this->splitContainer2->Size = System::Drawing::Size(794, 430);
 			this->splitContainer2->SplitterDistance = 351;
 			this->splitContainer2->TabIndex = 0;
+			// 
+			// profileManagerButton
+			// 
+			this->profileManagerButton->Location = System::Drawing::Point(18, 328);
+			this->profileManagerButton->Name = L"profileManagerButton";
+			this->profileManagerButton->Size = System::Drawing::Size(91, 27);
+			this->profileManagerButton->TabIndex = 29;
+			this->profileManagerButton->Text = L"Delete Profile";
+			this->profileManagerButton->UseVisualStyleBackColor = true;
+			this->profileManagerButton->Click += gcnew System::EventHandler(this, &Form1::profileManagerButton_Click);
 			// 
 			// checkBox2
 			// 
@@ -1345,13 +1381,15 @@ private: void CreateGraph( ZedGraphControl ^zgc, int recvBytes ){
 				  
 				  SE_data1 = data << 2;
 				  SE_data2 = SE_data1 >> 2;
+				//  data = data << 2; 
+				//  data = data >> 2;
 				  count++;
 				 if (count%2 == 0)
 				 {
 					  //UNCOMMENT
 					 if (checkFlag == 0)
 					 {
-						ChannelB->Add((count2/250000000.0), (float)SE_data2/4096);
+						ChannelB->Add((count2/250000000.0), data);// (float)SE_data2/4096);
 					 }
 					 outFile << SE_data2 << endl;
 					 count2++;
@@ -1361,18 +1399,20 @@ private: void CreateGraph( ZedGraphControl ^zgc, int recvBytes ){
 					 //UNCOMMENT
 					if (checkFlag == 0)
 					{
-						ChannelA->Add((count2/250000000.0), (float)SE_data2/4096); 
+						ChannelA->Add((count2/250000000.0), data);// (float)SE_data2/4096); 
 					}
 					outFile << SE_data2 << ",";
 				 }
 				 
-				 if(count %100 == 0)
-				 {
-				 //UNCOMMENT
-				 zgc->AxisChange();
-				 zgc->Refresh();
-				 }
+				 //if(count %100 == 0)
+				 //{
+				 ////UNCOMMENT
+				 //zgc->AxisChange();
+				 //zgc->Refresh();
+				 //}
 			  } //WHILE LOOP ENDS HERE
+				zgc->AxisChange();
+				zgc->Refresh();
 			outFile.close();
 			inFile.close();
 			count = 0;
@@ -1456,40 +1496,40 @@ private: System::Void button1_Click(System::Object^  sender, System::EventArgs^ 
 			 string SS = "wf"; 
 			 //get Max. Frequency
 			 stepSize = context->marshal_as<const char*>(stepSizeUpDown->Text);
-			 DsauClient::sendThis(SS.append(stepSize).append("fffff"));
+			 DsauClient::sendThis(SS.append(stepSize).append("fffff "));
 			 //get Min. Frequency 
 			 minFrequency = context->marshal_as<const char*>(minFrequencyUpDown->Text);
 			 string minF = "we";
-			 DsauClient::sendThis(minF.append(minFrequency).append("fffff"));
+			 DsauClient::sendThis(minF.append(minFrequency).append("fffff "));
 			 //get # of sweeps
 			 numOfSweeps = context->marshal_as<const char*>(numberOfSweepsUpDown->Text);
 			 //string NOS(numOfSweeps);
 			 string NOS = "wa";		
-			 DsauClient::sendThis(NOS.append(numOfSweeps).append("fffff"));
+			 DsauClient::sendThis(NOS.append(numOfSweeps).append("fffff "));
 			 //get delay between sweeps
 			 delayBetweenSweeps = context->marshal_as<const char*>(sweepDelayUpDown->Text);
 			 string DBS = "wd";
-			 DsauClient::sendThis(DBS.append(delayBetweenSweeps).append("fffff"));
+			 DsauClient::sendThis(DBS.append(delayBetweenSweeps).append("fffff "));
 			 //get Steps/Sweep
 			 stepsPerSweep = context->marshal_as<const char*>(stepsPerSweepUpDown->Text);
 			 //string StepsPS(stepsPerSweep);
 			 string StepsPS = "wb";
-			 DsauClient::sendThis(StepsPS.append(stepsPerSweep).append("fffff"));
+			 DsauClient::sendThis(StepsPS.append(stepsPerSweep).append("fffff "));
 			 //get Samples/Ste
 			 samplesPerStep = context->marshal_as<const char*>(samplesPerStepUpDown->Text);
 			// string SamPS(samplesPerStep);
 			 string SamPS = "wc";		
-			 DsauClient::sendThis(SamPS.append(samplesPerStep).append("fffff"));
+			 DsauClient::sendThis(SamPS.append(samplesPerStep).append("fffff "));
 			 //get Laser Diode Pattern
 			 string LDP = "wh"; 
 			 laserDiodePattern= context->marshal_as<const char*>(comboBox2->Text);
 			 if (strcmp(laserDiodePattern, "Simultaneous") == 0)
 			 {
-				DsauClient::sendThis(LDP.append("1")); //Simultaneous = 1
+				DsauClient::sendThis(LDP.append("1").append("fffff ")); //Simultaneous = 1
 			 }
 			 else
 			 {
-				 DsauClient::sendThis(LDP.append("2")); //Sequential = 2
+				 DsauClient::sendThis(LDP.append("2").append("fffff ")); //Sequential = 2
 			 }
 			 //DsauClient::rmConnection();
 			 if (SimFlag == 1)
@@ -1521,10 +1561,11 @@ private: System::Void button1_Click(System::Object^  sender, System::EventArgs^ 
 			 DsauClient::sendThis(msgtype);
 
 			 int recvBytes = DsauClient::recvThis();
+			 duration = (std::clock() - start) / (double) CLOCKS_PER_SEC;
 			 CreateGraph(zedGraphControl1, recvBytes);
 			 DsauClient::rmConnection();
 			 //Get the timer value and display it on the GUI
-			 duration = (std::clock() - start) / (double) CLOCKS_PER_SEC;
+			 
 			 //convert from double to string
 			 std::ostringstream durationVal;
 			 durationVal << duration;
@@ -1532,6 +1573,19 @@ private: System::Void button1_Click(System::Object^  sender, System::EventArgs^ 
 			 //convert from std::string to String^ 
 			 String^ dur = context->marshal_as<String ^>(strDurationVal);
 			 this->textBox5->Text = dur;
+			 ofstream TimeFile;
+
+			 std::string outFilePath = marshal_as<std::string>(textBox1->Text);
+			 std::string outFileComplete = outFilePath + "\\" + "Times.csv";
+			 TimeFile.open(outFileComplete, ios::out | ios::app);
+			 int ss  = (int)stepSizeUpDown->Value;
+			 int sps = (int)(samplesPerStepUpDown->Value);
+			 TimeFile << duration << ","<< ss << "," << sps << endl;
+			 TimeFile.close();
+
+			//incnum++;
+			//labelSaveName->Text = "File will be saved as: " + textBox2->Text + textBox4->Text + "_" + incnum.ToString() + ".csv";
+
 
 		 }
 
@@ -1583,7 +1637,7 @@ private: System::Void profileNameCB_SelectedIndexChanged(System::Object^  sender
 			marshal_context ^ context = gcnew marshal_context();
 			const char* choice = context->marshal_as<const char*>(profileNameCB->Text); 
 			tinyxml2::XMLDocument xmlDoc;
-			xmlDoc.LoadFile("C:\\Users\\CME\\Desktop\\ProfileName.xml");
+			xmlDoc.LoadFile("C:\\Users\\Yan Zhang\\Desktop\\ProfileName.xml");
 			tinyxml2::XMLNode *currentNode = xmlDoc.FirstChild();
 			tinyxml2::XMLElement *rootElement= currentNode ->ToElement();
 			string rootName = rootElement ->Name();
@@ -1650,6 +1704,72 @@ private: System::Void comboBox2_SelectedIndexChanged(System::Object^  sender, Sy
 			 {
 				 SimFlag = 0;//Simultaneous NOT chosen, set flag to 0
 			 }
+
+		 }
+private: System::Void saveFileDialog1_FileOk(System::Object^  sender, System::ComponentModel::CancelEventArgs^  e) {
+		 }
+private: System::Void splitContainer2_Panel1_Paint(System::Object^  sender, System::Windows::Forms::PaintEventArgs^  e) {
+		 }
+private: System::Void profileManagerButton_Click(System::Object^  sender, System::EventArgs^  e) {
+			 marshal_context ^ context = gcnew marshal_context();
+			 
+//			 MPwin = gcnew ManageProfiles(numElements);//create Pop-Up Window
+//			 MPwin->Show();//have PopUp window show up
+	     	const char* choice = context->marshal_as<const char*>(profileNameCB->Text); 
+			tinyxml2::XMLDocument xmlDoc;
+			xmlDoc.LoadFile("C:\\Users\\Yan Zhang\\Desktop\\ProfileName.xml");
+			tinyxml2::XMLNode *currentNode = xmlDoc.FirstChild();
+			tinyxml2::XMLElement *rootElement= currentNode ->ToElement();
+			string rootName = rootElement ->Name();
+			string attributeName;
+			string elementName;
+			tinyxml2::XMLElement *currentElement;
+
+			//Search through file
+			for (int i = 0; i<numElements; i++)
+			{
+				if (currentNode == NULL)
+				{
+					string strAttr4 = "hi"; //do nothing
+				}
+				else
+				{
+					//Convert to element
+					currentElement = currentNode ->ToElement();
+	
+					 elementName = currentElement ->Name();
+					//get attribute
+					 if (elementName == choice)
+					 {
+						xmlDoc.DeleteNode(currentNode);
+						profileNameCB->Items->Remove((profileNameCB->Text));
+						numElements--;
+						 break;
+					 }
+					 else
+					 {
+						currentNode = currentNode ->NextSibling();
+					 }
+				}
+				
+			}
+
+			//delete context
+			delete context;			
+			xmlDoc.SaveFile("C:\\Users\\Yan Zhang\\Desktop\\ProfileName.xml");
+			
+			
+		 }
+private: System::Void textBox2_TextChanged(System::Object^  sender, System::EventArgs^  e) {
+
+			labelSaveName->Text = "File will be saved as: " + textBox2->Text + textBox4->Text + ".csv";
+
+		 }
+private: System::Void splitContainer1_SplitterMoved(System::Object^  sender, System::Windows::Forms::SplitterEventArgs^  e) {
+		 }
+private: System::Void textBox4_TextChanged(System::Object^  sender, System::EventArgs^  e) {
+
+			labelSaveName->Text = "File will be saved as: " + textBox2->Text + textBox4->Text + ".csv";
 
 		 }
 };

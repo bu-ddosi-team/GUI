@@ -74,6 +74,7 @@ namespace SeniorDesign_1 {
 				static_cast<System::Byte>(0)));
 			this->richTextBox1->Location = System::Drawing::Point(0, 0);
 			this->richTextBox1->Name = L"richTextBox1";
+			this->richTextBox1->ReadOnly = true;
 			this->richTextBox1->Size = System::Drawing::Size(361, 153);
 			this->richTextBox1->TabIndex = 0;
 			this->richTextBox1->Text = L"The Date and Patient Name fields cannot contain forward slashes or back slashes";

@@ -30,9 +30,6 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\tinyxml2-master\tinyxml2.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ProfileNameWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -40,6 +37,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SimultaneousPattern.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tinyxml2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ManageProfiles.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -51,9 +54,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="resource.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="tinyxml2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ProfileNameWindow.h">
@@ -75,6 +75,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SimultaneousPattern.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ManageProfiles.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

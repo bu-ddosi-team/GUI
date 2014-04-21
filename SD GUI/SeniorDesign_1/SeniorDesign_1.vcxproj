@@ -94,8 +94,8 @@
     <None Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\..\tinyxml2-master\tinyxml2.cpp" />
     <ClCompile Include="AssemblyInfo.cpp" />
+    <ClCompile Include="ManageProfiles.cpp" />
     <ClCompile Include="ProfileNameWindow.cpp" />
     <ClCompile Include="SeniorDesign_1.cpp" />
     <ClCompile Include="SimultaneousPattern.cpp" />
@@ -103,6 +103,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="tinyxml2.cpp" />
     <ClCompile Include="Warning_DateandPatientName.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -112,6 +113,9 @@
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="global.h" />
+    <ClInclude Include="ManageProfiles.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
     <ClInclude Include="ProfileNameWindow.h">
       <FileType>CppForm</FileType>
     </ClInclude>
@@ -119,7 +123,6 @@
     <ClInclude Include="SignalSource.h" />
     <ClInclude Include="SimultaneousPattern.h" />
     <ClInclude Include="stdafx.h" />
-    <ClInclude Include="tinyxml2.h" />
     <ClInclude Include="Warning_DateandPatientName.h">
       <FileType>CppForm</FileType>
     </ClInclude>
@@ -131,6 +134,9 @@
     <EmbeddedResource Include="Form1.resX">
       <DependentUpon>Form1.h</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ManageProfiles.resx">
+      <DependentUpon>ManageProfiles.h</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ProfileNameWindow.resx">
       <DependentUpon>ProfileNameWindow.h</DependentUpon>
