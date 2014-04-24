@@ -20,7 +20,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <CLRSupport>Pure</CLRSupport>
+    <CLRSupport>true</CLRSupport>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -54,8 +54,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>
-      </AdditionalDependencies>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Windows</SubSystem>
       <EntryPointSymbol>main</EntryPointSymbol>
     </Link>
@@ -96,20 +95,37 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp" />
+    <ClCompile Include="ManageProfiles.cpp" />
+    <ClCompile Include="ProfileNameWindow.cpp" />
     <ClCompile Include="SeniorDesign_1.cpp" />
+    <ClCompile Include="SimultaneousPattern.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="tinyxml2.cpp" />
+    <ClCompile Include="Warning_DateandPatientName.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h" />
-    <ClInclude Include="ClientFunctions.h" />
+    <ClInclude Include="Client_Functions.h" />
     <ClInclude Include="Form1.h">
       <FileType>CppForm</FileType>
     </ClInclude>
+    <ClInclude Include="global.h" />
+    <ClInclude Include="ManageProfiles.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
+    <ClInclude Include="ProfileNameWindow.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
     <ClInclude Include="resource.h" />
+    <ClInclude Include="SignalSource.h" />
+    <ClInclude Include="SimultaneousPattern.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="Warning_DateandPatientName.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="app.rc" />
@@ -119,6 +135,20 @@
       <DependentUpon>Form1.h</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="ManageProfiles.resx">
+      <DependentUpon>ManageProfiles.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProfileNameWindow.resx">
+      <DependentUpon>ProfileNameWindow.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Warning_DateandPatientName.resx">
+      <DependentUpon>Warning_DateandPatientName.h</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ClientDLL\ClientDLL.vcxproj">
+      <Project>{fc24adb9-7183-4a72-a20c-b67010b71c90}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
