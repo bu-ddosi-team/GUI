@@ -1486,6 +1486,9 @@ private: System::Void button1_Click(System::Object^  sender, System::EventArgs^ 
 			 else
 			 {
 				 checkFlag = 0;
+			incnum++;
+			labelSaveName->Text = "File will be saved as: " + textBox2->Text + textBox4->Text + "_" + incnum.ToString() + ".csv";
+
 			 }
 			 if (connectFail == 1)
 			 {
