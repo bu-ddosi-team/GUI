@@ -1,0 +1,229 @@
+#pragma once
+
+#include <stdlib.h>
+#include <fstream>
+#include <string>
+#include <iostream>
+#include "msclr\marshal_cppstd.h"
+#include <string>
+#include <queue>
+#include "tinyxml2.h"
+#include "ProfileNameWindow.h"
+#include "Warning_DateandPatientName.h"
+#include <stdint.h>
+
+#define XMLPATH "C:\\Users\\CME\\Desktop\\ProfileName.xml"
+
+//This header file is used to create a window so that the user can enter the profile names to be saved to the XML File
+namespace SeniorDesign_1 {
+
+	using namespace System;
+	using namespace System::ComponentModel;
+	using namespace System::Collections;
+	using namespace System::Windows::Forms;
+	using namespace System::Data;
+	using namespace System::Drawing;
+	using namespace msclr::interop;
+	using namespace ZedGraph;
+	using namespace std;
+	using namespace tinyxml2;
+
+//	using namespace Form1;
+
+	/// <summary>
+	/// Summary for ProfileNameWindow
+	/// </summary>
+	public ref class ProfileNameWindow : public System::Windows::Forms::Form
+	{
+	public:
+
+		//These variables save parameters that are passed from the main GUI
+		const char* stepSize_pnw;
+		const char* minFrequency_pnw;
+		const char* numOfSweeps_pnw;
+		const char* delayBetweenSweeps_pnw;
+		const char* stepsPerSweep_pnw;
+		const char* samplesPerStep_pnw;
+		const char* gain_pnw;
+		const char* laserDiodePattern_pnw;
+		String^ ProfileName;
+		ComboBox^ ProfNameCB_pnw;
+		int numElements_pnw;
+	
+		ProfileNameWindow(const char* stepSizeIn, const char* minFrequencyIn, const char* numOfSweepsIn, const char* delayBetweenSweepsIn, const char* stepsPerSweepIn, const char* samplesPerStepIn, const char* laserDiodePatternIn, ComboBox^ profileNameCBIn, int numElementsIn)
+		{
+			InitializeComponent();
+			//Set all of the variables to equal the variables that were passed in from the main GUI
+			stepSize_pnw = stepSizeIn;
+			minFrequency_pnw = minFrequencyIn;
+			numOfSweeps_pnw = numOfSweepsIn;
+			delayBetweenSweeps_pnw = delayBetweenSweepsIn;
+			stepsPerSweep_pnw = stepsPerSweepIn;
+			samplesPerStep_pnw = samplesPerStepIn;
+			laserDiodePattern_pnw = laserDiodePatternIn;
+			ProfNameCB_pnw = profileNameCBIn;
+			numElements_pnw = numElementsIn;
+		}
+
+	protected:
+		/// <summary>
+		/// Clean up any resources being used.
+		/// </summary>
+		~ProfileNameWindow()
+		{
+			if (components)
+			{
+				delete components;
+			}
+		}
+	private: System::Windows::Forms::Label^  label1;
+	protected: 
+	private: System::Windows::Forms::TextBox^  textBox1;
+	private: System::Windows::Forms::Button^  button1;
+
+	private:
+		/// <summary>
+		/// Required designer variable.
+		/// </summary>
+		System::ComponentModel::Container ^components;
+
+#pragma region Windows Form Designer generated code
+		/// <summary>
+		/// Required method for Designer support - do not modify
+		/// the contents of this method with the code editor.
+		/// </summary>
+		void InitializeComponent(void)
+		{
+			this->label1 = (gcnew System::Windows::Forms::Label());
+			this->textBox1 = (gcnew System::Windows::Forms::TextBox());
+			this->button1 = (gcnew System::Windows::Forms::Button());
+			this->SuspendLayout();
+			// 
+			// label1
+			// 
+			this->label1->AutoSize = true;
+			this->label1->Location = System::Drawing::Point(12, 23);
+			this->label1->Name = L"label1";
+			this->label1->Size = System::Drawing::Size(98, 13);
+			this->label1->TabIndex = 0;
+			this->label1->Text = L"Enter Profile Name:";
+			// 
+			// textBox1
+			// 
+			this->textBox1->Location = System::Drawing::Point(116, 23);
+			this->textBox1->Name = L"textBox1";
+			this->textBox1->Size = System::Drawing::Size(218, 20);
+			this->textBox1->TabIndex = 1;
+			// 
+			// button1
+			// 
+			this->button1->Location = System::Drawing::Point(140, 59);
+			this->button1->Name = L"button1";
+			this->button1->Size = System::Drawing::Size(75, 23);
+			this->button1->TabIndex = 2;
+			this->button1->Text = L"Save";
+			this->button1->UseVisualStyleBackColor = true;
+			this->button1->Click += gcnew System::EventHandler(this, &ProfileNameWindow::button1_Click);
+			// 
+			// ProfileNameWindow
+			// 
+			this->AcceptButton = this->button1;
+			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
+			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
+			this->ClientSize = System::Drawing::Size(366, 94);
+			this->Controls->Add(this->button1);
+			this->Controls->Add(this->textBox1);
+			this->Controls->Add(this->label1);
+			this->Name = L"ProfileNameWindow";
+			this->Text = L"Profile Name";
+			this->ResumeLayout(false);
+			this->PerformLayout();
+
+		}
+#pragma endregion
+
+	//button1_Click() is called when the save button is clicked
+	private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e) {
+
+				 //Create a flag that will indicate whether the profile name already exists (it exists if errorFlag = 1)
+				  int errorFlag = 0;
+
+				 //Get Profile Name
+				 String^ currentProfName = this->textBox1->Text;
+				 marshal_context ^ context = gcnew marshal_context();
+				 const char* currentProfNameStr = context->marshal_as<const char*>(currentProfName);
+
+				//CHECK TO SEE IF PROFILE NAME ALREADY EXISTS
+				tinyxml2::XMLDocument xmlDoc;
+				xmlDoc.LoadFile(XMLPATH);
+				tinyxml2::XMLNode *currentNode = xmlDoc.FirstChild();
+				tinyxml2::XMLNode *currentNode_0 = xmlDoc.FirstChild();
+				tinyxml2::XMLElement *currentElement;
+				string elementName;
+				//Search through XML File to see if profile name is already present
+				for (int i = 0; i<numElements_pnw; i++)
+				{
+					if (currentNode == NULL) //If this is true, we are at the end of the file
+					{
+						 //do nothing
+					}
+					else //If not at the end of the file
+					{
+						//Convert to element
+						currentElement = currentNode ->ToElement();
+					    elementName = currentElement ->Name();
+						if (elementName == currentProfNameStr) //Does the current element name equal the selected profile name? If yes, produce an error window and set the errorFlag to 1
+						{
+						   	Warning_DateandPatientName^ ProfNameError = gcnew Warning_DateandPatientName();
+							ProfNameError->setErrorMessage("A profile with this name already exists");
+							ProfNameError->Show();
+							errorFlag = 1;
+							break;
+						}
+						else //Otherwise, keep searching through the file and set the error flag to 0
+						{
+							currentNode = currentNode ->NextSibling();
+							errorFlag = 0;
+						}
+					}
+				
+				}
+				//If the errorFlag = 0 hide the popUp window and call the SaveProfile() function
+				if (errorFlag == 0)
+				{
+				 this->Hide();
+			     this->SaveProfile();
+				}
+			 }
+
+	//SaveProfile() is called when the "Save" button is clicked and the errorFlag = 0
+	public: System::Void SaveProfile(){
+		marshal_context ^ context = gcnew marshal_context();
+		FILE *outFile;
+		//Open XML file
+		outFile = fopen(XMLPATH, "a");
+	    XMLPrinter printer(outFile);
+		ProfileName = this->textBox1->Text;
+		this->textBox1->Clear();
+		const char* ProfileName_pnw;
+		this->ProfNameCB_pnw->Items->Add(ProfileName);
+		//Write to XML file
+		ProfileName_pnw = context->marshal_as<const char*>(ProfileName);
+		//Open element
+		printer.OpenElement(ProfileName_pnw, false);
+		printer.PushAttribute("stepSize", stepSize_pnw);
+	    printer.PushAttribute("MinFrequency", minFrequency_pnw);
+		printer.PushAttribute("NumOfSweeps", numOfSweeps_pnw);
+		printer.PushAttribute("DelayBetweenSweeps", delayBetweenSweeps_pnw);
+		printer.PushAttribute("StepsPerSweep", stepsPerSweep_pnw);
+		printer.PushAttribute("SamplesPerStep", samplesPerStep_pnw);
+		printer.PushAttribute("LaserDiodePattern", laserDiodePattern_pnw);
+		//close element
+	    printer.CloseElement(false);	  
+
+		//close file
+		fclose(outFile);
+
+	}
+};
+}
