@@ -1,5 +1,4 @@
   SeniorDesign_1.Form1.resources - Embedded, ContainedInManifestFile, 
-  SeniorDesign_1.ManageProfiles.resources - Embedded, ContainedInManifestFile, 
   SeniorDesign_1.ProfileNameWindow.resources - Embedded, ContainedInManifestFile, 
   SeniorDesign_1.Warning_DateandPatientName.resources - Embedded, ContainedInManifestFile, 
 ImageRuntimeVersion: v4.0.30319
@@ -50,23 +49,7 @@ Class SeniorDesign_1.ProfileNameWindow: AutoLayout, AnsiClass, Class, Public, Be
     System.Windows.Forms.ComboBox ProfNameCB_pnw : Public
     Int32 numElements_pnw : Public
   Methods:
-    getProfileName(): PrivateScope, Public, HideBySig
     SaveProfile(): PrivateScope, Public, HideBySig
-Class SeniorDesign_1.ManageProfiles: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
-  :System.Windows.Forms.Form
-    Void .ctor(Int32): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
-  Fields:
-    SByte* stepSize_pnw : Public
-    SByte* minFrequency_pnw : Public
-    SByte* numOfSweeps_pnw : Public
-    SByte* delayBetweenSweeps_pnw : Public
-    SByte* stepsPerSweep_pnw : Public
-    SByte* samplesPerStep_pnw : Public
-    SByte* gain_pnw : Public
-    SByte* laserDiodePattern_pnw : Public
-    System.String ProfileName : Public
-    System.Windows.Forms.ComboBox ProfNameCB_pnw : Public
-    Int32 numElements_pnw : Public
 Class SeniorDesign_1.SimultaneousPattern: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
   :System.Windows.Forms.Form
     Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
@@ -91,7 +74,6 @@ Class SeniorDesign_1.Form1: AutoLayout, AnsiClass, Class, Public, BeforeFieldIni
     SeniorDesign_1.ProfileNameWindow pnw : Public
     SeniorDesign_1.SimultaneousPattern SPwin : Public
     SeniorDesign_1.Warning_DateandPatientName ConnectError : Public
-    SeniorDesign_1.ManageProfiles MPwin : Public
     Int32 SimFlag : Public
     ZedGraph.GraphPane myPane : Public
     SByte* ProfileName : Public
@@ -109,6 +91,6 @@ Class SeniorDesign_1.Form1: AutoLayout, AnsiClass, Class, Public, BeforeFieldIni
     SByte* Sim_Diode5 : Public
     SByte* Sim_Diode6 : Public
     Int32 checkFlag : Public
-    Int32 incnum : Public
+    Int32 fileInc : Public
     Int32 numElements : Public
     System.Windows.Forms.ComboBox profileNameCB : Public

@@ -1,0 +1,3 @@
+Matlab's loadlibrary function requires workarounds to handle c++. If loadlibrary failed, check to see if the module.def is included in the ClientDLL project. If not, add it in via the instructions below: 
+
+In the ClientDLL project, click on add existing item and select the module.def file located in this directory. Then rebuild the DLL. Make sure that the build you are compiling in matches the build of matlab. (e.g. build as x64 if your matlab version is x64)

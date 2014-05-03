@@ -1,5 +1,6 @@
 #pragma once
 
+//This header file is used to create a window when the user selects a simultaenous diode pattern
 namespace SeniorDesign_1 {
 
 	using namespace System;
@@ -15,6 +16,7 @@ namespace SeniorDesign_1 {
 	public ref class SimultaneousPattern : public System::Windows::Forms::Form
 	{
 	public:
+		//Each of these strings hold the values of the start frequency for each laser diode if the user selects a simultaneous diode pattern
 		String^ DiodeVal1;
 		String^ DiodeVal2;
 		String^ DiodeVal3;
@@ -195,7 +197,7 @@ namespace SeniorDesign_1 {
 			this->label7->Name = L"label7";
 			this->label7->Size = System::Drawing::Size(239, 13);
 			this->label7->TabIndex = 12;
-			this->label7->Text = L"Enter the starting frequency (MHz) of each diode:";
+			this->label7->Text = L"Enter the offset(MHz) for each diode:";
 			// 
 			// button1
 			// 
@@ -239,15 +241,18 @@ namespace SeniorDesign_1 {
 
 		}
 #pragma endregion
+
 	private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e) {
-				 DiodeVal1 = this->numericUpDown1->Text;//getDiode1Val();
-				 DiodeVal2 = this->numericUpDown2->Text;//getDiode2Val();
-				 DiodeVal3 = this->numericUpDown3->Text;//getDiode3Val();
-				 DiodeVal4 = this->numericUpDown4->Text;//getDiode4Val();
-				 DiodeVal5 = this->numericUpDown5->Text;//getDiode5Val();
-				 DiodeVal6 = this->numericUpDown6->Text;//getDiode6Val();
+				 DiodeVal1 = this->numericUpDown1->Text;
+				 DiodeVal2 = this->numericUpDown2->Text;
+				 DiodeVal3 = this->numericUpDown3->Text;
+				 DiodeVal4 = this->numericUpDown4->Text;
+				 DiodeVal5 = this->numericUpDown5->Text;
+				 DiodeVal6 = this->numericUpDown6->Text;
 				 this->Hide();
 			 }
+
+	//the getDiodeVal() Functions allow Form1.h to access the values that the user enters for start frequencies of each laser diode
 	public: System::String^ getDiode1Val()
 	{
 		return DiodeVal1;

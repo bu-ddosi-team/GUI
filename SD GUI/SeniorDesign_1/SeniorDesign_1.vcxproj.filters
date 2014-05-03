@@ -42,9 +42,6 @@
     <ClCompile Include="tinyxml2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ManageProfiles.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Form1.h">
@@ -62,22 +59,13 @@
     <ClInclude Include="Client.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Client_Functions.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Warning_DateandPatientName.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="global.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SignalSource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SimultaneousPattern.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ManageProfiles.h">
+    <ClInclude Include="tinyxml2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

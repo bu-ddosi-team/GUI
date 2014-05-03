@@ -1,4 +1,4 @@
-	#include "stdafx.h"
+#include "stdafx.h"
 #include "Client.h"
 #include <stdexcept>
 
@@ -15,7 +15,6 @@
 #include <ctime>
 #include <cstdio>
 
-
 // Need to link with Ws2_32.lib, Mswsock.lib, and Advapi32.lib
 #pragma comment (lib, "Ws2_32.lib")
 #pragma comment (lib, "Mswsock.lib")
@@ -29,7 +28,7 @@ using namespace std;
     SOCKET ClientSocket = INVALID_SOCKET;
 
 	const char* DEFAULT_PORT = "27015";
-#define DEFAULT_BUFLEN 512
+#define DEFAULT_BUFLEN 256
     struct addrinfo *result = NULL,
                     *ptr = NULL,
                     hints;
@@ -51,10 +50,16 @@ namespace ClientDll
 		}
 
 		ZeroMemory(&hints, sizeof(hints));
+/*		hints.ai_family = AF_INET;
+		hints.ai_socktype = SOCK_STREAM;
+		hints.ai_protocol = IPPROTO_TCP;
+		hints.ai_flags = AI_PASSIVE;
+		*/
 		hints.ai_family = AF_INET;
 		hints.ai_socktype = SOCK_STREAM;
 		hints.ai_protocol = IPPROTO_TCP;
 		hints.ai_flags = AI_PASSIVE;
+
 		//caddr;
 		// Resolve the server address and port
 		iResult = getaddrinfo(ServerAddress.c_str(), DEFAULT_PORT, &hints, &result);
@@ -76,6 +81,16 @@ namespace ClientDll
 				return 1;
 			}
 
+			int recBuf = 1048576;
+			int delayFlag = 0;
+			int routeFlag = 1;
+			int clamp = 524288;
+
+			setsockopt(ClientSocket, SOL_SOCKET, SO_RCVBUF, (char*)&recBuf, sizeof(recBuf));
+
+//			setsockopt(ClientSocket, SOL_SOCKET, SO_DONTROUTE, (char*)&routeFlag, sizeof(routeFlag));
+//			setsockopt(ClientSocket, IPPROTO_TCP, TCP_NODELAY, (char*)&delayFlag, sizeof(delayFlag));
+//			setsockopt(ClientSocket, IPPROTO_TCP, TCP_WINDOW_CLAMP, &clamp, sizeof(clamp));
 			// Connect to server.
 			iResult = connect( ClientSocket, ptr->ai_addr, (int)ptr->ai_addrlen);
 			if (iResult == SOCKET_ERROR) {
@@ -128,7 +143,8 @@ namespace ClientDll
 				WSACleanup();
 				return 1;
 			}
-			iResult = recv(ClientSocket, recvbuf, recvbuflen, 0);
+
+/*			iResult = recv(ClientSocket, recvbuf, recvbuflen, 0);
 			if (iResult > 0) {
 
 				//		printf("Bytes received: %s\n", recvbuf);
@@ -148,41 +164,56 @@ namespace ClientDll
 				printf("recv failed with error: %d\n", WSAGetLastError());
 				return 1;
 			}
-			
+*/
+//			std::this_thread::sleep_for(std::chrono::nanoseconds(100));
+
+//DO NOT REMOVE ME
+//YAH. IM LOOKING AT YOU.
+			volatile int k=0;
+//YOU BETTER NOT
+			for (int p=0; p<999999; p++) {
+				k += p*k;
+			}
+//REMOVE ME
+//Explanation: we need to do an operation to take up some time or the GUI crashes
+			recvbuf[0] = 'f';
 		} while (iResult > 0 && (recvbuf[0] !='e' && recvbuf[0] !='f') );
-		
+
 	}
 #include <stdint.h>
 int DsauClient::recvThis()
 {
-	int ret = 0; 
+			int ret = 0; int num = 0;
 //			char *recvbuf = new char[DEFAULT_BUFLEN];
 			char recvbuf[DEFAULT_BUFLEN];
 //			char recvbuf[6553600];
 			int recvbuflen = DEFAULT_BUFLEN; 
 			//Open File for data storage
 			ofstream ofile("fwrite_test", ios::out | ios::binary );
-
+//			FILE *pFile;
 			int index;
-			int rcount = 0;
+//			pFile = fopen("ofwrite_test.txt", "wb");
+			//ofstream outFile;
+			//outFile.open("fwrite_test.txt");//, "wb");
 			char data[DEFAULT_BUFLEN];
 			// Receive until the peer shuts down the connection
-			memset(recvbuf, 0, DEFAULT_BUFLEN);
+//			memset(recvbuf, 0, DEFAULT_BUFLEN);
 			int counter=0;
 			do {
-				rcount++;
+//			while(1) {
 				iResult = recv(ClientSocket, recvbuf, recvbuflen, 0);
 				counter+=iResult;
+//				if (counter >= 13107200) {
+//					break;
+//				}
 				if (iResult > 0) {
-
-						ofile.write(recvbuf, iResult);
+					ofile.write(recvbuf, iResult);
 					counter += recvbuf[1];
-
 				}
-				else if (iResult == 0)
-					printf("Connection closing...\n");
+//				else if (iResult == 0)
+//					printf("Connection closing...\n");
 				else  {
-					printf("recv failed with error: %d\n", WSAGetLastError());
+//					printf("recv failed with error: %d\n", WSAGetLastError());
 					closesocket(ClientSocket);
 					WSACleanup();
 					return 1;
@@ -192,38 +223,39 @@ int DsauClient::recvThis()
 		ofile.close();
 		return ret;
 	}
-
 	int DsauClient::saveThis(char* fileSaveName)
 	{
-			 ifstream inFile;
-			 ofstream outFile;
-			 inFile.open("fwrite_test", ios::in | ios::binary);
-			  int16_t data;
-			  int count = 0;
-			  int count2 = 0;
-			  int16_t SE_data1;
-			  int16_t SE_data2;
-			
-			  outFile.open("csvoutput.csv");
-			  while(inFile.read((char *)&data, sizeof(int16_t))) //&& count < recvBytes/2)
-			 {
-				  
-				  SE_data1 = data << 2;
-				  SE_data2 = SE_data1 >> 2;
-				  count++;
-				 if (count%2 == 0)
-				 {
-					 outFile << data << endl;
-					 count2++;
-				 }
-				 else
-				 {
-					outFile << data << ",";
-				 }
-				 
+		int ret = 0; int num = 0;
+		char recvbuf[DEFAULT_BUFLEN];
+		int recvbuflen = DEFAULT_BUFLEN; 
+		//Open File for data storage
+		ofstream ofile(fileSaveName, ios::out | ios::binary );
 
-			  } //WHILE LOOP ENDS HERE
-			  outFile.close();
-		return 0;
+		int index;
+		int rcount = 0;
+		char data[DEFAULT_BUFLEN];
+		// Receive until the peer shuts down the connection
+		memset(recvbuf, 0, DEFAULT_BUFLEN);
+		int counter=0;
+		do {
+			rcount++;
+			iResult = recv(ClientSocket, recvbuf, recvbuflen, 0);
+			if (iResult > 0) {
+				ofile.write(recvbuf, iResult);			
+			}
+			else if (iResult == 0)
+				printf("Connection closing...\n");
+			else  {
+				printf("recv failed with error: %d\n", WSAGetLastError());
+				closesocket(ClientSocket);
+				WSACleanup();
+				return 1;
+			}
+		} while (iResult > 0);
+		//		fclose(pFile);
+		ofile.close();
+		return ret;
 	}
+
+	//Add auto error reconnection handling
 }

@@ -1,7 +1,6 @@
 #pragma once
 
 #include <stdlib.h>
-//#include "Client.h"
 #include <fstream>
 #include <string>
 #include <iostream>
@@ -11,17 +10,11 @@
 #include "tinyxml2.h"
 #include "ProfileNameWindow.h"
 #include "Warning_DateandPatientName.h"
-#include "OouraFft.h"
-#include "Fft.h"
-#include "FlattopWindow.h"
-#include "AquilaFft.h"
-#include "Dct.h"
-#include "Dft.h"
-#include "FftFactory.h"
 #include <stdint.h>
 
+#define XMLPATH "C:\\Users\\CME\\Desktop\\ProfileName.xml"
 
-
+//This header file is used to create a window so that the user can enter the profile names to be saved to the XML File
 namespace SeniorDesign_1 {
 
 	using namespace System;
@@ -34,7 +27,7 @@ namespace SeniorDesign_1 {
 	using namespace ZedGraph;
 	using namespace std;
 	using namespace tinyxml2;
-	//using namespace ClientDll;
+
 //	using namespace Form1;
 
 	/// <summary>
@@ -43,10 +36,8 @@ namespace SeniorDesign_1 {
 	public ref class ProfileNameWindow : public System::Windows::Forms::Form
 	{
 	public:
-		//declare a flag variable to indicate whether the settings should be saved to the file
-		//int flagSave;
-//		private
-		//Form1 parentForm;
+
+		//These variables save parameters that are passed from the main GUI
 		const char* stepSize_pnw;
 		const char* minFrequency_pnw;
 		const char* numOfSweeps_pnw;
@@ -62,14 +53,13 @@ namespace SeniorDesign_1 {
 		ProfileNameWindow(const char* stepSizeIn, const char* minFrequencyIn, const char* numOfSweepsIn, const char* delayBetweenSweepsIn, const char* stepsPerSweepIn, const char* samplesPerStepIn, const char* laserDiodePatternIn, ComboBox^ profileNameCBIn, int numElementsIn)
 		{
 			InitializeComponent();
-			//flagSave = 0;
+			//Set all of the variables to equal the variables that were passed in from the main GUI
 			stepSize_pnw = stepSizeIn;
 			minFrequency_pnw = minFrequencyIn;
 			numOfSweeps_pnw = numOfSweepsIn;
 			delayBetweenSweeps_pnw = delayBetweenSweepsIn;
 			stepsPerSweep_pnw = stepsPerSweepIn;
 			samplesPerStep_pnw = samplesPerStepIn;
-			//gain_pnw = gainIn;
 			laserDiodePattern_pnw = laserDiodePatternIn;
 			ProfNameCB_pnw = profileNameCBIn;
 			numElements_pnw = numElementsIn;
@@ -124,8 +114,6 @@ namespace SeniorDesign_1 {
 			this->textBox1->Name = L"textBox1";
 			this->textBox1->Size = System::Drawing::Size(218, 20);
 			this->textBox1->TabIndex = 1;
-			this->textBox1->MultilineChanged += gcnew System::EventHandler(this, &ProfileNameWindow::textBox1_TextChanged);
-			this->textBox1->TextChanged += gcnew System::EventHandler(this, &ProfileNameWindow::textBox1_TextChanged);
 			// 
 			// button1
 			// 
@@ -147,38 +135,44 @@ namespace SeniorDesign_1 {
 			this->Controls->Add(this->textBox1);
 			this->Controls->Add(this->label1);
 			this->Name = L"ProfileNameWindow";
-			this->Text = L"ProfileNameWindow";
+			this->Text = L"Profile Name";
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
 		}
 #pragma endregion
-	//When Save button is clicked
+
+	//button1_Click() is called when the save button is clicked
 	private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e) {
+
+				 //Create a flag that will indicate whether the profile name already exists (it exists if errorFlag = 1)
+				  int errorFlag = 0;
+
 				 //Get Profile Name
-				 int errorFlag = 0;
 				 String^ currentProfName = this->textBox1->Text;
 				 marshal_context ^ context = gcnew marshal_context();
 				 const char* currentProfNameStr = context->marshal_as<const char*>(currentProfName);
-				//Check to see if Profile Name already exists:
+
+				//CHECK TO SEE IF PROFILE NAME ALREADY EXISTS
 				tinyxml2::XMLDocument xmlDoc;
-				xmlDoc.LoadFile("C:\\Users\\CME\\Desktop\\ProfileName.xml");
+				xmlDoc.LoadFile(XMLPATH);
 				tinyxml2::XMLNode *currentNode = xmlDoc.FirstChild();
 				tinyxml2::XMLNode *currentNode_0 = xmlDoc.FirstChild();
 				tinyxml2::XMLElement *currentElement;
 				string elementName;
+				//Search through XML File to see if profile name is already present
 				for (int i = 0; i<numElements_pnw; i++)
 				{
-					if (currentNode == NULL)
+					if (currentNode == NULL) //If this is true, we are at the end of the file
 					{
-						string strAttr4 = "hi"; //do nothing
+						 //do nothing
 					}
-					else
+					else //If not at the end of the file
 					{
 						//Convert to element
 						currentElement = currentNode ->ToElement();
 					    elementName = currentElement ->Name();
-						if (elementName == currentProfNameStr)
+						if (elementName == currentProfNameStr) //Does the current element name equal the selected profile name? If yes, produce an error window and set the errorFlag to 1
 						{
 						   	Warning_DateandPatientName^ ProfNameError = gcnew Warning_DateandPatientName();
 							ProfNameError->setErrorMessage("A profile with this name already exists");
@@ -186,7 +180,7 @@ namespace SeniorDesign_1 {
 							errorFlag = 1;
 							break;
 						}
-						else
+						else //Otherwise, keep searching through the file and set the error flag to 0
 						{
 							currentNode = currentNode ->NextSibling();
 							errorFlag = 0;
@@ -194,30 +188,28 @@ namespace SeniorDesign_1 {
 					}
 				
 				}
+				//If the errorFlag = 0 hide the popUp window and call the SaveProfile() function
 				if (errorFlag == 0)
 				{
 				 this->Hide();
 			     this->SaveProfile();
 				}
 			 }
-	//Not currently using this function
-	public: System::String^ getProfileName(){
-				//String^ 
-				ProfileName =  this->textBox1->Text;
-				//clear text from textbox in PopUp window
-				this->textBox1->Clear();
-				return ProfileName;
-			}
+
+	//SaveProfile() is called when the "Save" button is clicked and the errorFlag = 0
 	public: System::Void SaveProfile(){
 		marshal_context ^ context = gcnew marshal_context();
 		FILE *outFile;
-		outFile = fopen("C:\\Users\\CME\\Desktop\\ProfileName.xml", "a");
+		//Open XML file
+		outFile = fopen(XMLPATH, "a");
 	    XMLPrinter printer(outFile);
 		ProfileName = this->textBox1->Text;
 		this->textBox1->Clear();
 		const char* ProfileName_pnw;
 		this->ProfNameCB_pnw->Items->Add(ProfileName);
+		//Write to XML file
 		ProfileName_pnw = context->marshal_as<const char*>(ProfileName);
+		//Open element
 		printer.OpenElement(ProfileName_pnw, false);
 		printer.PushAttribute("stepSize", stepSize_pnw);
 	    printer.PushAttribute("MinFrequency", minFrequency_pnw);
@@ -226,14 +218,12 @@ namespace SeniorDesign_1 {
 		printer.PushAttribute("StepsPerSweep", stepsPerSweep_pnw);
 		printer.PushAttribute("SamplesPerStep", samplesPerStep_pnw);
 		printer.PushAttribute("LaserDiodePattern", laserDiodePattern_pnw);
+		//close element
 	    printer.CloseElement(false);	  
 
 		//close file
 		fclose(outFile);
 
 	}
-
-	private: System::Void textBox1_TextChanged(System::Object^  sender, System::EventArgs^  e) {
-			 }
 };
 }
